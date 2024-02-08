@@ -62,7 +62,7 @@ function fd2_school_menu() {
 
   // Add items blocks for new sub-tabs here.
 
-      // Add a sub-tab named XYZ with content in ./xyz/xyz.html.
+      // Add a sub-tab named HTML with content in ./HTML/html.html.
     $items['farm/fd2-school/html'] = array(
         'title' => 'HTML',
         'type' => MENU_LOCAL_TASK,
