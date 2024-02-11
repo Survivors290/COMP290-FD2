@@ -8,19 +8,21 @@
         <label for=title>Title:</label>
         <input type=”text” id=title name=title value="My Sample Harvest Report"/>
         <br>
+        <br>
         <label for="start">Start:</label>
         <input type="date" id="start" name="start-date" value="2020-05-05" min="2014-01-01" max="2022-01-01" />
         
         <label for="end">End:</label>
         <input type="date" id="end" name="end-date" value="2020-05-15" min="2020-05-05" max="2022-01-01" />
         <p></p>
+        <br>
         <label for=title>Crop:</label>
         <select id="simple" name="simple">
             <option>Broccoli</option>
             <option selected>Kale</option>
             <option>Peas</option>
         </select>
-        <p></p>
+        
         <label for=title>Area:</label>
         <select id="simple" name="simple">
             <option selected>All</option>
@@ -28,6 +30,7 @@
             <option>SQ7</option>
         </select>
         <p></p>
+        <br>
         <p><button type="generate">Generate Report</button></p>
         <hr>
         <h1>My Sample Harvest Report</h1>
@@ -41,5 +44,29 @@
             <li><strong>End:</strong>05/15/2018</li>
             <li><strong>Crop:</strong>Kale</li>
         </ul>
+
+        <table border="1">
+            <tr>
+              <th>Date</th>
+              <th>Area</th>
+              <th>Crop</th>
+              <th>Yield</th>
+              <th>Units</th>
+            </tr>
+            <tr>
+              <td>05/02/2018</td>
+              <td>Chuau-1</td>
+              <td>Kale</td>
+              <td>10</td>
+              <td>Bunches</td>
+            </tr>
+            <tr>
+              <td>05/05/2018</td>
+              <td>SQ7</td>
+              <td>Kale</td>
+              <td>7</td>
+              <td>Bunches</td>
+            </tr>
+          </table>
     </body>
 </html>
