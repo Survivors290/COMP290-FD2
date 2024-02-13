@@ -1,5 +1,30 @@
 <h1>Harvest Report</h1>
 <p>This is a <i>mockup</i> of a simplified Harvest Report</p>
+<label>Title:</label>
+<input type="text" name=title value="Title">
+<input type="button" name="Generate Report" value="Generate Report">
+<br>
+<label><strong>Start:</strong></label>
+<input type="date" value="2018-01-05" min="2014-01-01" max="2022-01-01">
+<br>
+<label><strong>End:</strong></label>
+<input type="date" value="2020-05-15" min="2020-05-05" max="2022-01-01">
+<br>
+<label><strong>Crop:</strong></label>
+<select name="crop">
+	<option>Broccoli</option>
+	<option selected>Kale</option>
+	<option>Peas</option>
+</select>
+<br>
+<label><strong>Area:</strong></label>
+<select name="Area">
+	<option >All</option>
+	<option>Chuau-1</option>
+	<option>SQ7</option>
+</select>
+<br>
+
 <hr>
 <h1>My Sample Harvest Report</h1>
 <p>Details:</p>
@@ -11,37 +36,19 @@
 <br>
 <ul>
 	<li>
-		<label><strong>Start:</strong></label>
-		<input type="date" value="2018-01-05" min="2014-01-01" max="2022-01-01">
+		<p>Start:</p>
 	</li>
 	<li>
-		<label><strong>End:</strong></label>
-		<input type="date" value="2020-05-15" min="2020-05-05" max="2022-01-01">
+		<p>End:</p>
 	</li>
 	<li>
-		<label><strong>Crop:</strong></label>
-		<select name="crop">
-			<option>Broccoli</option>
-			<option selected>Kale</option>
-			<option>Peas</option>
-		</select>
+		<p>Crop:</p>
 	</li> 
 	<li>
-		<label><strong>Area:</strong></label>
-		<select name="Area">
-			<option >All</option>
-			<option>Chuau-1</option>
-			<option>SQ7</option>
-		</select>
-		
+		<p>Area:</p>
 	</li> 
 </ul>
 
-<hr>
-<label>Title:</label>
-<input type="text" name=title value="Title">
-
-<input type="button" name="Generate Report" value="Generate Report">
 <hr>
 
 <table border="1" height="auto">
