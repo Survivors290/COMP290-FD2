@@ -1,83 +1,95 @@
 <h1>Harvest Report</h1>
 <p>This is a <i>mockup</i> of a simplified Harvest Report</p>
-<label>Title:</label>
-<input type="text" name=title value="Title">
-<input type="button" name="Generate Report" value="Generate Report">
-<br>
-<label><strong>Start:</strong></label>
-<input type="date" value="2018-01-05" min="2014-01-01" max="2022-01-01">
-<br>
-<label><strong>End:</strong></label>
-<input type="date" value="2020-05-15" min="2020-05-05" max="2022-01-01">
-<br>
-<label><strong>Crop:</strong></label>
-<select name="crop">
-	<option>Broccoli</option>
-	<option selected>Kale</option>
-	<option>Peas</option>
-</select>
-<br>
-<label><strong>Area:</strong></label>
-<select name="Area">
-	<option >All</option>
-	<option>Chuau-1</option>
-	<option>SQ7</option>
-</select>
-<br>
+<div id="report">
+	<label>Title:</label>
+	<input type="text" name=title value="Title" v-model="reportTitle">
+	<input type="button" name="Generate Report" value="Generate Report">
+	<br>
+	<label><strong>Start:</strong></label>
+	<input type="date" value="2018-01-05" min="2014-01-01" max="2022-01-01">
+	<br>
+	<label><strong>End:</strong></label>
+	<input type="date" value="2020-05-15" min="2020-05-05" max="2022-01-01">
+	<br>
+	<label><strong>Crop:</strong></label>
+	<select name="crop">
+		<option>Broccoli</option>
+		<option selected>Kale</option>
+		<option>Peas</option>
+	</select>
+	<br>
+	<label><strong>Area:</strong></label>
+	<select name="Area">
+		<option >All</option>
+		<option>Chuau-1</option>
+		<option>SQ7</option>
+	</select>
 
-<hr>
-<h1>My Sample Harvest Report</h1>
-<p>Details:</p>
-<ul>
-	<li><strong>Farm:</strong> Sample Farm</li>
-	<li><strong>User:</strong> Manager 1</li>
-	<li><strong>Language:</strong> English</li>
-</ul>
-<br>
-<ul>
-	<li>
-		<p>Start:</p>
-	</li>
-	<li>
-		<p>End:</p>
-	</li>
-	<li>
-		<p>Crop:</p>
-	</li> 
-	<li>
-		<p>Area:</p>
-	</li> 
-</ul>
+	<br>
 
-<hr>
+	<hr>
+	<h1 v-cloak>{{reportTitle ? reportTitle : "My Sample Harvest Report"}}</h1>
+	<p>Details:</p>
+	<ul>
+		<li><strong>Farm:</strong> Sample Farm</li>
+		<li><strong>User:</strong> Manager 1</li>
+		<li><strong>Language:</strong> English</li>
+	</ul>
+	<br>
+	<ul>
+		<li>
+			<p>Start:</p>
+		</li>
+		<li>
+			<p>End:</p>
+		</li>
+		<li>
+			<p>Crop:</p>
+		</li> 
+		<li>
+			<p>Area:</p>
+		</li> 
+	</ul>
 
-<table border="1" height="auto">
-	<tr>
-		<th>Date</th>
-		<th>Area</th>
-		<th>Crop</th>
-		<th>Yield</th>
-		<th>Units</th>
-	</tr>
-	<tr>
-		<td>hi</td>
-		<td>hi</td>
-		<td>hi</td>
-		<td>hi</td>
-		<td>hi</td>
-	</tr>
-	<tr>
-		<td>12</td>
-		<td>All</td>
-		<td>Kale</td>
-		<td>7</td>
-		<td>Feet</td>
-	</tr>
-	<tr>
-		<td>1222222222</td>
-		<td>All</td>
-		<td>Kale</td>
-		<td>7</td>
-		<td>Feet</td>
-	</tr>
-</table>
+	<hr>
+
+	<table border="1" height="auto">
+		<tr>
+			<th>Date</th>
+			<th>Area</th>
+			<th>Crop</th>
+			<th>Yield</th>
+			<th>Units</th>
+		</tr>
+		<tr>
+			<td>hi</td>
+			<td>hi</td>
+			<td>hi</td>
+			<td>hi</td>
+			<td>hi</td>
+		</tr>
+		<tr>
+			<td>12</td>
+			<td>All</td>
+			<td>Kale</td>
+			<td>7</td>
+			<td>Feet</td>
+		</tr>
+		<tr>
+			<td>1222222222</td>
+			<td>All</td>
+			<td>Kale</td>
+			<td>7</td>
+			<td>Feet</td>
+		</tr>
+	</table>
+
+</div>
+<script>
+	var reportInputs = new Vue({
+		el: "#report",
+		data: {
+			reportTitle: "My Sample Harvest Report",
+		}
+	});
+</script>
