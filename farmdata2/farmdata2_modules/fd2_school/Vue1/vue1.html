@@ -33,9 +33,16 @@
     <div>
       <label for="field"><strong>Crop:</strong></label>
       <select name="field" id="crop" v-model="reportCrop">
-        <option value="broccoli">Broccoli</option>
-        <option value="kale" selected>Kale</option>
-        <option value="peas">Peas</option>
+        <option v-for="crop in crops">{{crop}}</option>
+      </select>
+    </div>
+
+    <br><br>
+
+    <div>
+      <label for="area">Area: </label>
+      <select name="area" id="crop">
+        <option v-for="area in areas">{{area}}</option>
       </select>
     </div>
         
@@ -85,7 +92,9 @@
           <td>Pounds</td>
         </tr>
       </table>
+
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
@@ -97,6 +106,8 @@
             reportStartDate: "",
             reportEndDate: "",
             reportCrop: "",
+            crops: ["Broccoli", "Kale", "Peas"],
+            areas: ["All", "Chuau-1", "SQ7"],
         },
        })
     </script>
