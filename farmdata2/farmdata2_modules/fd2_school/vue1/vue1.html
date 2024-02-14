@@ -6,13 +6,13 @@
 	<input type="button" name="Generate Report" value="Generate Report">
 	<br>
 	<label><strong>Start:</strong></label>
-	<input type="date" value="2018-01-05" min="2014-01-01" max="2022-01-01">
+	<input type="date" value="2018-01-05" min="2014-01-01" max="2022-01-01" v-model="reportStart">
 	<br>
 	<label><strong>End:</strong></label>
-	<input type="date" value="2020-05-15" min="2020-05-05" max="2022-01-01">
+	<input type="date" value="2020-05-15" min="2020-05-05" max="2022-01-01" v-model="reportEnd">
 	<br>
 	<label><strong>Crop:</strong></label>
-	<select name="crop">
+	<select name="crop" v-model="reportCrop">
 		<option>Broccoli</option>
 		<option selected>Kale</option>
 		<option>Peas</option>
@@ -38,13 +38,13 @@
 	<br>
 	<ul>
 		<li>
-			<p>Start:</p>
+			<p>Start: <span>{{reportStart}}</span></p>
 		</li>
 		<li>
-			<p>End:</p>
+			<p>End: <span>{{reportEnd}}</span></p>
 		</li>
 		<li>
-			<p>Crop:</p>
+			<p>Crop: <span>{{reportCrop}}</span></p>
 		</li> 
 		<li>
 			<p>Area:</p>
@@ -90,6 +90,9 @@
 		el: "#report",
 		data: {
 			reportTitle: "My Sample Harvest Report",
+			reportStart: "2018-01-05",
+			reportEnd: "2020-05-15",
+			reportCrop: "Kale",
 		}
 	});
 </script>
