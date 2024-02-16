@@ -12,17 +12,14 @@
 	<input type="date" value="2020-05-15" min="2020-05-05" max="2022-01-01" v-model="reportEnd">
 	<br>
 	<label><strong>Crop:</strong></label>
-	<select name="crop" v-model="reportCrop">
-		<option>Broccoli</option>
-		<option selected>Kale</option>
-		<option>Peas</option>
+	<select>
+		<option v-for="crops in reportCrops">{{ crops }}</option>
 	</select>
 	<br>
 	<label><strong>Area:</strong></label>
-	<select name="Area">
-		<option >All</option>
-		<option>Chuau-1</option>
-		<option>SQ7</option>
+	<select>
+		<option v-for="area in reportAreas">{{ area }}</option>
+
 	</select>
 
 	<br>
@@ -44,7 +41,7 @@
 			<p>End: <span>{{reportEnd}}</span></p>
 		</li>
 		<li>
-			<p>Crop: <span>{{reportCrop}}</span></p>
+			<p>Crop: <span></span></p>
 		</li> 
 		<li>
 			<p>Area:</p>
@@ -92,7 +89,16 @@
 			reportTitle: "My Sample Harvest Report",
 			reportStart: "2018-01-05",
 			reportEnd: "2020-05-15",
-			reportCrop: "Kale",
+			reportCrops: [
+				"Kale",
+				"Brocoli",
+				"Peas",
+			],
+			reportAreas: [
+				"All",
+				"Chuau-1",
+				"SQ7",
+			],
 		}
 	});
 </script>
