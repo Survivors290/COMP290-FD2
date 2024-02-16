@@ -12,12 +12,12 @@
 	<input type="date" value="2020-05-15" min="2020-05-05" max="2022-01-01" v-model="reportEnd">
 	<br>
 	<label><strong>Crop:</strong></label>
-	<select>
+	<select v-model="reportCropsDisplay">
 		<option v-for="crops in reportCrops">{{ crops }}</option>
 	</select>
 	<br>
 	<label><strong>Area:</strong></label>
-	<select>
+	<select v-model="reportAreasDisplay">
 		<option v-for="area in reportAreas">{{ area }}</option>
 
 	</select>
@@ -41,10 +41,10 @@
 			<p>End: <span>{{reportEnd}}</span></p>
 		</li>
 		<li>
-			<p>Crop: <span></span></p>
+			<p>Crop: <span> {{reportCropsDisplay}} </span></p>
 		</li> 
 		<li>
-			<p>Area:</p>
+			<p>Area: <span> {{reportAreasDisplay}}</span></p>
 		</li> 
 	</ul>
 
@@ -58,26 +58,19 @@
 			<th>Yield</th>
 			<th>Units</th>
 		</tr>
-		<tr>
-			<td>hi</td>
-			<td>hi</td>
-			<td>hi</td>
-			<td>hi</td>
-			<td>hi</td>
+		<tr v-for="record in reportTable">
+			<th>{{record.date}}</th>
+			<th>{{record.area}}</th>
+			<th>{{record.crop}}</th>
+			<th>{{record.yield}}</th>
+			<th>{{record.units}}</th>
 		</tr>
 		<tr>
-			<td>12</td>
-			<td>All</td>
-			<td>Kale</td>
-			<td>7</td>
-			<td>Feet</td>
-		</tr>
-		<tr>
-			<td>1222222222</td>
-			<td>All</td>
-			<td>Kale</td>
-			<td>7</td>
-			<td>Feet</td>
+			<th>Find</th>
+			<th>The</th>
+			<th>ryan</th>
+			<th>yeeee</th>
+			<th>Haw</th>
 		</tr>
 	</table>
 
@@ -94,10 +87,17 @@
 				"Brocoli",
 				"Peas",
 			],
+			reportCropsDisplay: "Kale",
+			reportAreasDisplay: "All",
 			reportAreas: [
 				"All",
 				"Chuau-1",
 				"SQ7",
+			],
+			reportTable: [
+				{date: "2018-01-05", crop: "Kale", area: "All", yield: "5", units: "bushels"},
+				{date: "this", crop: "a", area: "fun", yield: "table", units: "row"},
+				{date: "this", crop: "a", area: "fun", yield: "table", units: "row"},
 			],
 		}
 	});
