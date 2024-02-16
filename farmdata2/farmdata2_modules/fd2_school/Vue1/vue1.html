@@ -51,20 +51,14 @@
                 <th>Yield</th>
                 <th>Units</th>
               </tr>
-              <tr>
-                <td>05/02/2018</td>
-                <td>Chuau-1</td>
-                <td>Kale</td>
-                <td>10</td>
-                <td>Bunches</td>
+              <tr v-for="hLog in harvestTable">
+                <td>{{hLog.date}}</td>
+                <td>{{hLog.area}}</td>
+                <td>{{hLog.crop}}</td>
+                <td>{{hLog.yield}}</td>
+                <td>{{hLog.units}}</td>
               </tr>
-              <tr>
-                <td>05/05/2018</td>
-                <td>SQ7</td>
-                <td>Kale</td>
-                <td>7</td>
-                <td>Bunches</td>
-              </tr>
+              
         </table>
     </div>
     <script> 
@@ -84,6 +78,10 @@
                         'Chuau-1',
                         'SQ7'
                     ],
+                    harvestTable: [
+                        harvestLog1 = {date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"},
+                        harvestLog2 = {date: "2019-05-22", area: "SQ7", crop: "Brocoli", yield: 19, units: "Bundles"}
+                    ]
                 },
 
             });
