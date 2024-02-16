@@ -9,9 +9,9 @@
         
         
         <label for="start">Start:</label>
-            <input type="date" name="start" min="2014-01-01" max="2022-01-01" value="2020-05-05"/>
+            <input type="date" name="start" min="2014-01-01" max="2022-01-01" v-model= 'startDate'/>
         <label for="end">End:</label>
-            <input type="date" name="end" min="2020-05-05" max="2022-01-01" value="2020-05-15"/>
+            <input type="date" name="end" min="2020-05-05" max="2022-01-01" v-model ='endDate'/>
         <br>
         <br>
         <label for="crop">Crop:</label>
@@ -33,7 +33,7 @@
     
         
             <h1> {{ header }}</h1>
-        </div>
+        
         <p>Details:</p>
         <ul> 
             <li><strong>Farm:</strong>Sample Farm</li>
@@ -42,8 +42,8 @@
         </ul>
         <br>
         <ul> 
-            <li><strong>Start:</strong>05/01/2018</li>
-            <li><strong>End:</strong>05/15/2018</li>
+            <li><strong>Start:</strong> {{ startDate }} </li>
+            <li><strong>End:</strong>{{ endDate }}</li>
             <li><strong>Crop:</strong>Kale</li>
         </ul>
         <br>
@@ -70,13 +70,18 @@
                 <td>Bunches</td>
               </tr>
         </table>
+    </div>
     <script> 
             var heading = new Vue({
                 el: '#heading',
                 data: {
-                    header: 'My Sample Harvest Report'
-                }
-            })
+                    header: 'My Sample Harvest Report',
+                    startDate: '2020-05-05',
+                    endDate: '2020-05-15',
+                },
+
+            });
+            
     
         </script>   
     </body>
