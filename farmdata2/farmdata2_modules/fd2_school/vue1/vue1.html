@@ -3,65 +3,83 @@
 <hr>
 <h1>My Sample Harvest Report</h1>
 
-<p>Details:</p>
-<ul>
-        <li><strong>Farm:</strong>Sample Farm</li>
+<div id="reportdetails">
+        <label>Title:</label>
+        <input type="text" id="reportdetails" v-model="header">
+
+        <br></br>
+
+        <label for="Start Date">Start:</label>
+        <input type="date" v-model="reportEndDate" id="start date" min="01/01/2014" max="01/01/2022"/>
+        <label for="End Date">End:</label>
+        <input type="date" v-model="reportStartDate" id="end date" min="'05/05/2020" max="01/01/2022"/>
+        <br>
+        <br>
+        <label for="Crop">Crop:</label>
+        <select id="Crop" name ="Crop" v-model="reportCrop">
+                <option>Broccoli</option>
+                <option selected>Kale</option>
+                <option>Peas</option>
+        </select>
+        <label for="Field">Area:</label>
+        <select id="Field" name ="Field">
+                <option selected>All</option>
+                <option>Chuau-1</option>
+                <option>SQ7</option>
+        </select>
+        <br>
+        <br>
+        <input type="button" value="Generate Report" />
+        <br>
+        <hr></hr>
+
+        <h1> {{ header }} </h1>
+
+        <p>Details:</p>
+        <ul>
+        <li><strong>Farm:</strong>Farm</li>
         <li><strong>User:</strong>manager1</li>
         <li><strong>Language:</strong>English</li>
         <br>
-        <li><strong>Start:</strong>05/15/2018</li>
-        <li><strong>End:</strong>05/15/2018</li>
-        <li><strong>Crop:</strong>Kale</li>
-</ul>
+        <li><strong>Start:</strong>{{ reportStartDate}}</li>
+        <li><strong>End:</strong>{{ reportEndDate }}</li>
+        <li><strong>Crop:</strong>{{ reportCrop }}</li>
+        </ul>
 
-<label for="title">Title:</label>
-<input type="text" id="title" name="Title" />
-<br>
-<br>
-<label for="Start Date">Start:</label>
-<input type="date" id="start date" min="'01/01/2014" max="01/01/2022" value="05/05/2020"/>
-<label for="End Date">End:</label>
-<input type="date" id="end date" min="'05/05/2020" max="01/01/2022" value="05/15/2020"/>
-<br>
-<br>
-<label for="Crop">Crop:</label>
-<select id="Crop" name ="Crop">
-        <option>Broccoli</option>
-        <option selected>Kale</option>
-        <option>Peas</option>
-</select>
-<label for="Field">Area:</label>
-<select id="Field" name ="Field">
-        <option selected>All</option>
-        <option>Chuau-1</option>
-        <option>SQ7</option>
-</select>
-<br>
-<br>
-<input type="button" value="Generate Report" />
-<br>
-<br>
-<table border="1">
-        <tr>
-                <th>Data</th>
-                <th>Area</th>
-                <th>Crop</th>
-                <th>Yield</th>
-                <th>Units</th>
-        </tr>
-        <tr>
-                <td>05/02/2018</td>
-                <td>05/02/2018</td>
-                <td>Kale/td>
-                <td>10</td>
-                <td>Bunches</td>
-        </tr>
-        <tr>
-                <td>05/05/2018</td>
-                <td>SQ7</td>
-                <td>Kale</td>
-                <td>7</td>
-                <td>Bunches</td>
-                
-        </tr>
-      </table>
+        <table border="1">
+                <tr>
+                        <th>Data</th>
+                        <th>Area</th>
+                        <th>Crop</th>
+                        <th>Yield</th>
+                        <th>Units</th>
+                </tr>
+                <tr>
+                        <td>05/02/2018</td>
+                        <td>05/02/2018</td>
+                        <td>Kale</td>
+                        <td>10</td>
+                        <td>Bunches</td>
+                </tr>
+                <tr>
+                        <td>Chuau-1</td>
+                        <td>SQ7</td>
+                        <td>Kale</td>
+                        <td>7</td>
+                        <td>Bunches</td>
+                        
+                </tr>
+        </table>
+</div>
+
+<script>
+    var vobj = new Vue({
+        el: "#reportdetails",
+        data: {
+            header: "My Sample Harvest Report",
+            reportStartDate: "05/05/2020",
+            reportEndDate: "05/15/2020",
+            reportCrop: "Kale",
+        }
+    });
+</script>
