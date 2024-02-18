@@ -1,68 +1,38 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>Report Title</title>
     <style>
-      [v-cloak] {
-        display: none;
-      }
+        [v-cloak] {
+            display: none;
+        }
     </style>
-  </head>
-  <body>
-    <div id="report-title" v-cloak>
+</head>
+<body>
+<div id="harvest-report" v-cloak>
+    <div id="report-title">
         <h1>{{ header ? header : 'Mock Harvest Report' }}</h1>
         <input type="text" v-model="header">
     </div>
-    <script src="https://unpkg.com/vue@2"></script>
-    <script>
-        var harvestReport = new Vue({
-            el: '#report-title',
-            data: {
-                header: ''
-            }
-        });
-    </script>
-    <text> This page is a <dfn>mockup</dfn> of a simplified harvest report.</text><br>
-    <text>Title: <input type="text" id="comment" name="comment" v-model="header"/></text><br><br>
     <label for="start">Start:</label>
     <input type="date" id="start" name="trip-start" v-model="startDate" min="2014-01-01" max="2022-01-01">
     
     <label for="end">End:</label>
     <input type="date" id="end" name="trip-end" v-model="endDate" min="2020-05-05" max="2022-01-01">
     <br><br>
-    Crop: <select name="crop" id="crop" v-model="selectedCrop">
-      <option v-for="crop in crops" :value="crop">{{ crop }}</option>
-  </select>
-  <script src="https://unpkg.com/vue@2"></script>
-  <script>
-  var CropReport = new Vue({
-    el: '#report-title',
-    data: {
-        header: '',
-        crops: [ "Kale", "Broccoli", "Peas" ],
-        selectedCrop: ''
-    }
-});
-</script>
-    Area: <select name="area" id="area" v-model="selectedArea">
-      <option v-for="area in areas" :value="area">{{ area }}</option>
+    Crop: 
+    <select name="crop" id="crop" v-model="selectedCrop">
+        <option v-for="crop in crops" :value="crop">{{ crop }}</option>
     </select>
-    <script src="https://unpkg.com/vue@2"></script>
-    <script>
-    var AreaReport = new Vue({
-      el: '#report-title',
-      data: {
-          header: '',
-          areas: [ "All", "Chaua-1", "SQ7" ],
-          selectedCrop: ''
-      }
-  });
-  </script>
+    Area: 
+    <select name="area" id="area" v-model="selectedArea">
+        <option v-for="area in areas" :value="area">{{ area }}</option>
+    </select>
     <br><br>
     <input type="submit" value="Generate Report" />
     
-    <h1>Mock Harvest Report</h1>
+    <h2>{{header}}</h2>
     <text>Detail:</text>
     <UL>
         <LI><b>Farm</b>:Sample Farm</LI>
@@ -73,29 +43,47 @@
         <LI><b>End</b>:{{ endDate }}</LI>
         <LI><b>Crop</b>:{{ selectedCrop }}</LI>
     </UL>
-    <table border=1>
-        <tr>
-          <th>Date</th>
-          <th>Area</th>
-          <th>Crop</th>
-          <th>Yield</th>
-          <th>Units</th>
-        </tr>
-        <tr>
-          <td>05/02/2018</td>
-          <td>Chuau-1</td>
-          <td>Kale</td>
-          <td>10</td>
-          <td>Bunches</td>
-        </tr>
-        <tr>
-          <td>05/05/2018</td>
-          <td>SQ7</td>
-          <td>Kale</td>
-          <td>7</td>
-          <td>Bunches</td>
-        </tr>
-      </table>
-    </div>
-  </body>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Area</th>
+                <th>Crop</th>
+                <th>Yield</th>
+                <th>Units</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="log in harvestLogs">
+                <td>{{ log.date }}</td>
+                <td>{{ log.area }}</td>
+                <td>{{ log.crop }}</td>
+                <td>{{ log.yield }}</td>
+                <td>{{ log.units }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://unpkg.com/vue@2"></script>
+<script>
+    var harvestReport = new Vue({
+        el: '#harvest-report',
+        data: {
+            header: '',
+            startDate: '',
+            endDate: '',
+            selectedCrop: '',
+            selectedArea: '',
+            crops: ["Kale", "Broccoli", "Peas"],
+            areas: ["All", "Chaua-1", "SQ7"],
+            harvestLogs: [
+                {date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"},
+                {date: "2018-05-05", area: "SQ7", crop: "Kale", yield: 7, units: "Bunches"}
+                // Add more harvest log objects as needed
+            ]
+        }
+    });
+</script>
+</body>
 </html>
