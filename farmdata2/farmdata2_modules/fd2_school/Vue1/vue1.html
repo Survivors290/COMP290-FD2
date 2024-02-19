@@ -23,5 +23,49 @@
                 }
             });
         </script>
+
+        <div v-cloak id="reportStartDate">
+            <h1>{{ header }}</h1>
+            <input type="date" v-model="header"/>
+        </div>
+        <script>
+            var reportSDate = new Vue({
+                el: '#reportStartDate',
+                data: {
+                    header: '2020-05-05'
+                }
+            });
+        </script>
+
+        <div v-cloak id="reportEndDate">
+            <h1>{{ header }}</h1>
+            <input type="date" v-model="header"/>
+        </div>
+        <script>
+            var reportEDate = new Vue({
+                el: '#reportEndDate',
+                data: {
+                    header: '2020-05-15'
+                }
+            });
+        </script>
+
+        <div v-cloak id="reportCrop">
+            <h1>{{ header }}</h1>
+            <select id="crop" name="crop" v-model="header">
+                <option>Broccoli</option>
+                <option selected>Kale</option>
+                <option>Peas</option>
+            </select>
+        </div>
+        <script>
+            var reportC = new Vue({
+                el: '#reportCrop',
+                data: {
+                    header: 'Kale'
+                }
+            });
+        </script>
+
     </body>
 </html>
