@@ -21,16 +21,12 @@
           <br>
           <label for=title>Crop:</label>
           <select id="simple" name="simple" v-model="crop">
-              <option>Broccoli</option>
-              <option selected>Kale</option>
-              <option>Peas</option>
+              <option v-for="crops in crops">{{ crops }}</option>
           </select>
           
           <label for=title>Area:</label>
           <select id="simple" name="simple">
-              <option selected>All</option>
-              <option>Chuau-1</option>
-              <option>SQ7</option>
+            <option v-for="areas in areas">{{ areas }}</option>
           </select>
           <p></p>
           <br>
@@ -83,6 +79,16 @@
                   startDate: "2020-05-05",
                   endDate: "2020-05-15",
                   crop: "Kale",
+                  crops: [
+                    "Broccoli",
+                    "Kale",
+                    "Peas",
+                  ],
+                  areas: [
+                    "All",
+                    "Chuau-1",
+                    "SQ7",
+                  ],
               },
             });
           </script>
