@@ -2,7 +2,7 @@
     <h3>Harvest Report</h3>
     <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
     <label for=”title”>Title:</label> 
-    <input type=”text” id=”title” value="My Sample Harvest Report" v-model="reportTitle"/>
+    <input type=”text” id=”title” v-model="reportTitle"/>
     <br>
     <label for="crop">Crop:</label>
     <select id="crop" name="crop">
@@ -29,7 +29,7 @@
 <hr>
 
     <div>
-        <h3>{{ reportTitle }}</h3>
+        <h3>{{ reportTitle === '' ? 'Mock Harvest Report' : reportTitle }}</h3>
         <p>Details:</p>
         <ul>
             <li><strong>Farm:</strong>{{ reportFarm }}</li>
