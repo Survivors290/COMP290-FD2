@@ -34,7 +34,7 @@
 
     <hr>
     
-    <h1>{{ report_header }}</h1>
+    <h1>{{ report_header === '' ? 'Mock Harvest Report' : report_header }}</h1>
     <p>Details:</p>
     <ul>
         <li><strong>Farm: </strong>Sample Farm</li>
@@ -77,7 +77,7 @@
     var shoppingList = new Vue({
         el: '#harvestReport',
         data: {
-            report_header: 'My Sample Harvest Report',
+            report_header: '',
             start_date: '05/01/2018',
             end_date: '05/15/2018',
             crop: 'Kale',
