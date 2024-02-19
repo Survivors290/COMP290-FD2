@@ -37,7 +37,7 @@
           <p><button type="generate">Generate Report</button></p>
           <hr>
 
-          <h1> {{ heading }} </h1>  
+          <h1> {{ heading ? heading : 'Mock Harvest Report' }} </h1>  
 
           <p>Details:</p>
           <ul>
@@ -79,7 +79,7 @@
             var heading = new Vue({
               el: "#heading",
               data: {
-                  heading: "My Sample Harvest Report",
+                  heading: null,
                   startDate: "2020-05-05",
                   endDate: "2020-05-15",
                   crop: "Kale",
