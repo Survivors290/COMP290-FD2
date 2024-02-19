@@ -5,7 +5,8 @@
 </head>
 <body>
     <div id="vue1App" v-cloak>
-        <h1>{{ reportTitle }}</h1>
+        
+        <h1>{{ reportTitle ? reportTitle : 'Mock Harvest Report' }}</h1>
         <p>This page is a <em>mock-up</em> of a simplified harvest report</p>
         <hr>
         <h2>My Sample Harvest Report</h2>
@@ -20,7 +21,6 @@
         </ul>
         <label for="title">Title:</label><br>
         <input type="text" id="title" name="title" v-model="reportTitle"><br><br>
-        
         
         <button type="button">Generate Report</button>
         
@@ -89,11 +89,11 @@
         var vue1App = new Vue({
             el: '#vue1App',
             data: {
-                reportTitle: 'My Sample Harvest Report',
+                reportTitle: '', // Binding property for report title
                 reportStartDate: '', // Binding property for selected start date
                 reportEndDate: '', // Binding property for selected end date
                 reportCrop: 'Kale', // Binding property for selected crop
-                reportComment: '', // Adding reportComment property
+                reportComment: '', // Binding property for report comment
             }
         });
     </script>
