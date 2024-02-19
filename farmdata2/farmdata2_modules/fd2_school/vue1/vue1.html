@@ -6,16 +6,12 @@
     <br>
     <label for="crop">Crop:</label>
     <select id="crop" name="crop">
-        <option>Broccoli</option>
-        <option selected>Kale</option>
-        <option>Peas</option>
+        <option v-for="crop in reportCropList">{{ crop }}</option>
     </select>
     <br>
     <label for="area">Area:</label>
     <select id="area" name="area">
-        <option selected>All</option>
-        <option>Chuau-1</option>
-        <option>SQ7</option>
+        <option v-for="area in reportAreaList">{{ area }}</option>
     </select>
     <br>
     <label for="start">Start:</label>
@@ -70,6 +66,8 @@
                 reportStart: "05/01/2018",
                 reportEnd: "05/15/2018",
                 reportCrop: "Kale",
+                reportCropList: ["Broccoli", "Kale", "Peas"],
+                reportAreaList: ["All", "Chuau-1", "SQ7"],
             }
         });
     </script>
