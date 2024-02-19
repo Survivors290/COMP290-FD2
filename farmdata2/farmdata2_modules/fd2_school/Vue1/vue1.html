@@ -101,5 +101,36 @@
             });
         </script>
 
+        <div v-cloak id="reportTable">
+            <h1>{{ header }}</h1>
+            <table border="1">
+                <tr>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>Crop</th>
+                    <th>Yield</th>
+                    <th>Units</th>
+                </tr>
+                <tr v-for="tableCol in tableRow">
+                    <td>{{ tableCol.date }}</td>
+                    <td>{{ tableCol.area }}</td>
+                    <td>{{ tableCol.crop }}</td>
+                    <td>{{ tableCol.yield }}</td>
+                    <td>{{ tableCol.units }}</td>
+                </tr>
+            </table>
+        </div>
+        <script>
+            var reportA = new Vue({
+                el: '#reportTable',
+                data: {
+                    header: 'Harvest Report Table',
+                    tableRow: [
+                        { date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches" },
+                        { date: "2018-05-05", area: "Chuau-1", crop: "Broccoli", yield: 15, units: "Bunches" }
+                    ]
+                }
+            });
+        </script>
     </body>
 </html>
