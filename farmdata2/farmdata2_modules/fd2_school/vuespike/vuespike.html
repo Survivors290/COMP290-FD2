@@ -26,6 +26,9 @@
       <li v-for="card in cards">{{ card.suit + " of " + card.rank }}</li>
     </ul>
     <input type="text" v-model="header">
+    <br />
+    <br />
+    <input type="text" v-model="newItem" placeholder="Add an item">
   </div>
   <script src="https://unpkg.com/vue@2"></script>
   <script>
@@ -33,6 +36,7 @@
       el: "#shopping-list",
       data: {
         header: "Vue is ready to party!",
+        newItems: "",
         items: [
           "10 party hats",
           "2 board games",
