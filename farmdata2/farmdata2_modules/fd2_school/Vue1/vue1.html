@@ -14,13 +14,23 @@
 
             <h1>{{ header.toLocaleUpperCase() ? header : "Mock Harvest Report"}}</h1>
             <input type="text" v-model="header">
+            <ul>
+                <li v-for="name in names">{{ name }}</li>
+            </ul>
         </div>
         <script src="https://unpkg.com/vue@2"></script>
         <script>
             var reportTitle = new Vue({
                 el: '#reportTitle',
                 data: {
-                    header: 'My Sample Harvest Report'
+                    header: 'My Sample Harvest Report',
+                    names: [
+                        "Joe",
+                        "Arun",
+                        "Ouwen",
+                        "Anh",
+                        "Sue"
+                    ]
                 }
             });
         </script>
@@ -54,16 +64,39 @@
         <div v-cloak id="reportCrop">
             <h1>{{ header }}</h1>
             <select id="crop" name="crop" v-model="header">
-                <option>Broccoli</option>
-                <option selected>Kale</option>
-                <option>Peas</option>
+                <option v-for="crop in crops">{{ crop }}</option>
             </select>
         </div>
         <script>
             var reportC = new Vue({
                 el: '#reportCrop',
                 data: {
-                    header: 'Kale'
+                    header: 'Kale',
+                    crops: [
+                        "Broccoli",
+                        "Kale",
+                        "Peas"
+                    ]
+                }
+            });
+        </script>
+
+        <div v-cloak id="reportArea">
+            <h1>{{ header }}</h1>
+            <select id="area" name="area" v-model="header">
+                <option v-for="area in areas">{{ area }}</option>
+            </select>
+        </div>
+        <script>
+            var reportA = new Vue({
+                el: '#reportArea',
+                data: {
+                    header: 'All',
+                    areas: [
+                        "All",
+                        "Chuau-1",
+                        "SQ7"
+                    ]
                 }
             });
         </script>
