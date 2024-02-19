@@ -21,7 +21,7 @@
         <label for="title">Title:</label><br>
         <input type="text" id="title" name="title" v-model="reportTitle"><br><br>
         
-        <!-- Adding the Generate Report button -->
+        
         <button type="button">Generate Report</button>
         
         <form>
@@ -38,6 +38,7 @@
         </form>
         
         <label for="crop">Crop:</label>
+        
         <select id="crop" name="crop" v-model="reportCrop">
             <option value="broccoli">Broccoli</option>
             <option value="kale">Kale</option>
@@ -51,10 +52,12 @@
         </select>
         
         <label for="start-date">Start Date:</label>
-        <input type="date" id="start-date" name="start-date" min="2014-01-01" max="2022-01-01" value="2020-05-05" v-model="reportStartDate">
+        
+        <input type="date" id="start-date" name="start-date" min="2014-01-01" max="2022-01-01" v-model="reportStartDate">
         
         <label for="end-date">End Date:</label>
-        <input type="date" id="end-date" name="end-date" min="2020-05-05" max="2022-01-01" value="2020-05-15" v-model="reportEndDate">
+        
+        <input type="date" id="end-date" name="end-date" min="2020-05-05" max="2022-01-01" v-model="reportEndDate">
           
         <table border="1">
             <tr>
@@ -87,10 +90,10 @@
             el: '#vue1App',
             data: {
                 reportTitle: 'My Sample Harvest Report',
-                reportStartDate: '05/01/2018',
-                reportEndDate: '05/15/2018',
-                reportCrop: 'Kale',
-                reportComment: '' // Adding reportComment property
+                reportStartDate: '', // Binding property for selected start date
+                reportEndDate: '', // Binding property for selected end date
+                reportCrop: 'Kale', // Binding property for selected crop
+                reportComment: '', // Adding reportComment property
             }
         });
     </script>
