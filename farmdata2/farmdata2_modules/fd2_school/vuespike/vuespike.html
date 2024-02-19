@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping List App</title>
+  <link rel="stylesheet" href="main.css">
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="shopping-list" v-cloak>
+    <h1>{{ header.toLocaleUpperCase() }}</h1>
+    <ul>
+      <li v-for="item in items">{{ item }}</li>
+    </ul>
+    <ul>
+      <li v-for="name in names">{{ name }}</li>
+    </ul>
+    <p>Cards: </p>
+    <ul>
+      <li v-for="card in cards">{{ card.suit + " of " + card.rank }}</li>
+    </ul>
+    <input type="text" v-model="header">
+    <br />
+    <br />
+    <input type="text" v-model="newItem" placeholder="Add an item">
+  </div>
+  <script src="https://unpkg.com/vue@2"></script>
+  <script>
+    var shoppingList = new Vue({
+      el: "#shopping-list",
+      data: {
+        header: "Vue is ready to party!",
+        newItems: "",
+        items: [
+          "10 party hats",
+          "2 board games",
+          "20 cups",
+
+        ],
+        names: [
+          "Joe",
+          "Arun",
+          "Ouwen",
+          "Anh",
+          "Sue",
+        ],
+        cards: [
+          { suit: "H", rank: "3" },
+          { suit: "S", rank: "K" },
+          { suit: "D", rank: "7" }] ,
+
+      }
+    })
+  </script>
+</body>
+
+</html>
