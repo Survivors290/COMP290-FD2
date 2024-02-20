@@ -7,6 +7,33 @@
         </h1>
         <p>
             This page is a <i>mockup</i> of a simplified harvest report.
+            <ul>
+                <li>
+                    <label for="tile">Title:</label>
+                    <input type="text" id="title" name="title" value="My Sample Harvest Report"/>
+                </li>
+
+                <li><label for="start">Start:</label>
+                    <input type="date" id="start" name="date-start" value="2020-05-05" min="2014-01-01" max="2022-01-01"/>
+                
+                <label for="end">End:</label>
+                    <input type="date" id="end" name="date-end" value="2020-05-15" min="2020-05-05" max="2022-01-01"/>
+                </li>
+                <li><label for="crop">Crop:</label>
+                    <select id="crop" name="crops" >
+                            <option>Broccoli</option>
+                            <option selected>Kale</option>
+                            <option>Peas</option>
+                    </select>
+                </li>
+                <li><label for="area">Area:</label>
+                    <select id="area" name="fields">
+                        <option selected>All</option>
+                        <option>Chuau-1</option>
+                        <option>SQ7</option>
+                    </select>
+                </li>
+            </ul>
         </p>
 
     </body>
