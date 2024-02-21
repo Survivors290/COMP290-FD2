@@ -31,7 +31,7 @@
     <br>
     <br>
   
-    <button type="submit" @click='harvestList.push({date:"2018-05-01", area:"Orion-3", crop:"Kale", yield:"12", units:"Bunches"})'>Generate Report</button>
+    <button type="submit" @click='addHarvest'>Generate Report</button>
     <hr>
   
     <h1>{{ reportTitle ? reportTitle : "Mock Harvest Report"}}</h1>
@@ -79,6 +79,11 @@
         crops: ["Broccoli", "Kale", "Peas"],
         fields: ["All", "Chuau-1", "SQ7"],
         harvestList: [],
+      },
+      methods: {
+        addHarvest: function() {
+            this.harvestList.push({date:"2018-05-01", area:"Orion-3", crop:"Kale", yield:"12", units:"Bunches"});
+        }
       }
     });
     Vue.config.devtools = true;
