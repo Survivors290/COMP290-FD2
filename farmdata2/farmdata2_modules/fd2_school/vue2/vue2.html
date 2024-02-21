@@ -49,6 +49,7 @@
     <table border="1">
       <thead>
         <tr>
+            <th scope="col">Row</th>
             <th scope="col">Date</th>
             <th scope="col">Area</th>
             <th scope="col">Crop</th>
@@ -57,12 +58,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in harvestList">
-          <td>{{ item.date }}</td>
-          <td>{{ item.area }}</td>
-          <td>{{ item.crop }}</td>
-          <td>{{ item.yield }}</td>
-          <td>{{ item.units }}</td>
+        <tr v-for="(item, row) in harvestList">
+            <td>{{ row + 1 }}</td>
+            <td>{{ item.date }}</td>
+            <td>{{ item.area }}</td>
+            <td>{{ item.crop }}</td>
+            <td>{{ item.yield }}</td>
+            <td>{{ item.units }}</td>
       </tr>
       </tbody>
     </table>
