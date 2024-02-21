@@ -45,30 +45,32 @@
         <li><strong>End:</strong>{{ reportEndDate }}</li>
         <li><strong>Crop:</strong>{{ reportCrop }}</li>
     </ul>
-  
-    <table border="1">
-      <thead>
-        <tr>
-            <th scope="col">Row</th>
-            <th scope="col">Date</th>
-            <th scope="col">Area</th>
-            <th scope="col">Crop</th>
-            <th scope="col">Yield</th>
-            <th scope="col">Units</th>
+    
+    <div v-if="harvestList.length > 0">
+        <table border="1">
+        <thead>
+            <tr>
+                <th scope="col">Row</th>
+                <th scope="col">Date</th>
+                <th scope="col">Area</th>
+                <th scope="col">Crop</th>
+                <th scope="col">Yield</th>
+                <th scope="col">Units</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item, row) in harvestList">
+                <td>{{ row + 1 }}</td>
+                <td>{{ item.date }}</td>
+                <td>{{ item.area }}</td>
+                <td>{{ item.crop }}</td>
+                <td>{{ item.yield }}</td>
+                <td>{{ item.units }}</td>
         </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, row) in harvestList">
-            <td>{{ row + 1 }}</td>
-            <td>{{ item.date }}</td>
-            <td>{{ item.area }}</td>
-            <td>{{ item.crop }}</td>
-            <td>{{ item.yield }}</td>
-            <td>{{ item.units }}</td>
-      </tr>
-      </tbody>
-    </table>
+        </tbody>
+        </table>
   </div>
+  <p v-else>There are no matching records!</p>
   
   <script>
     var app = new Vue({
@@ -86,7 +88,7 @@
         addHarvest: function() {
             this.harvestList.push({date:"2018-05-01", area:"Orion-3", crop:"Kale", yield:"12", units:"Bunches"});
         }
-      }
+    }
     });
     Vue.config.devtools = true;
   </script>
