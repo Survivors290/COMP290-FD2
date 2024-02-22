@@ -58,6 +58,7 @@
 			<th>Crop</th>
 			<th>Yield</th>
 			<th>Units</th>
+			<th>Delete</th>
 		</tr>
 		<tr v-for="(record, index) in reportTable">
 			<th>{{index + 1}}</th>
@@ -66,6 +67,7 @@
 			<th>{{record[2]}}</th>
 			<th>{{record[3]}}</th>
 			<th>{{record[4]}}</th>
+			<th><button class="btn" @click="deleteTableRow(index)">Delete</button></th>
 		</tr>
 	</table>
 
@@ -94,6 +96,9 @@
 		methods: {
 			CreateReport: function() {
 				this.reportTable.push(['05/01/18','Orion-3','Kale','12','Bunches'])
+			},
+			deleteTableRow: function(index) {
+				this.reportTable.splice(index,1)
 			}
 		}
 	});
