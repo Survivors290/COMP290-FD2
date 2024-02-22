@@ -52,13 +52,15 @@
 
 	<table border="1" height="auto">
 		<tr>
+			<th>Row</th>
 			<th>Date</th>
 			<th>Area</th>
 			<th>Crop</th>
 			<th>Yield</th>
 			<th>Units</th>
 		</tr>
-		<tr v-for="record in reportTable">
+		<tr v-for="(record, index) in reportTable">
+			<th>{{index + 1}}</th>
 			<th>{{record[0]}}</th>
 			<th>{{record[1]}}</th>
 			<th>{{record[2]}}</th>
