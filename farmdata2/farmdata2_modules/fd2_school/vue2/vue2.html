@@ -50,7 +50,7 @@
 
 	<hr>
 
-	<table border="1" height="auto">
+	<table border="1" height="auto" v-if="reportTable.length > 0">
 		<tr>
 			<th>Row</th>
 			<th>Date</th>
@@ -70,12 +70,14 @@
 			<th><button class="btn" @click="deleteTableRow(index)">Delete</button></th>
 		</tr>
 	</table>
+	<p v-else>No matching records</p>
 
 </div>
 <script>
 	var reportInputs = new Vue({
 		el: "#report",
 		data: {
+			state: "no",
 			reportTitle: "My Sample Harvest Report",
 			reportStart: "2018-01-05",
 			reportEnd: "2020-05-15",
@@ -91,7 +93,9 @@
 				"Chuau-1",
 				"SQ7",
 			],
-			reportTable: [],
+			reportTable: [
+
+			],
 			},
 		methods: {
 			CreateReport: function() {
@@ -99,6 +103,9 @@
 			},
 			deleteTableRow: function(index) {
 				this.reportTable.splice(index,1)
+			},
+			changeState: function(newState) {
+				this.state = newState
 			}
 		}
 	});
