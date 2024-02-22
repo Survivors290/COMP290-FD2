@@ -3,7 +3,7 @@
 <div id="report">
 	<label>Title:</label>
 	<input type="text" name=title value="Title" v-model="reportTitle">
-	<input type="button" name="Generate Report" value="Generate Report">
+	<input type="button" name="Generate Report" value="Generate Report" @click="reportTable.push(['05/01/18','Orion-3','Kale','12','Bunches'])"><!--,Orion-3,Kale,12,Bunches--><!--reportStart,reportAreas,reportCrops,5,5-->
 	<br>
 	<label><strong>Start:</strong></label>
 	<input type="date" value="2018-01-05" min="2014-01-01" max="2022-01-01" v-model="reportStart">
@@ -59,18 +59,11 @@
 			<th>Units</th>
 		</tr>
 		<tr v-for="record in reportTable">
-			<th>{{record.date}}</th>
-			<th>{{record.area}}</th>
-			<th>{{record.crop}}</th>
-			<th>{{record.yield}}</th>
-			<th>{{record.units}}</th>
-		</tr>
-		<tr>
-			<th>Find</th>
-			<th>The</th>
-			<th>ryan</th>
-			<th>yeeee</th>
-			<th>Haw</th>
+			<th>{{record[0]}}</th>
+			<th>{{record[1]}}</th>
+			<th>{{record[2]}}</th>
+			<th>{{record[3]}}</th>
+			<th>{{record[4]}}</th>
 		</tr>
 	</table>
 
@@ -94,12 +87,12 @@
 				"Chuau-1",
 				"SQ7",
 			],
-			reportTable: [
-				{date: "2018-01-05", crop: "Kale", area: "All", yield: "5", units: "bushels"},
-				{date: "this", crop: "a", area: "fun", yield: "table", units: "row"},
-				{date: "this", crop: "a", area: "fun", yield: "table", units: "row"},
-			],
-		}
+			reportTable: [],
+			}
 	});
 	Vue.config.devtools = true;
 </script>
+<!--{date: "2018-01-05", crop: "Kale", area: "All", yield: "5", units: "bushels"},
+				{date: "this", crop: "a", area: "fun", yield: "table", units: "row"},
+				{date: "this", crop: "a", area: "fun", yield: "table", units: "row"},-->
+
