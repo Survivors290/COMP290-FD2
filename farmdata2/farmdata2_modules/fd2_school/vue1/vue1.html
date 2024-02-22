@@ -17,20 +17,15 @@
 
     <br></br>
     <label for="crop">Crop:</label>
-    <input type="text" size="6" id="crop" name="crop" list="cropList" v-model="reportSelectedCrop"/>
-    <datalist id="cropList">
-        <option>Broccoli</option>
-        <option>Kale</option>
-        <option>Peas</option>
-    </datalist>
+    <select v-model="reportSelectedCrop" id="crop" name="crop">
+        <option v-for="crops in cropList" :value="crop">{{ crops }}</option>
+    </select>
+   
 
     <label for="area">Area:</label>
-    <input type="text" size="6" id="area" name="area" list="areaList" value="ALL"/>
-    <datalist id="areaList">
-        <option>All</option>
-        <option>Chuau-1</option>
-        <option>SQ7</option>
-    </datalist>
+    <select v-model="reportSelectedArea" id="area" name="area">
+        <option v-for="areas in areaList" value="area">{{ areas }}</option>
+    </select>
 
     <br></br>
     <button>Generate Report</button>
@@ -83,7 +78,11 @@
                 reportTitle: "My Sample Harvest Report",
                 reportStartDate: "2020-05-05",
                 reportEndDate: "2020-05-15",
-                reportSelectedCrop: "Kale"
+                reportSelectedCrop: "Kale",
+                cropList: ["Broccoli", "Kale", "Peas"],
+                reportSelectedArea: "ALL",
+                areaList: ["ALL", "SQ7", "Chuau-1"]
+        
             }
         });
     </script>
