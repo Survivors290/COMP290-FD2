@@ -75,6 +75,14 @@ function fd2_school_menu() {
   return $items;
 };
 
+  $items['farm/fd2-school/Vue2'] = array(
+    'title' => 'Vue2',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -100,
+  );
+  return $items;
+};
+
 // This function Loads the content for the sub-tab from the html file specified in the arguemnt.
 // It must be renamed in each module.
 function fd2_school_view($subtab_content) {
