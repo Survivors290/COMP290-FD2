@@ -24,12 +24,12 @@
             </select>
   
             <label for="area">Area: </label>
-            <select name="area" id="crop">
+            <select name="area" id="area">
                 <option v-for="area in areas" :value="area">{{area}}</option>
             </select>
         </div>
         <br>
-        <button @click="harvestLogs.push({date: '2018-05-01', area: 'Orion-3', crop: 'Kale', yield: '12', units: 'Bunches'})">Generate Report</button>
+        <button @click="logHarvest">Generate Report</button>
     </form>
    
     
@@ -88,6 +88,11 @@
             ],
             harvestLogs: [],
         },
+        methods: {
+            logHarvest: function() {
+                this.harvestLogs.push({date: '2018-05-01', area: 'Orion-3', crop: 'Kale', yield: '12', units: 'Bunches'})
+            }
+        }
     }) 
-    Vue.config.devtools = true
+    Vue.config.devtools = false;
   </script>
