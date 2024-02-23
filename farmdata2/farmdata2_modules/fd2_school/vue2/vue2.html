@@ -6,10 +6,10 @@
 	<input type="button" name="Generate Report" value="Generate Report" @click="CreateReport">
 	<br>
 	<label><strong>Start:</strong></label>
-	<input type="date" value="2018-01-05" min="2014-01-01" max="2022-01-01" v-model="reportStart">
+	<input type="date" value="2018-01-05" min="2014-01-01" :max="reportEnd" v-model="reportStart">
 	<br>
 	<label><strong>End:</strong></label>
-	<input type="date" value="2020-05-15" min="2020-05-05" max="2022-01-01" v-model="reportEnd">
+	<input type="date" value="2020-05-15" :min="reportStart" max="2022-01-01" v-model="reportEnd">
 	<br>
 	<label><strong>Crop:</strong></label>
 	<select v-model="reportCropsDisplay">
@@ -23,61 +23,62 @@
 	</select>
 
 	<br>
+	<!-- <p v-if="state = 'false'">rar</p>
+	<div v-else> -->
+		<hr>
+		<h1 v-cloak>{{reportTitle ? reportTitle: "Mock Harvest Report"}}</h1>
+		<p>Details:</p>
+		<ul>
+			<li><strong>Farm:</strong> Sample Farm</li>
+			<li><strong>User:</strong> Manager 1</li>
+			<li><strong>Language:</strong> English</li>
+		</ul>
+		<br>
+		<ul>
+			<li>
+				<p>Start: <span>{{reportStart}}</span></p>
+			</li>
+			<li>
+				<p>End: <span>{{reportEnd}}</span></p>
+			</li>
+			<li>
+				<p>Crop: <span> {{reportCropsDisplay}} </span></p>
+			</li> 
+			<li>
+				<p>Area: <span> {{reportAreasDisplay}}</span></p>
+			</li> 
+		</ul>
 
-	<hr>
-	<h1 v-cloak>{{reportTitle ? reportTitle: "Mock Harvest Report"}}</h1>
-	<p>Details:</p>
-	<ul>
-		<li><strong>Farm:</strong> Sample Farm</li>
-		<li><strong>User:</strong> Manager 1</li>
-		<li><strong>Language:</strong> English</li>
-	</ul>
-	<br>
-	<ul>
-		<li>
-			<p>Start: <span>{{reportStart}}</span></p>
-		</li>
-		<li>
-			<p>End: <span>{{reportEnd}}</span></p>
-		</li>
-		<li>
-			<p>Crop: <span> {{reportCropsDisplay}} </span></p>
-		</li> 
-		<li>
-			<p>Area: <span> {{reportAreasDisplay}}</span></p>
-		</li> 
-	</ul>
-
-	<hr>
-
-	<table border="1" height="auto" v-if="reportTable.length > 0">
-		<tr>
-			<th>Row</th>
-			<th>Date</th>
-			<th>Area</th>
-			<th>Crop</th>
-			<th>Yield</th>
-			<th>Units</th>
-			<th>Delete</th>
-		</tr>
-		<tr v-for="(record, index) in reportTable">
-			<th>{{index + 1}}</th>
-			<th>{{record[0]}}</th>
-			<th>{{record[1]}}</th>
-			<th>{{record[2]}}</th>
-			<th>{{record[3]}}</th>
-			<th>{{record[4]}}</th>
-			<th><button class="btn" @click="deleteTableRow(index)">Delete</button></th>
-		</tr>
-	</table>
-	<p v-else>No matching records</p>
+		<hr>
+		<table border="1" height="auto" v-if="state === 'show'">
+			<tr>
+				<th>Row</th>
+				<th>Date</th>
+				<th>Area</th>
+				<th>Crop</th>
+				<th>Yield</th>
+				<th>Units</th>
+				<th>Delete</th>
+			</tr>
+			<tr v-for="(record, index) in reportTable">
+				<th>{{index + 1}}</th>
+				<th>{{record[0]}}</th>
+				<th>{{record[1]}}</th>
+				<th>{{record[2]}}</th>
+				<th>{{record[3]}}</th>
+				<th>{{record[4]}}</th>
+				<th><button class="btn" @click="deleteTableRow(index)">Delete</button></th>
+			</tr>
+		</table>
+		<p v-else>No matching records</p>
+	<!--</div>-->
 
 </div>
 <script>
 	var reportInputs = new Vue({
 		el: "#report",
 		data: {
-			state: "no",
+			state: "false",
 			reportTitle: "My Sample Harvest Report",
 			reportStart: "2018-01-05",
 			reportEnd: "2020-05-15",
@@ -100,6 +101,10 @@
 		methods: {
 			CreateReport: function() {
 				this.reportTable.push(['05/01/18','Orion-3','Kale','12','Bunches'])
+				if (this.reportTable.length < 0)
+					this.changeState('no')
+				else
+					this.changeState('show')
 			},
 			deleteTableRow: function(index) {
 				this.reportTable.splice(index,1)
