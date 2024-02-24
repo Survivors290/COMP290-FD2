@@ -48,6 +48,7 @@
     <table border="1">
         <thead>
             <tr>
+                <th>Row</th>
                 <th>Date</th>
                 <th>Area</th>
                 <th>Crop</th>
@@ -56,7 +57,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="log in harvestLogs">
+            <tr v-for="(log, index) in harvestLogs">
+                <td>{{ index + 1 }}</td> 
                 <td>{{ log.date }}</td>
                 <td>{{ log.area }}</td>
                 <td>{{ log.crop }}</td>
@@ -64,7 +66,7 @@
                 <td>{{ log.units }}</td>
             </tr>
         </tbody>
-    </table>
+    </table>    
 </div>
 
 <script src="https://unpkg.com/vue@2"></script>
