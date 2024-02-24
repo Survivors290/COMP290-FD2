@@ -23,8 +23,8 @@
             <option v-for="area in areas">{{ area }} </option>
           </select>
         <br>
-        
-            <button type="button" @:click='heading.$data.harvestTable.push(hLog = {date: "2019-05-22", area: "SQ7", crop: "Brocoli", yield: 19, units: "Bundles"})'> Generate Report</button>
+            
+            <button class="btn btn-primary" v-on:click="saveItem"> Generate Report</button>
        
         <hr>
         
@@ -81,9 +81,14 @@
                         'SQ7'
                     ],
                     harvestTable: [
-                        '',
+                        
                     ],
                 },
+                methods: {
+                    saveItem: function() {
+                        this.harvestTable.push({date: "2019-05-22", area: "SQ7", crop: "Brocoli", yield: 19, units: "Bundles"})
+                    }
+            }
 
             });
             
