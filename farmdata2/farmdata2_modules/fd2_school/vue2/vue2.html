@@ -13,6 +13,8 @@
 <div id="harvest-report" v-cloak>
     <div id="report-title">
         <h1>{{ header ? header : 'Mock Harvest Report' }}</h1>
+        <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
+        <label>Title:</label>
         <input type="text" v-model="header">
     </div>
     <label for="start">Start:</label>
@@ -30,7 +32,7 @@
         <option v-for="area in areas" :value="area">{{ area }}</option>
     </select>
     <br><br>
-    <input type="submit" value="Generate Report" />
+    <button @click="generateReport">Generate Report</button>
     
     <h2>{{header}}</h2>
     <text>Detail:</text>
@@ -77,11 +79,18 @@
             selectedArea: '',
             crops: ["Kale", "Broccoli", "Peas"],
             areas: ["All", "Chaua-1", "SQ7"],
-            harvestLogs: [
-                {date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"},
-                {date: "2018-05-05", area: "SQ7", crop: "Kale", yield: 7, units: "Bunches"}
-                // Add more harvest log objects as needed
-            ]
+            harvestLogs: []
+        },
+        methods: {
+            generateReport: function() {
+                this.harvestLogs.push({
+                    date: "2018-05-01",
+                    area: "Orion-3",
+                    crop: this.selectedCrop,
+                    yield: "12",
+                    units: "Bunches"
+                });
+            }
         }
     });
 Vue.config.devtools = true;
