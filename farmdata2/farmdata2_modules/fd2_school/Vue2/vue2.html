@@ -30,7 +30,7 @@
           </select>
           <p></p>
           <br>
-          <button class="btn btn-primary" @click="button">Generate Report</button>
+          <button class="btn btn-primary" @click="addFood()">Generate Report</button>
 
           <hr>
 
@@ -47,30 +47,37 @@
               <li><strong>Crop:</strong> {{ crop }}</li>
           </ul>
 
-          <table border="1" v-model="harvestList">
-              <tr>
-                <th>Row</th>
-                <th>Date</th>
-                <th>Area</th>
-                <th>Crop</th>
-                <th>Yield</th>
-                <th>Units</th>
-              </tr>
-              <tr v-for="(harvest, index) in harvestList">
-                <td>{{ index+1 }}</td>
-                <td>{{ harvest.date }}</td>
-                <td>{{ harvest.area }}</td>
-                <td>{{ harvest.crop }}</td>
-                <td>{{ harvest.yield }}</td>
-                <td>{{ harvest.units }}</td>
-
-              </tr>
+          <div v-if="reportVisible">
+            
+            <table border="1" v-model="harvestList">
+                <!-- if length is zero -->
+                <tr v-if="harvestList.length == 0">
+                    <th>There are no matching records.</th>
+                </tr>
+                <tr v-else>
+                    <th>Row</th>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>Crop</th>
+                    <th>Yield</th>
+                    <th>Units</th>
+                </tr>
+                <tr v-for="(harvest, index) in harvestList">
+                    <td>{{ index+1 }}</td>
+                    <td>{{ harvest.date }}</td>
+                    <td>{{ harvest.area }}</td>
+                    <td>{{ harvest.crop }}</td>
+                    <td>{{ harvest.yield }}</td>
+                    <td>{{ harvest.units }}</td>
+                </tr>
             </table>
+        </div>
           </div>
           <script>
             var heading = new Vue({
               el: "#heading",
               data: {
+                  state: "default",
                   heading: null,
                   startDate: "2020-05-05",
                   endDate: "2020-05-15",
@@ -88,12 +95,17 @@
                   harvestList: [
                     
                   ],
+                  reportVisible: false,
               },
               methods: {
-              button: function() {
-                this.harvestList.push({date:"2018-05-01", area:"Orion-3",crop:"Kale", yield:"12", units:"Bunches"})
-              }
-            },
+                addFood: function() {
+                    this.harvestList.push({date:"2018-05-01", area:"Orion-3",crop:"Kale", yield:"12", units:"Bunches"})
+                    if(!this.reportVisible){
+                        this.reportVisible=true
+                    }
+                },
+
+              },
             });
             Vue.config.devtools = true;
           </script>
