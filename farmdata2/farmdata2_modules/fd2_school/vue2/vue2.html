@@ -43,8 +43,9 @@
         <li><strong>End:</strong>{{ reportEndDate }}</li>
         <li><strong>Crop:</strong>{{ reportCrop }}</li>
         </ul>
-
-        <table border="1">
+        
+        <div v-if='logs.length!=0'>
+            <table border="1">
                 <tr>
                         <th>Row</th>
                         <th>Date</th>
@@ -61,7 +62,11 @@
                         <td>{{log.yield}}</td>
                         <td>{{log.units}}</td>
                 </tr>
-        </table>
+            </table>
+        </div>
+        <div v-else>
+            <p>No matching records.</p>
+        </div>
 </div>
 
 <script>
