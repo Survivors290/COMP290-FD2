@@ -10,9 +10,9 @@
         <br></br>
 
         <label for="Start Date">Start:</label>
-        <input type="date" v-model="reportEndDate" id="start date" min="01/01/2014" max="01/01/2022"/>
+        <input type="date" v-model="reportEndDate" id="start date" min="01/01/2014" :max="reportStartDate"/>
         <label for="End Date">End:</label>
-        <input type="date" v-model="reportStartDate" id="end date" min="'05/05/2020" max="01/01/2022"/>
+        <input type="date" v-model="reportStartDate" id="end date" :min="reportStartDate" Wmax="05/15/2020"/>
         <br>
         <br>
         <label for="Crop">Crop:</label>
