@@ -9,7 +9,7 @@
             <br />
             <p>
                 <label for="start">Start:</label>
-                <input type="date" id="start" name="start" v-model="startDate" 
+                <input type="date" id="start" name="start" v-model="startDate" @click="newReport.date=startDate"
                 min="2014-01-01" max="2022-01-01" />
                 <label for="end">End:</label>
                 <input type="date" id="end" name="end" v-model="endDate"
@@ -18,16 +18,16 @@
             <br />
             <p>
                 <label for="crop">Crop:</label>
-                <select id="crop" name="crop" v-model="crop">
+                <select id="crop" name="crop" v-model="newCrop" @click="newReport.crop=newCrop">
                     <option v-for="crop in crops"> {{ crop }}</option>
                 </select>
                 <label for="area">Area:</label>
-                <select id="area" name="area">
+                <select id="area" name="area" v-model="newArea" @click="newReport.area=newArea">
                     <option v-for="area in areas">{{ area }}</option>
                 </select>
             </p>
             <br />
-            <input type="button" value="Generate Report">
+            <input type="button" value="Generate Report" @click="reports.push(newReport)">
             <hr />
             <h1>{{ header == '' ? 'Mock Harvest Report':header }}</h1>
             <p>Details:</p>
@@ -67,7 +67,7 @@
                 el: '#harvest-report',
                 data: {
                     header: 'My Sample Harvest Report',
-                    startDate: '2020-05-05',
+                    startDate: '',
                     endDate: '2020-05-15',
                     crop: 'Kale',
                     crops:[
@@ -80,9 +80,11 @@
                         'Chuau-1',
                         'SQ7',
                     ],
+                    newArea: '',
+                    newCrop:'',
+                    newReport:{date:'', area:'', crop:'', yield:10, units:'bunches'},
                     reports:[
                         {date:'2018-05-02', area:'Chuau-1', crop:'Kale', yield:10, units:'Bunches'},
-                        {date:'2019-08-13', area:'SQ7', crop:'Broccoli', yield:32, units:'lbs'}
                     ]
                 }
             });
