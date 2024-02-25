@@ -18,10 +18,10 @@
         <input type="text" v-model="header">
     </div>
     <label for="start">Start:</label>
-    <input type="date" id="start" name="trip-start" v-model="startDate" min="2014-01-01" max="2022-01-01">
+    <input type="date" id="start" name="trip-start" v-model="startDate" :max="endDate">
     
     <label for="end">End:</label>
-    <input type="date" id="end" name="trip-end" v-model="endDate" min="2020-05-05" max="2022-01-01">
+    <input type="date" id="end" name="trip-end" v-model="endDate" :min="startDate">
     <br><br>
     Crop: 
     <select name="crop" id="crop" v-model="selectedCrop">
@@ -45,28 +45,33 @@
         <LI><b>End</b>:{{ endDate }}</LI>
         <LI><b>Crop</b>:{{ selectedCrop }}</LI>
     </UL>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Row</th>
-                <th>Date</th>
-                <th>Area</th>
-                <th>Crop</th>
-                <th>Yield</th>
-                <th>Units</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(log, index) in harvestLogs">
-                <td>{{ index + 1 }}</td> 
-                <td>{{ log.date }}</td>
-                <td>{{ log.area }}</td>
-                <td>{{ log.crop }}</td>
-                <td>{{ log.yield }}</td>
-                <td>{{ log.units }}</td>
-            </tr>
-        </tbody>
-    </table>    
+    <div v-if="harvestLogs.length > 0">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Row</th>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>Crop</th>
+                    <th>Yield</th>
+                    <th>Units</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(log, index) in harvestLogs">
+                    <td>{{ index + 1 }}</td> 
+                    <td>{{ log.date }}</td>
+                    <td>{{ log.area }}</td>
+                    <td>{{ log.crop }}</td>
+                    <td>{{ log.yield }}</td>
+                    <td>{{ log.units }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div v-else>
+        <p>No matching records found.</p>
+    </div>
 </div>
 
 <script src="https://unpkg.com/vue@2"></script>
