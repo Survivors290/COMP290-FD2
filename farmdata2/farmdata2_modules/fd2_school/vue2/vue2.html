@@ -19,7 +19,7 @@
     <label for="end">End:</label>
     <input type="date" id="end" name="end" min="2020-05-05" max="2022-01-01" v-model="reportEnd" />
     <br>
-    <button type="button">Generate Report</button>
+    <button type="button" @click='reportTable.push({date:"2018-05-01", area:"Orion-3", crop: "Kale", yield: 12, units: "Bunches"})'>Generate Report</button>
 
 
 <hr>
@@ -68,10 +68,7 @@
                 reportCrop: "Kale",
                 reportCropList: ["Broccoli", "Kale", "Peas"],
                 reportAreaList: ["All", "Chuau-1", "SQ7"],
-                reportTable: [
-                {date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"},
-                {date: "2018-08-08", area: "SQ7", crop: "Broccoli", yield: 10, units: "Bunches"} 
-                ]
+                reportTable: [],
             }
         });
         Vue.config.devtools = true;
