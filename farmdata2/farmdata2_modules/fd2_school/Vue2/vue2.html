@@ -9,14 +9,13 @@
           <label for=title>Title:</label>
           <input type=”text” id=title name=title v-model="heading"/>   
         
-        
           <br>
           <br>
           <label for="start">Start:</label>
-          <input type="date" id="start" name="start-date" v-model="startDate" min="2014-01-01" max="2022-01-01" />
+          <input type="date" id="start" name="start-date" v-model="startDate" min="2014-01-01" max="2022-01-01" :max="endDate"/>
           
           <label for="end">End:</label>
-          <input type="date" id="end" name="end-date" v-model="endDate" min="2020-05-05" max="2022-01-01" />
+          <input type="date" id="end" name="end-date" v-model="endDate" min="2020-05-05" max="2022-01-01" :min="startDate"/>
           <p></p>
           <br>
           <label for=title>Crop:</label>
