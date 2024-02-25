@@ -27,7 +27,7 @@
         </select>
         <br>
         <br>
-        <input type="button" value="Generate Report" v-on:click='logs.push({date:"2018-05-01",area:"Chuau-1",crop:"Kale",yield:"10",units:"Bunches"})'/>
+        <input type="button" value="Generate Report" v-on:click=generateReport>
         <br>
         <hr></hr>
 
@@ -73,6 +73,11 @@
             crops: ["Broccoli", "Kale", "Peas"],
             areas: ["All", "Chuau-1", "SQ7"],
             logs: [],
+        },
+        methods: {
+            generateReport: function(){
+                this.logs.push({date:"2018-05-01",area:"Chuau-1",crop:"Kale",yield:"10",units:"Bunches"});
+            }
         }
     });
     Vue.config.devtools = true;
