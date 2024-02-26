@@ -64,6 +64,7 @@
                             <td><button type='button' @click='deleteReport(index)'>Delete</button></td>
                         </tr>
                     </table>
+                    <p>Total Yield: {{ totalYield }}</p>
                 </div>
                 <p v-if="reports.length === 0">No matching records.</p>
             </div>
@@ -95,6 +96,15 @@
                     reports:[
                         {date:'2018-05-02', area:'Chuau-1', crop:'Kale', yield:10, units:'Bunches'},
                     ]
+                },
+                computed:{
+                    totalYield(){
+                        totYield = 0;
+                        for(let i = 0; i < this.reports.length; i++){
+                            totYield = totYield + this.reports[i].yield
+                        }
+                        return totYield;
+                    }
                 },
                 methods: {
                     generateReport: function(newState){
