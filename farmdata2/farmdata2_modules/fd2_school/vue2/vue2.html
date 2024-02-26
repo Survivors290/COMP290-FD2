@@ -40,8 +40,8 @@
         <hr> 
         <h1>{{ reportTitle ? reportTitle : 'Mock Harvest Report' }}</h1> 
     
-        <p>Details:</p>
-        <table border="1">
+        <p v-if="harvestLogs.length === 0">There are no matching records.</p>
+        <table v-else border="1">
             <tr>
                 <th>#</th> 
                 <th>Date</th>
