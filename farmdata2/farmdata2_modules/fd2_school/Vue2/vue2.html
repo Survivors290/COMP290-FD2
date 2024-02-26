@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>My Sample Harvest Report Page</title>
+        <style>
+            [v-cloak] {
+                display:none;
+            }
+        </style>
+    </head>
+    <body>
+        <div v-cloak id="reportTitle">
+
+            <h1>{{ header.toLocaleUpperCase() ? header : "Mock Harvest Report"}}</h1>
+            <input type="text" v-model="header">
+            <ul>
+                <li v-for="name in names">{{ name }}</li>
+            </ul>
+        </div>
+        <script src="https://unpkg.com/vue@2"></script>
+        <script>
+            var reportTitle = new Vue({
+                el: '#reportTitle',
+                data: {
+                    header: 'My Sample Harvest Report',
+                    names: [
+                        "Joe",
+                        "Arun",
+                        "Ouwen",
+                        "Anh",
+                        "Sue"
+                    ]
+                }
+            });
+        </script>
+
+        <div v-cloak id="reportStartDate">
+            <h1>{{ header }}</h1>
+            <input type="date" v-model="header"/>
+        </div>
+        <script>
+            var reportSDate = new Vue({
+                el: '#reportStartDate',
+                data: {
+                    header: '2020-05-05'
+                }
+            });
+        </script>
+
+        <div v-cloak id="reportEndDate">
+            <h1>{{ header }}</h1>
+            <input type="date" v-model="header"/>
+        </div>
+        <script>
+            var reportEDate = new Vue({
+                el: '#reportEndDate',
+                data: {
+                    header: '2020-05-15'
+                }
+            });
+        </script>
+
+        <div v-cloak id="reportCrop">
+            <h1>{{ header }}</h1>
+            <select id="crop" name="crop" v-model="header">
+                <option v-for="crop in crops">{{ crop }}</option>
+            </select>
+        </div>
+        <script>
+            var reportC = new Vue({
+                el: '#reportCrop',
+                data: {
+                    header: 'Kale',
+                    crops: [
+                        "Broccoli",
+                        "Kale",
+                        "Peas"
+                    ]
+                }
+            });
+        </script>
+
+        <div v-cloak id="reportArea">
+            <h1>{{ header }}</h1>
+            <select id="area" name="area" v-model="header">
+                <option v-for="area in areas">{{ area }}</option>
+            </select>
+        </div>
+        <script>
+            var reportA = new Vue({
+                el: '#reportArea',
+                data: {
+                    header: 'All',
+                    areas: [
+                        "All",
+                        "Chuau-1",
+                        "SQ7"
+                    ]
+                }
+            });
+        </script>
+
+        <div v-cloak id="reportTable">
+            <h1>{{ header }}</h1>
+            <table border="1">
+                <tr>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>Crop</th>
+                    <th>Yield</th>
+                    <th>Units</th>
+                </tr>
+                <tr v-for="tableCol in tableRow">
+                    <td>{{ tableCol.date }}</td>
+                    <td>{{ tableCol.area }}</td>
+                    <td>{{ tableCol.crop }}</td>
+                    <td>{{ tableCol.yield }}</td>
+                    <td>{{ tableCol.units }}</td>
+                </tr>
+            </table>
+        </div>
+        <script>
+            var reportA = new Vue({
+                el: '#reportTable',
+                data: {
+                    header: 'Harvest Report Table',
+                    tableRow: [
+                        { date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches" },
+                        { date: "2018-05-05", area: "Chuau-1", crop: "Broccoli", yield: 15, units: "Bunches" }
+                    ]
+                }
+            });
+            Vue.config.devtools = true;
+        </script>
+    </body>
+</html>
