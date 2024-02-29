@@ -34,7 +34,7 @@
 
         <div v-cloak id="reportStartDate">
             <h1>{{ header }}</h1>
-            <input type="date" v-model="header"/>
+            <input type="date" v-model="header" :max="reportEDate"/>
         </div>
         <script>
             var reportSDate = new Vue({
@@ -45,7 +45,7 @@
             });
         </script>
 
-        <div v-cloak id="reportEndDate">
+        <div v-cloak id="reportEndDate" :min="reportSDate">
             <h1>{{ header }}</h1>
             <input type="date" v-model="header"/>
         </div>
@@ -105,7 +105,7 @@
                 <button v-else class="btn btn-cancel" @click="changeState('default')">Cancel</button>
             </div>
             <div v-if="state === 'edit'" class="add-item-form">
-                Name: <input v-model="newHarvestReport" type="text" placeholder="Add a harvest report" @keyup.enter="saveItem">
+                Harvest Report Log: <input v-model="newHarvestReport" type="text" placeholder="Add a harvest report" @keyup.enter="saveItem">
                 <table border="1">
                     <tr>
                         <th>Row</th>
