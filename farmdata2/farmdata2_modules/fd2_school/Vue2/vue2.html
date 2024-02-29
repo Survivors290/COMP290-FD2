@@ -14,9 +14,6 @@
 
             <h1>{{ header.toLocaleUpperCase() ? header : "Mock Harvest Report"}}</h1>
             <input type="text" v-model="header">
-            <ul>
-                <li v-for="name in names">{{ name }}</li>
-            </ul>
         </div>
         <script src="https://unpkg.com/vue@2"></script>
         <script>
@@ -103,6 +100,10 @@
 
         <div v-cloak id="reportTable">
             <h1>{{ header }}</h1>
+            <div class="add-item-form">
+                Name: <input v-model="newHarvestReport" type="text" placeholder="Add a harvest report" v-on:keyup.enter="tableRow.push(newHarvestReport)">
+                <button class="btn btn-primary" v-on:click='tableRow.push({ date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches" })'>Add Harvest Report</button>
+            </div>
             <table border="1">
                 <tr>
                     <th>Date</th>
@@ -125,10 +126,7 @@
                 el: '#reportTable',
                 data: {
                     header: 'Harvest Report Table',
-                    tableRow: [
-                        { date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches" },
-                        { date: "2018-05-05", area: "Chuau-1", crop: "Broccoli", yield: 15, units: "Bunches" }
-                    ]
+                    tableRow: []
                 }
             });
             Vue.config.devtools = true;
