@@ -101,8 +101,10 @@
         <div v-cloak id="reportTable">
             <h1>{{ header }}</h1>
             <div class="add-item-form">
-                Name: <input v-model="newHarvestReport" type="text" placeholder="Add a harvest report" v-on:keyup.enter="tableRow.push(newHarvestReport)">
-                <button class="btn btn-primary" v-on:click='tableRow.push({ date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches" })'>Add Harvest Report</button>
+                <!-- Name: <input v-model="newHarvestReport" type="text" placeholder="Add a harvest report" v-on:keyup.enter="tableRow.push(newHarvestReport)"> -->
+                Name: <input v-model="newHarvestReport" type="text" placeholder="Add a harvest report" @keyup.enter="saveItem">
+                <!-- <button class="btn btn-primary" v-on:click='tableRow.push({ date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches" })'>Add Harvest Report</button> -->
+                <button class="btn btn-primary" @click="saveItem">Add Harvest Report</button>
             </div>
             <table border="1">
                 <tr>
@@ -127,6 +129,14 @@
                 data: {
                     header: 'Harvest Report Table',
                     tableRow: []
+                },
+                methods: {
+                    saveItem: function() {
+                        if (newItem != '') {
+                            this.items.push(this.newItem);
+                            this.newItem = '';
+                        }
+                    }
                 }
             });
             Vue.config.devtools = true;
