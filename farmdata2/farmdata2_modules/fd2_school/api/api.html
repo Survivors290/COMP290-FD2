@@ -29,9 +29,9 @@
 		<h1 v-cloak>{{reportTitle ? reportTitle: "Mock Harvest Report"}}</h1>
 		<p>Details:</p>
 		<ul>
-			<li><strong>Farm:</strong> Sample Farm</li>
-			<li><strong>User:</strong> Manager 1</li>
-			<li><strong>Language:</strong> English</li>
+			<li><strong>Farm:</strong> {{Farm}}</li>
+			<li><strong>User:</strong> {{User}}</li>
+			<li><strong>Language:</strong> {{Language}}</li>
 		</ul>
 		<br>
 		<ul>
@@ -97,6 +97,9 @@
 			reportTable: [
 
 			],
+			Farm: "",
+			User: "",
+			Language: "",
 			},
 		methods: {
 			CreateReport: function() {
