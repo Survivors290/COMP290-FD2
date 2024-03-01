@@ -13,7 +13,7 @@
 	<br>
 	<label><strong>Crop:</strong></label>
 	<select v-model="reportCropsDisplay">
-		<option v-for="crops in idToCropMap.entries()">{{ crops }}</option>
+		<option v-for="crops in cropNames">{{ crops }}</option>
 	</select>
 	<br>
 	<label><strong>Area:</strong></label>
@@ -124,7 +124,17 @@
 			Language: "",
 			idToCropMap: new Map(),
 			hi: "hi",
-			},
+		},
+		computed: {
+			cropNames() {
+				let cropNames = []
+				for (const values of this.idToCropMap.values()) {
+					cropNames.push(values)
+					console.log(values)
+				}
+				return cropNames
+			}
+		},
 		methods: {
 			CreateReport: function() {
 				this.reportTable.push(['05/01/18','Orion-3','Kale','12','Bunches'])
