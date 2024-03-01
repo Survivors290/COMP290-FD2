@@ -13,7 +13,7 @@
 	<br>
 	<label><strong>Crop:</strong></label>
 	<select v-model="reportCropsDisplay">
-		<option v-for="crops in reportCrops">{{ crops }}</option>
+		<option v-for="crops in idToCropMap.entries()">{{ crops }}</option>
 	</select>
 	<br>
 	<label><strong>Area:</strong></label>
@@ -22,6 +22,7 @@
 
 	</select>
 
+	<p>{{idToCropMap.entries()}}</p>
 	<br>
 	<!-- <p v-if="state = 'false'">rar</p>
 	<div v-else> -->
@@ -77,6 +78,27 @@
 <script>
 	var reportInputs = new Vue({
 		el: "#report",
+		created() {
+		console.log("HarvestReport Vue instance created!")
+		getIDToCropMap()
+		.then((theMap) => {
+			// Process the map.
+			// Typically it is stored in the Vue data for later use.
+			console.log("Map Gotten")
+			this.idToCropMap = theMap
+			// console.log(this.idToCropMap.entries())
+			console.log(this.idToCropMap.size)
+			// console.log(this.idToCropMap.keys())
+			// this.idToCropMap.foreach( function(key,value) {
+			// 	console.log(key +" "+ value)
+			// })
+		})
+		.catch((err) => {
+    		// An error occurred during the request, process it here.
+			console.log("Error Occurred")
+			console.log(error)
+		})
+		},
 		data: {
 			state: "false",
 			reportTitle: "My Sample Harvest Report",
@@ -100,6 +122,8 @@
 			Farm: "",
 			User: "",
 			Language: "",
+			idToCropMap: new Map(),
+			hi: "hi",
 			},
 		methods: {
 			CreateReport: function() {
