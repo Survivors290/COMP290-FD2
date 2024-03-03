@@ -25,7 +25,7 @@
           
           <label for=title>Area:</label>
           <select id="simple" name="simple">
-            <option v-for="areas in areas">{{ areas }}</option>
+            <option v-for="name in areaNames">{{ name }}</option>
           </select>
           <p></p>
           <br>
@@ -83,8 +83,15 @@
                         console.log("Error Occurred")
                         console.log(error)
                     })
-                    // Execution continues here immediately after the request is made.
-                    // Note that the Map will not be available until the then() executes
+                    getIDToAreaMap()
+                    .then((theMap) => {
+                        this.idToAreaMap = theMap
+                    })
+                    .catch((error) => {
+                        console.log("Error Occurred")
+                        console.log(error)
+                    })
+                    
                 },
                 el: "#heading",
                 data: {
@@ -106,10 +113,14 @@
                     user: "",
                     language: "",
                     idToCropMap: new Map(),
+                    idToAreaMap: new Map(),
                 },
                 computed: {
                     cropNames(){
                         return Array.from(this.idToCropMap.values());
+                    },
+                    areaNames(){
+                        return Array.from(this.idToAreaMap.values());
                     }
                 },
                 methods: {
