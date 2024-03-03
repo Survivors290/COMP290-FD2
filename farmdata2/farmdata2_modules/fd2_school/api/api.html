@@ -86,10 +86,17 @@
         },
         methods: {
             generateReport: function(){
+                axios.get('/farm.json')
+                .then((response) => {
+                    this.Farm = response.data.name;
+                    this.User = response.data.user.name;
+                    this.Language = response.data.user.language;
+                })
+                .catch((error) => {
+                    console.log("Error occurred");
+                    console.log(error);
+                })
                 this.logs.push({row: this.logs.length+1,date:"2018-05-01",area:"Chuau-1",crop:"Kale",yield:"10",units:"Bunches"});
-                this.Farm = "Sample Farm";
-                this.User = "manager1";
-                this.Language = "English";
             }
         }
     });
