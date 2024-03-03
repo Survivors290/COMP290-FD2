@@ -29,7 +29,7 @@
           </select>
           <p></p>
           <br>
-          <button class="btn btn-primary" @click="addFood()">Generate Report</button>
+          <button class="btn btn-primary" @click="buttonPress()">Generate Report</button>
 
           <hr>
 
@@ -124,7 +124,7 @@
                     }
                 },
                 methods: {
-                    addFood: function() {
+                    buttonPress: function() {
                         if(!this.reportVisible){
                             axios.get('/farm.json')  // this line sends the request.
                             .then((response) => {
