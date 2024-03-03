@@ -40,7 +40,7 @@
     <ul>
         <li><strong>Farm: </strong> {{ farm }}</li>
         <li><strong>User: </strong>{{ user }}</li>
-        <li><strong>Language: </strong>{{ report }}</li>
+        <li><strong>Language: </strong>{{ language }}</li>
         <br></br>
         <li><strong>Start: </strong>{{ reportStartDate }}</li>
         <li><strong>End: </strong>{{ reportEndDate }}</li>
@@ -96,7 +96,12 @@
                     area:'Orion-3', 
                     crop:'Kale', 
                     yield:'12', 
-                    units:'Bunches'})
+                    units:'Bunches' 
+                });
+
+                this.farm = "Sample Farm";
+                this.user = "manager1";
+                this.language = "English";
                 }
             }
         
