@@ -33,9 +33,9 @@
                 <h1>{{ header == '' ? 'Mock Harvest Report':header }}</h1>
                 <p>Details:</p>
                 <ul>
-                    <li><strong>Farm</strong>:Sample Farm</li>
-                    <li><strong>User</strong>:manager1</li>
-                    <li><strong>Language</strong>:English</li>
+                    <li><strong>Farm</strong>:{{ farm }}</li>
+                    <li><strong>User</strong>:{{ user }}</li>
+                    <li><strong>Language</strong>:{{ language }}</li>
                 </ul>
                 <br />
                 <ul>
@@ -95,7 +95,11 @@
                     newArea: '',
                     reports:[
                         {date:'2018-05-02', area:'Chuau-1', crop:'Kale', yield:10, units:'Bunches'},
-                    ]
+                    ],
+                    farm:'Sample Farm',
+                    user:'manager1',
+                    language:'English'
+
                 },
                 computed:{
                     totalYield(){
