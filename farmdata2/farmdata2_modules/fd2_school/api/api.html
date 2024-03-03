@@ -96,9 +96,9 @@
                     reports:[
                         {date:'2018-05-02', area:'Chuau-1', crop:'Kale', yield:10, units:'Bunches'},
                     ],
-                    farm:'Sample Farm',
-                    user:'manager1',
-                    language:'English'
+                    farm:'',
+                    user:'',
+                    language:''
 
                 },
                 computed:{
@@ -113,10 +113,13 @@
                 methods: {
                     generateReport: function(newState){
                         const newReport = {date:'', area:'', crop:'', yield:10, units:'bunches'};
-                        const newDate=this.startDate;
+                        const newDate = this.startDate;
                         newReport.area = this.newArea;
                         newReport.crop = this.newCrop;
-                        newReport.date=newDate;
+                        newReport.date = newDate;
+                        this.farm = 'Sample Farm';
+                        this.user = 'manager1';
+                        this.language = 'English';
                         let newR = JSON.stringify(newReport);
                         let same = 0;
                         console.log(newR);
