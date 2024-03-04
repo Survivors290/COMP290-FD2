@@ -42,6 +42,7 @@
         <li><strong>End:</strong>05/15/2018</li>
         <li><strong>Crop:</strong>Kale</li>
     </ul>
+    <div v-if="logs.length > 0">
     <table border="1">
         <tr>
             <th>Date</th>
@@ -60,6 +61,8 @@
             <td>{{ log.units }}</td>
         </tr>
     </table>
+</div>
+<p v-else>There are no matching records found.</p>
 </div>
 <script>
     var reportTitle = new Vue({

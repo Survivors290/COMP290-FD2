@@ -14,20 +14,26 @@
 
 <body>
   <div id="shopping-list" v-cloak>
+    <div class="header">
     <h1>{{ header.toLocaleUpperCase() }}</h1>
-    <div class="add-item-form">
+    <button v-if="state === 'default'" class="btn btn-primary" @click="changeState('edit')">Add Item</button>
+    <button v-else class="btn btn-cancel" @click="changeState('default')">Cancel Item</button>
+    </div>
+    <div v-if="state === 'edit'" class="add-item-form">
     <input type="text" v-model="newItem" placeholder="Add an item" @keyup.enter="saveItem"> 
     <button class="btn btn-primary" @click="saveItem">Save Item</button>
     </div>
     <ul>
       <li v-for="(item, index) in items">{{ item + " (" + index + ")" }}</li>
     </ul> 
+    <p v-if="items.length === 0">Nice job! You've bought all your items.</p>
   </div>
   <script src="https://unpkg.com/vue@2"></script>
   <script>
     var shoppingList = new Vue({
       el: "#shopping-list",
       data: {
+        state: "default" ,
         header: "Shopping List App",
         newItem: "",
         items: [
@@ -51,6 +57,10 @@
               this.newItem = "";
             }
             
+          } ,
+          changeState: function(newState) {
+            this.state = newState;
+            this.newItem = "";
           }
         }
 
