@@ -61,7 +61,7 @@
         <div v-cloak id="reportCrop">
             <h1>{{ header }}</h1>
             <select id="crop" name="crop" v-model="header">
-                <option v-for="crop in crops">{{ crop }}</option>
+                <option v-for="crop in cropNames">{{ crop }}</option>
             </select>
         </div>
         <script>
@@ -69,12 +69,48 @@
                 el: '#reportCrop',
                 data: {
                     header: 'Kale',
-                    crops: [
-                        "Broccoli",
-                        "Kale",
-                        "Peas"
-                    ]
-                }
+                    // cropNames: []
+                    idToCropMap: new Map(),
+                },
+                methods: {
+                    saveItem: function() {
+                        axios.get('/farm.json')
+                        .then(function(response) {
+                            this.Farm = response.data.name;
+                            this.User = response.data.user.name;
+                            this.Language = response.data.user.language;
+                        }.bind(this))
+                        .catch(function(error) {
+                            console.log("Error Occured");
+                            console.log(error);
+                        })
+                        .finally(() => {
+                            if (newHarvestReport != '') {
+                                this.tableRow.push(this.newItem);
+                                this.newItem = '';
+                                this.Farm = '';
+                                this.User = '';
+                                this.Language = '';
+                            }
+                        })
+                    },
+                },
+                computed: {
+                    cropNames() {
+                        return Array.from(this.idToCropMap.values());
+                    }
+                },
+                created() {
+                    console.log("HarvestReport Vue instance created!")
+                    getIDToCropMap()
+                    .then(function(theMap) {
+                        this.idToCropMap = theMap;
+                        console.log("idToCropMap variable created");
+                    })
+                    .catch(function(error) {
+                        console.log("Map not received / Not created correctly");
+                    });
+                },
             });
         </script>
 
@@ -165,7 +201,7 @@
                         this.state = newState;
 
                         this.newHarvestReport = '';
-                    }
+                    },
                 }
             });
             Vue.config.devtools = true;
