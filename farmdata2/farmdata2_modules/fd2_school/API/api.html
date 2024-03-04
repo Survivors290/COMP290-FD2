@@ -16,7 +16,7 @@
         <br>
         <label for="crop">Crop:</label>
         <select id="crop" name="crop">
-            <option v-for="crop in crops">{{ crop }} </option>
+            <option v-for="crop in cropNames">{{ crop }} </option>
           </select>
         <label for="field">Area:</label>
         <select id="field" name="field">
@@ -88,6 +88,12 @@
                     harvestTable: [
                         
                     ],
+                    idToCropMap: new Map,
+                },
+                computed:  {
+                    cropNames(){
+                        return Array.from(this.idToCropMap.values())
+                    }
                 },
                 methods: {
                     saveItem: function() {
@@ -115,10 +121,23 @@
                             // Code here runs immediately after the request is sent,
                             // which will be before the code in then() or catch(),
                             // and before the response is received.
-
-
+                        
                     }
-            }
+            },
+            
+            created() {
+	            console.log("HarvestReport Vue instance created!")
+                getIDToCropMap()
+                .then((theMap) => {
+                    this.idToCropMap = theMap
+                })
+                .catch((err) => {
+                    console.log("error")
+                })
+
+                
+            },
+
 
             });
             
