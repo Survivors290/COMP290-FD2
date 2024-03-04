@@ -141,18 +141,30 @@
                 },
                 methods: {
                     saveItem: function() {
-                        if (newItem != '') {
-                            this.items.push(this.newItem);
-                            this.newItem = '';
-                            this.Farm = '';
-                            this.User = '';
-                            this.Language = '';
-                        }
+                        axios.get('/farm.json')
+                        .then(function(response) {
+                            this.Farm = response.data.name;
+                            this.User = response.data.user.name;
+                            this.Language = response.data.user.language;
+                        }.bind(this))
+                        .catch(function(error) {
+                            console.log("Error Occured");
+                            console.log(error);
+                        })
+                        .finally(() => {
+                            if (newHarvestReport != '') {
+                                this.tableRow.push(this.newItem);
+                                this.newItem = '';
+                                this.Farm = '';
+                                this.User = '';
+                                this.Language = '';
+                            }
+                        })
                     },
                     changeState: function(newState) {
                         this.state = newState;
 
-                        this.newItem = '';
+                        this.newHarvestReport = '';
                     }
                 }
             });
