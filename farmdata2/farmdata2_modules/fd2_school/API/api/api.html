@@ -34,7 +34,7 @@
 
         <div v-cloak id="reportStartDate">
             <h1>{{ header }}</h1>
-            <input type="date" v-model="header" :max="reportEDate"/>
+            <input type="date" v-model="header"/>
         </div>
         <script>
             var reportSDate = new Vue({
@@ -45,7 +45,7 @@
             });
         </script>
 
-        <div v-cloak id="reportEndDate" :min="reportSDate">
+        <div v-cloak id="reportEndDate">
             <h1>{{ header }}</h1>
             <input type="date" v-model="header"/>
         </div>
@@ -144,6 +144,9 @@
                         if (newItem != '') {
                             this.items.push(this.newItem);
                             this.newItem = '';
+                            this.Farm = '';
+                            this.User = '';
+                            this.Language = '';
                         }
                     },
                     changeState: function(newState) {
