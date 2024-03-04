@@ -89,6 +89,9 @@
       },
       methods: {
         addHarvest: function() {
+            this.reportFarm = "Sample Farm";
+            this.reportUser = "manager1";
+            this.reportLanguage = "English";
             this.harvestList.push({date:"2018-05-01", area:"Orion-3", crop:"Kale", yield:"12", units:"Bunches"});
         }
     }
