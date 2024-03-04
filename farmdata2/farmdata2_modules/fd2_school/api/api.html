@@ -12,13 +12,13 @@
         <label for="Start Date">Start:</label>
         <input type="date" v-model="reportEndDate" id="start date" min="01/01/2014" :max="reportStartDate"/>
         <label for="End Date">End:</label>
-        <input type="date" v-model="reportStartDate" id="end date" :min="reportStartDate" Wmax="05/15/2020"/>
+        <input type="date" v-model="reportStartDate" id="end date" :min="reportStartDate" max="05/15/2020"/>
         <br>
         <br>
         <label for="Crop">Crop:</label>
         
         <select>
-                <option v-for="crop in crops">{{crop}}</option>
+                <option v-for="crop in getCropNames">{{crop}}</option>
         </select>
 
         <label for="Field">Area:</label>
@@ -35,9 +35,9 @@
 
         <p>Details:</p>
         <ul>
-        <li><strong>Farm: </strong>{{ Farm }}</li>
-        <li><strong>User: </strong>{{ User }}</li>
-        <li><strong>Language: </strong>{{ Language }}</li>
+        <li><strong>Farm: </strong>{{ farm }}</li>
+        <li><strong>User: </strong>{{ user }}</li>
+        <li><strong>Language: </strong>{{ language }}</li>
         <br>
         <li><strong>Start:</strong>{{ reportStartDate}}</li>
         <li><strong>End:</strong>{{ reportEndDate }}</li>
@@ -77,20 +77,20 @@
             reportStartDate: "05/05/2020",
             reportEndDate: "05/15/2020",
             reportCrop: "Kale",
-            crops: ["Broccoli", "Kale", "Peas"],
             areas: ["All", "Chuau-1", "SQ7"],
             logs: [],
-            Farm: "",
-            User: "",
-            Language: "",
+            farm: "",
+            user: "",
+            language: "",
+            idToCropMap: new Map(),
         },
         methods: {
             generateReport: function(){
                 axios.get('/farm.json')
                 .then((response) => {
-                    this.Farm = response.data.name;
-                    this.User = response.data.user.name;
-                    this.Language = response.data.user.language;
+                    this.farm = response.data.name;
+                    this.user = response.data.user.name;
+                    this.language = response.data.user.language;
                 })
                 .catch((error) => {
                     console.log("Error occurred");
@@ -98,7 +98,22 @@
                 })
                 this.logs.push({row: this.logs.length+1,date:"2018-05-01",area:"Chuau-1",crop:"Kale",yield:"10",units:"Bunches"});
             }
-        }
+        },
+        computed: {
+            getCropNames() {
+                return Array.from(this.idToCropMap.values());
+            }
+        },
+        created(){
+            getIDToCropMap()
+            .then((theMap) => {
+                this.idToCropMap = theMap;
+            })
+            .catch((err) => {
+                console.log("Map not received");
+            })
+            console.log("HarvestReport vue instance created!")
+        },
     });
     Vue.config.devtools = true;
 </script>
