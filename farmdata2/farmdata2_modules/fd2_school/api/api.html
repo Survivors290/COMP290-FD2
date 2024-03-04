@@ -19,7 +19,7 @@
             <p>
                 <label for="crop">Crop:</label>
                 <select id="crop" name="crop" v-model="newCrop">
-                    <option v-for="crop in crops"> {{ crop }}</option>
+                    <option v-for="crop in cropNamesArr"> {{ crop }}</option>
                 </select>
                 <label for="area">Area:</label>
                 <select id="area" name="area" v-model="newArea">
@@ -76,17 +76,24 @@
             from the console to see the change in real time*/
             var harvestReport = new Vue({
                 el: '#harvest-report',
+                created() {
+	                getIDToCropMap()
+                        .then((theMap) => {
+                            console.log('Map retrieved successfully!');
+                            console.log(theMap);
+                            this.idToCropMap = theMap;
+                        })
+                        .catch((err) => {
+                            console.log('Error Occurred');
+                            console.log(err);
+                        })
+                },
                 data: {
                     header: 'My Sample Harvest Report',
                     state: 'default',
                     startDate: '2020-05-05',
                     endDate: '2020-05-15',
                     newCrop: 'Kale',
-                    crops:[
-                        'Kale',
-                        'Broccoli',
-                        'Peas',
-                    ],
                     areas:[
                         'All',
                         'Chuau-1',
@@ -98,7 +105,8 @@
                     ],
                     farm:'',
                     user:'',
-                    language:''
+                    language:'',
+                    idToCropMap: new Map()
 
                 },
                 computed:{
@@ -108,6 +116,10 @@
                             totYield = totYield + this.reports[i].yield
                         }
                         return totYield;
+                    },
+                    cropNamesArr(){
+                        cropNames = Array.from(this.idToCropMap.values());
+                        return cropNames;
                     }
                 },
                 methods: {
