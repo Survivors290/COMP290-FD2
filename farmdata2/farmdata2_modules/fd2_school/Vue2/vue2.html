@@ -5,11 +5,11 @@
     <br />
     <label>
         Start:
-        <input type="date" v-model="startDate" name="start_date" min="2014-01-01" max="2022-01-1" />
+        <input type="date" id="start_date" v-model="startDate" name="start_date" v-bind:max="endDate" value="2020-05-05"  />
     </label>
     <label>
         End:
-        <input type="date" v-model="endDate" name="end_date" min="2020-05-05" max="2022-01-1" />
+        <input type="date" id='end_date' v-model="endDate" name="end_date" v-bind:min="startDate" value="2020-05-15" />
     </label>
     <br />
     <br />

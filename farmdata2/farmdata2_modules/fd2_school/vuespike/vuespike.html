@@ -21,7 +21,7 @@
     </div>
     <div v-if="state === 'edit'" class="add-item-form">
     <input type="text" v-model="newItem" placeholder="Add an item" @keyup.enter="saveItem"> 
-    <button class="btn btn-primary" @click="saveItem">Save Item</button>
+    <button class="btn btn-primary" v-bind:disabled="newItem.length === 0" @click="saveItem">Save Item</button>
     </div>
     <ul>
       <li v-for="(item, index) in items">{{ item + " (" + index + ")" }}</li>
