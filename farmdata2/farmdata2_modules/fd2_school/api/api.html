@@ -18,7 +18,7 @@
     <br></br>
     <label for="crop">Crop:</label>
     <select v-model="reportSelectedCrop" id="crop" name="crop">
-        <option v-for="crops in cropList" :value="crops">{{ crops }}</option>
+        <option v-for="crops in cropNames" :value="crops">{{ crops }}</option>
     </select>
    
 
@@ -69,58 +69,68 @@
     <p v-else>No matching records found</p>
     </div>
     <script>
-        var app = new Vue({
-            el: "#app",
-            data: {
-                reportTitle: "My Sample Harvest Report",
-                reportStartDate: "2020-05-05",
-                reportEndDate: "2020-05-15",
-                reportSelectedCrop: "Kale",
-                cropList: ["Broccoli", "Kale", "Peas"],
-                reportSelectedArea: "ALL",
-                areaList: ["ALL", "SQ7", "Chuau-1"],
-                harvestLogs: [
-                     
-                ],
-                farm: "",
-                user: "",
-                language: ""
+var app = new Vue({
+    el: "#app",
+    data: {
+        reportTitle: "My Sample Harvest Report",
+        reportStartDate: "2020-05-05",
+        reportEndDate: "2020-05-15",
+        reportSelectedCrop: "Kale",
+        reportSelectedArea: "ALL",
+        areaList: ["ALL", "SQ7", "Chuau-1"],
+        harvestLogs: [],
+        farm: "",
+        user: "",
+        language: "",
+        idToCropMap: new Map(),
+    },
+    methods: {
+        generateReport: function() {
+            // Axios request
+            axios.get('/farm.json')
+                .then((response) => {
+                    // Set farm, user, and language
+                    this.farm = response.data.name;
+                    this.user = response.data.user.name;
+                    this.language = response.data.user.language;
 
-        
-            },
-
-            methods: {
-                generateReport: function(){
-
-                    // Axios request
-                    axios.get('/farm.json')
-                    .then(function(response){
-                        
-                        this.farm = response.data.name;
-                        this.user = response.data.user.name;
-                        this.language = response.data.user.language;
-                    }.bind(this))
-                    
-                    .catch(function(error){
-                        console.log("Error Occurred");
-                        console.log(error);
-                    });
-
-
+                    // Push to harvestLogs
                     this.harvestLogs.push({
-                    date:'2018-05-01', 
-                    area:'Orion-3', 
-                    crop:'Kale', 
-                    yield:'12', 
-                    units:'Bunches' 
+                        date: '2018-05-01',
+                        area: 'Orion-3',
+                        crop: 'Kale',
+                        yield: '12',
+                        units: 'Bunches'
+                    });
+                })
+                .catch((error) => {
+                    console.log("Error Occurred");
+                    console.log(error);
                 });
+        }
+    },
 
+    computed: {
+        cropNames(){
+            return Array.from(this.idToCropMap.values());
+        }
+    },
 
-                }
-            }
-        
-        });
-        Vue.config.devtools = true;
+    created() {
+        // Call getIDToCropMap and set idToCropMap
+        getIDToCropMap()
+            .then((theMap) => {
+                this.idToCropMap = theMap;
+                console.log("ID to Crop Map created!");
+            })
+            .catch((err) => {
+                console.log("Map not received");
+            });
+        console.log("HarvestReport Vue instance created!");
+    }
+});
+
+Vue.config.devtools = true;
 
     </script>
 
