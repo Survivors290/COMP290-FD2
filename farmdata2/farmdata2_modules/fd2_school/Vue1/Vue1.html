@@ -22,22 +22,21 @@
                         <input type="date" id="endDate" value="2020-05-15" min="2020-05-05" v-model="end"/>
                     </li>
 
-                    <li><label>Crop:</label>
+                    <li>
+                        <label for="crop">Crop:</label>
                         <select id="crop" v-model="crop" >
-                                <option>Broccoli</option>
-                                <option selected>Kale</option>
-                                <option>Peas</option>
+                            <option v-for="item in plant">{{item}}</option>
                         </select>
                     </li>
+
                     <li><label for="area">Area:</label>
                         <select id="area" name="fields">
-                            <option selected>All</option>
-                            <option>Chuau-1</option>
-                            <option>SQ7</option>
+                            <option v-for="item in area">{{item}}</option>
                         </select>
                     </li>
                 </ul>
             </p>
+            <input type="button" value="Generate Report"/>
 
         </body>
         <hr>
@@ -94,8 +93,16 @@
                 start: "",
                 end: "",
                 crop: "",
-                plant: "",
-                area: "",
+                plant: [
+                    "Broccoli",
+                    "Kale",
+                    "Peas",
+                ],
+                area: [
+                    "All",
+                    "Chuau-1",
+                    "SQ7",
+                ],
 
             }
         })
