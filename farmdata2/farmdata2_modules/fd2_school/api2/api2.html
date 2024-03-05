@@ -106,7 +106,8 @@
                     farm:'',
                     user:'',
                     language:'',
-                    idToCropMap: new Map()
+                    idToCropMap: new Map(),
+                    getAllPagesRes:[]
 
                 },
                 computed:{
@@ -134,6 +135,23 @@
                             console.log('Error Occurred');
                             console.log(error);
                         })
+
+                        // Assumes that result is an existing array
+                        const timestampStartDate = dayjs(this.startDate).unix();
+                        const timestampEndDate = dayjs(this.endDate).unix();
+                        const request = '/log.json?type=farm_harvest&timestamp[ge]=' + timestampStartDate 
+                        + '&timestamp[le]=' + timestampEndDate;
+
+                        getAllPages(request, this.getAllPagesRes)
+                        .then(() => {
+                            console.log('Request performed successfully!');
+                            console.log(this.getAllPagesRes);
+                        })
+                        .catch((err) => {
+                            console.log('An error occurred');
+                            console.log(err);
+                        })
+
                         const newReport = {date:'', area:'', crop:'', yield:10, units:'bunches'};
                         const newDate = this.startDate;
                         newReport.area = this.newArea;
@@ -142,6 +160,7 @@
                         let newR = JSON.stringify(newReport);
                         let same = 0;
                         console.log(newR);
+
                         for(const report in this.reports){
                             let r = JSON.stringify(this.reports[report]);
                             console.log(r);
