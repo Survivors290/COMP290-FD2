@@ -102,6 +102,7 @@
                     newArea: '',
                     reports:[
                         {date:'2018-05-02', area:'Chuau-1', crop:'Kale', yield:10, units:'Bunches'},
+                        {date:'2018-05-02', area:'Chuau-1', crop:'Kale', yield:11, units:'Bunches'},
                     ],
                     farm:'',
                     user:'',
@@ -126,7 +127,7 @@
 	                    let tableRows = []
                         //log iterates through the response array as the index
 	                    for(let log of this.getAllPagesRes) {
-		                    let tableRow = {
+                            let tableRow = {
                                 //parses the timestamp to a human readable date
 			                    date: dayjs.unix(log.timestamp).format('MM/DD/YYYY'),
                                 area: log.area[0].name,
@@ -134,7 +135,9 @@
                                 units: log.quantity[0].unit.name,
                                 crop: this.idToCropMap.get(log.data.crop_tid)
 		                    }
-		                    tableRows.push(tableRow)
+                            if(this.idToCropMap.get(log.data.crop_tid) == this.newCrop){
+                                tableRows.push(tableRow)
+                            }		                    
 	                    }
 	                    return tableRows
                     }
@@ -142,6 +145,7 @@
                 },
                 methods: {
                     generateReport: function(newState){
+                        this.state = newState;
                         axios.get('/farm.json')  // this line sends the request.
                         .then((response) => {
                             this.farm = response.data.name;
