@@ -55,7 +55,7 @@
                             <th>Delete</th>
                         </tr>
                 
-                        <tr v-for="(r, index) in reports" :key="r.date">
+                        <tr v-for="(r, index) in harvestReportRows" :key="r.date">
                             <td>{{ r.date }}</td>
                             <td>{{ r.area }}</td>
                             <td>{{ r.crop }}</td>
@@ -121,7 +121,24 @@
                     cropNamesArr(){
                         cropNames = Array.from(this.idToCropMap.values());
                         return cropNames;
+                    },
+                    harvestReportRows() {
+	                    let tableRows = []
+                        //log iterates through the response array as the index
+	                    for(let log of this.getAllPagesRes) {
+		                    let tableRow = {
+                                //parses the timestamp to a human readable date
+			                    date: dayjs.unix(log.timestamp).format('MM/DD/YYYY'),
+                                area: log.area[0].name,
+                                yield: log.quantity[0].value,
+                                units: log.quantity[0].unit.name,
+                                crop: this.idToCropMap.get(log.data.crop_tid)
+		                    }
+		                    tableRows.push(tableRow)
+	                    }
+	                    return tableRows
                     }
+
                 },
                 methods: {
                     generateReport: function(newState){
@@ -145,37 +162,12 @@
                         getAllPages(request, this.getAllPagesRes)
                         .then(() => {
                             console.log('Request performed successfully!');
-                            console.log(this.getAllPagesRes);
                         })
                         .catch((err) => {
                             console.log('An error occurred');
                             console.log(err);
                         })
-
-                        const newReport = {date:'', area:'', crop:'', yield:10, units:'bunches'};
-                        const newDate = this.startDate;
-                        newReport.area = this.newArea;
-                        newReport.crop = this.newCrop;
-                        newReport.date = newDate;
-                        let newR = JSON.stringify(newReport);
-                        let same = 0;
-                        console.log(newR);
-
-                        for(const report in this.reports){
-                            let r = JSON.stringify(this.reports[report]);
-                            console.log(r);
-                            if(r == newR){
-                                same = 1;
-                            }
-                        }
-                        if(same == 0){
-                            this.reports.push(newReport);
-                        }
-                        this.state = newState;
                     },
-                    deleteReport: function(reportIndex){
-                        this.reports.splice(reportIndex, 1)
-                    }
                 }
             });
         </script>
