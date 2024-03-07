@@ -89,6 +89,9 @@
                         
                     ],
                     idToCropMap: new Map,
+                    result: [
+
+                    ],
                 },
                 computed:  {
                     cropNames(){
@@ -98,6 +101,7 @@
                 methods: {
                     saveItem: function() {
                         
+                      
 
                         axios.get('/farm.json')  // this line sends the request.
                         .then((response) => {
@@ -121,7 +125,26 @@
                             // Code here runs immediately after the request is sent,
                             // which will be before the code in then() or catch(),
                             // and before the response is received.
-                        
+                            let startTimestamp = dayjs(this.startDate).unix()
+                        let endTimestamp = dayjs(this.endDate).unix()
+                        console.log('did the date thing')
+                        console.log(startTimestamp)
+                        console.log(endTimestamp)
+
+                        let requestString = "/log.json?type=farm_harvest&timestamp[ge]=" + startTimestamp + "&timestamp[le]=" + endTimestamp
+
+                        console.log(requestString) 
+                        getAllPages(requestString, this.result)
+                            .then(() => {
+                                // this.result = this.result
+                                // All of the requested records have now been added to result.
+                                // Additional processing can happen here if necessary,
+                                // or then may be omitted.
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                                // An error occurred during the requests, process it here.
+                            })
                     }
             },
             
