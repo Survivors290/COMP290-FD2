@@ -1,0 +1,167 @@
+<h1>Harvest Report</h1>
+<p>This is a <i>mockup</i> of a simplified Harvest Report</p>
+<div id="report">
+	<label>Title:</label>
+	<input type="text" name=title value="Title" v-model="reportTitle">
+	<input type="button" name="Generate Report" value="Generate Report" @click="CreateReport">
+	<br>
+	<label><strong>Start:</strong></label>
+	<input type="date" value="2018-01-05" min="2014-01-01" :max="reportEnd" v-model="reportStart">
+	<br>
+	<label><strong>End:</strong></label>
+	<input type="date" value="2020-05-15" :min="reportStart" max="2022-01-01" v-model="reportEnd">
+	<br>
+	<label><strong>Crop:</strong></label>
+	<select v-model="reportCropsDisplay">
+		<option v-for="crops in cropNames">{{ crops }}</option>
+	</select>
+	<br>
+	<label><strong>Area:</strong></label>
+	<select v-model="reportAreasDisplay">
+		<option v-for="area in reportAreas">{{ area }}</option>
+
+	</select>
+
+	<p>{{idToCropMap.entries()}}</p>
+	<br>
+	<!-- <p v-if="state = 'false'">rar</p>
+	<div v-else> -->
+		<hr>
+		<h1 v-cloak>{{reportTitle ? reportTitle: "Mock Harvest Report"}}</h1>
+		<p>Details:</p>
+		<ul>
+			<li><strong>Farm:</strong> {{Farm}}</li>
+			<li><strong>User:</strong> {{User}}</li>
+			<li><strong>Language:</strong> {{Language}}</li>
+		</ul>
+		<br>
+		<ul>
+			<li>
+				<p>Start: <span>{{reportStart}}</span></p>
+			</li>
+			<li>
+				<p>End: <span>{{reportEnd}}</span></p>
+			</li>
+			<li>
+				<p>Crop: <span> {{reportCropsDisplay}} </span></p>
+			</li> 
+			<li>
+				<p>Area: <span> {{reportAreasDisplay}}</span></p>
+			</li> 
+		</ul>
+
+		<hr>
+		<table border="1" height="auto" v-if="state === 'show'">
+			<tr>
+				<th>Row</th>
+				<th>Date</th>
+				<th>Area</th>
+				<th>Crop</th>
+				<th>Yield</th>
+				<th>Units</th>
+				<th>Delete</th>
+			</tr>
+			<tr v-for="(record, index) in reportTable">
+				<th>{{index + 1}}</th>
+				<th>{{record[0]}}</th>
+				<th>{{record[1]}}</th>
+				<th>{{record[2]}}</th>
+				<th>{{record[3]}}</th>
+				<th>{{record[4]}}</th>
+				<th><button class="btn" @click="deleteTableRow(index)">Delete</button></th>
+			</tr>
+		</table>
+		<p v-else>No matching records</p>
+	<!--</div>-->
+
+</div>
+<script>
+	var reportInputs = new Vue({
+		el: "#report",
+		created() {
+		console.log("HarvestReport Vue instance created!")
+		getIDToCropMap()
+		.then((theMap) => {
+			// Process the map.
+			// Typically it is stored in the Vue data for later use.
+			console.log("Map Gotten")
+			this.idToCropMap = theMap
+			// console.log(this.idToCropMap.entries())
+			console.log(this.idToCropMap.size)
+			// console.log(this.idToCropMap.keys())
+			// this.idToCropMap.foreach( function(key,value) {
+			// 	console.log(key +" "+ value)
+			// })
+		})
+		.catch((err) => {
+    		// An error occurred during the request, process it here.
+			console.log("Error Occurred")
+			console.log(error)
+		})
+		},
+		data: {
+			state: "false",
+			reportTitle: "My Sample Harvest Report",
+			reportStart: "2018-01-05",
+			reportEnd: "2020-05-15",
+			reportCrops: [
+				"Kale",
+				"Brocoli",
+				"Peas",
+			],
+			reportCropsDisplay: "Kale",
+			reportAreasDisplay: "All",
+			reportAreas: [
+				"All",
+				"Chuau-1",
+				"SQ7",
+			],
+			reportTable: [
+
+			],
+			Farm: "",
+			User: "",
+			Language: "",
+			idToCropMap: new Map(),
+			hi: "hi",
+		},
+		computed: {
+			cropNames() {
+				let cropNames = []
+				for (const values of this.idToCropMap.values()) {
+					cropNames.push(values)
+					console.log(values)
+				}
+				return cropNames
+			}
+		},
+		methods: {
+			CreateReport: function() {
+				this.reportTable.push(['05/01/18','Orion-3','Kale','12','Bunches'])
+				if (this.reportTable.length < 0)
+					this.changeState('no')
+				else
+					this.changeState('show')
+				axios.get('http://fd2_farmdata2/farm.json')  // this line sends the request.
+				.then((response) => {
+					this.Farm=response.data.name
+					this.User=response.data.user.name
+					this.Language= response.data.languages.en.name
+				})
+				.catch((error) => {
+					console.log("Error Occurred")
+					console.log(error)
+				})
+
+			},
+			deleteTableRow: function(index) {
+				this.reportTable.splice(index,1)
+			},
+			changeState: function(newState) {
+				this.state = newState
+			}
+		}
+	});
+	Vue.config.devtools = true;
+</script>
+
