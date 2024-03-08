@@ -83,6 +83,12 @@
         },
         methods: {
             addHarvestLog: function() {
+                // Change Farm, User, and Language properties within report
+                this.farm = 'Sample Farm';
+                this.user = 'manager1';
+                this.language = 'English';
+
+                // Add harvest log
                 this.harvestList.push({date:'2018-05-01', area:'Orion-3', crop:'Kale', yield:'12', units:'Bunches'});
             }
         },
