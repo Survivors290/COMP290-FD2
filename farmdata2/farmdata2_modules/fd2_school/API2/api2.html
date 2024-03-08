@@ -46,7 +46,7 @@
         </ul>
         <br>
         <table border="1">
-            <tr v-if="harvestTable.length > 0">
+            <tr v-if="harvestReportRows.length > 0">
                 <th>Row</th>
                 <th>Date</th>
                 <th>Area</th>
@@ -54,7 +54,7 @@
                 <th>Yield</th>
                 <th>Units</th>
               </tr>
-              <tr v-for="(hLog, index) in harvestTable">
+              <tr v-for="(hLog, index) in harvestReportRows">
                 <td>{{index+1}}</td>
                 <td>{{hLog.date}}</td>
                 <td>{{hLog.area}}</td>
@@ -96,7 +96,26 @@
                 computed:  {
                     cropNames(){
                         return Array.from(this.idToCropMap.values())
+                    },
+                    harvestReportRows() {
+                        let tableRows = []
+                        for(let log of this.result) {
+                            let tableRow = {
+                                
+                                date: dayjs(dayjs.unix(log.timestamp)).format('YYYY-MM-DD') ,
+                                
+                                area: log.area[0].name,
+                                yield: log.quantity[0].value,
+                                units: log.quantity[0].unit.name,
+                                crop: this.idToCropMap.get(log.data.crop_tid),
+                                
+                            }
+                            tableRows.push(tableRow)
+                        }
+                        return tableRows
                     }
+
+
                 },
                 methods: {
                     saveItem: function() {
@@ -127,13 +146,10 @@
                             // and before the response is received.
                             let startTimestamp = dayjs(this.startDate).unix()
                         let endTimestamp = dayjs(this.endDate).unix()
-                        console.log('did the date thing')
-                        console.log(startTimestamp)
-                        console.log(endTimestamp)
-
+                   
                         let requestString = "/log.json?type=farm_harvest&timestamp[ge]=" + startTimestamp + "&timestamp[le]=" + endTimestamp
 
-                        console.log(requestString) 
+                         
                         getAllPages(requestString, this.result)
                             .then(() => {
                                 // this.result = this.result
@@ -142,7 +158,7 @@
                                 // or then may be omitted.
                             })
                             .catch((err) => {
-                                console.log(err)
+                                
                                 // An error occurred during the requests, process it here.
                             })
                     }
@@ -155,7 +171,7 @@
                     this.idToCropMap = theMap
                 })
                 .catch((err) => {
-                    console.log("error")
+                   
                 })
 
                 
