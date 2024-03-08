@@ -15,8 +15,8 @@
         <br>
         <br>
         <label for="crop">Crop:</label>
-        <select id="crop" name="crop">
-            <option v-for="crop in cropNames">{{ crop }} </option>
+        <select id="cropPlant" name="cropPlant" v-model="cropPlant">
+            <option v-for="crop in cropNames" >{{ crop }} </option>
           </select>
         <label for="field">Area:</label>
         <select id="field" name="field">
@@ -42,7 +42,7 @@
         <ul> 
             <li><strong>Start: </strong> {{ startDate }} </li>
             <li><strong>End: </strong>{{ endDate }}</li>
-            <li><strong>Crop: </strong>Kale</li>
+            <li><strong>Crop: </strong>{{cropPlant }}</li>
         </ul>
         <br>
         <table border="1">
@@ -70,6 +70,7 @@
                 el: '#heading',
                 data: {
                     header: 'My Sample Harvest Report',
+                    cropPlant: '',
                     farm: '',
                     user: '',
                     language: '',
@@ -110,7 +111,11 @@
                                 crop: this.idToCropMap.get(log.data.crop_tid),
                                 
                             }
-                            tableRows.push(tableRow)
+                            
+                            if (String(this.cropPlant) === String(tableRow.crop)){
+                                tableRows.push(tableRow)
+                            }
+                                
                         }
                         return tableRows
                     }
