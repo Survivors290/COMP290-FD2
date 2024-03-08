@@ -83,10 +83,17 @@
         },
         methods: {
             addHarvestLog: function() {
-                // Change Farm, User, and Language properties within report
-                this.farm = 'Sample Farm';
-                this.user = 'manager1';
-                this.language = 'English';
+                // Change Farm, User, and Language properties within report via API request
+                axios.get('/farm.json')
+                    .then((response) => {
+                        this.farm = response.data.name;
+                        this.user = response.data.user.name;
+                        this.language = response.data.languages.en.name;
+                    })
+                    .catch((error) => {
+                        console.log('Error occurred');
+                        console.log(error);
+                    });
 
                 // Add harvest log
                 this.harvestList.push({date:'2018-05-01', area:'Orion-3', crop:'Kale', yield:'12', units:'Bunches'});
