@@ -16,7 +16,7 @@
 
     <label for="crop">Crop:</label>
     <select id="crop" name="crop" v-model="crop">
-        <option v-for="crop in crops">{{ crop }}</option>
+        <option v-for="crop in cropNames">{{ crop }}</option>
     </select>
 
     <label for="field">Field:</label>
@@ -69,6 +69,16 @@
 
 <script>
     var harvestReport = new Vue({
+        created() {
+            getIDToCropMap()
+                .then((theMap) => {
+                    this.cropMap = theMap;
+                })
+                .catch((err) => {
+                    console.log('Error occurred');
+                    console.log(err);
+                });
+        },
         el: '#harvestReport',
         data: {
             report_header: '',
@@ -80,6 +90,12 @@
             farm: '',
             user: '',
             language: '',
+            cropMap: new Map(),
+        },
+        computed: {
+            cropNames() {
+                return Array.from(this.cropMap.values());
+            }
         },
         methods: {
             addHarvestLog: function() {
