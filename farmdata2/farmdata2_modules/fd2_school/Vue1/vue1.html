@@ -1,0 +1,92 @@
+<html>
+    <body>
+        <h1> Harvest Report </h1>
+        <p>This page is a <i>mockup</i> of a simplified harvest report</p>
+        <label for=”title”>Title</label>
+        <div id="heading"> 
+            <input type=”text” v-model="header" name=”title” >
+        
+        
+        
+        <label for="start">Start:</label>
+            <input type="date" name="start" min="2014-01-01" max="2022-01-01" v-model= 'startDate'/>
+        <label for="end">End:</label>
+            <input type="date" name="end" min="2020-05-05" max="2022-01-01" v-model ='endDate'/>
+        <br>
+        <br>
+        <label for="crop">Crop:</label>
+        <select id="crop" name="crop">
+            <option v-for="crop in crops">{{ crop }} </option>
+          </select>
+        <label for="field">Area:</label>
+        <select id="field" name="field">
+            <option v-for="area in areas">{{ area }} </option>
+          </select>
+        <br>
+        <button type="button">Generate Report</button>
+        <hr>
+        
+    
+        
+            <h1> {{ isEmpty = (header == '') ? "Mock Harvest Report" : header }}</h1>
+        
+        <p>Details:</p>
+        <ul> 
+            <li><strong>Farm:</strong>Sample Farm</li>
+            <li><strong>User:</strong>manager1</li>
+            <li><strong>Language:</strong>English</li>
+        </ul>
+        <br>
+        <ul> 
+            <li><strong>Start:</strong> {{ startDate }} </li>
+            <li><strong>End:</strong>{{ endDate }}</li>
+            <li><strong>Crop:</strong>Kale</li>
+        </ul>
+        <br>
+        <table border="1">
+            <tr>
+                <th>Date</th>
+                <th>Area</th>
+                <th>Crop</th>
+                <th>Yield</th>
+                <th>Units</th>
+              </tr>
+              <tr v-for="hLog in harvestTable">
+                <td>{{hLog.date}}</td>
+                <td>{{hLog.area}}</td>
+                <td>{{hLog.crop}}</td>
+                <td>{{hLog.yield}}</td>
+                <td>{{hLog.units}}</td>
+              </tr>
+              
+        </table>
+    </div>
+    <script> 
+            var heading = new Vue({
+                el: '#heading',
+                data: {
+                    header: 'My Sample Harvest Report',
+                    startDate: '2020-05-05',
+                    endDate: '2020-05-15',
+                    crops: [
+                        'Brocoli',
+                        'Kale',
+                        'Peas'
+                    ],
+                    areas: [
+                        'All',
+                        'Chuau-1',
+                        'SQ7'
+                    ],
+                    harvestTable: [
+                        harvestLog1 = {date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"},
+                        harvestLog2 = {date: "2019-05-22", area: "SQ7", crop: "Brocoli", yield: 19, units: "Bundles"}
+                    ]
+                },
+
+            });
+            
+            Vue.config.devtools = true;
+        </script>   
+    </body>
+</html>
