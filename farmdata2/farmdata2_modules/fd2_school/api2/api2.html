@@ -6,7 +6,7 @@
 	<input type="button" name="Generate Report" value="Generate Report" @click="CreateReport">
 	<br>
 	<label><strong>Start:</strong></label>
-	<input type="date" value="2018-01-05" min="2014-01-01" :max="reportEnd" v-model="reportStart">
+	<input type="date" value="2018-05-05" min="2014-01-01" :max="reportEnd" v-model="reportStart">
 	<br>
 	<label><strong>End:</strong></label>
 	<input type="date" value="2020-05-15" :min="reportStart" max="2022-01-01" v-model="reportEnd">
@@ -60,16 +60,16 @@
 			</tr>
 			<tr v-for="(record, index) in reportTable">
 				<th>{{index + 1}}</th>
-				<th>{{record[0]}}</th>
-				<th>{{record[1]}}</th>
-				<th>{{record[2]}}</th>
-				<th>{{record[3]}}</th>
-				<th>{{record[4]}}</th>
-				<th><button class="btn" @click="deleteTableRow(index)">Delete</button></th>
+				<th>{{record.date}}</th>
+				<th>{{record.area}}</th>
+				<th>{{record.crop}}</th>
+				<th>{{record.yield}}</th>
+                <th>{{record.units}}</th>
+				<th>{{record.Delete}}</th>
+				<!--<th><button class="btn" @click="deleteTableRow(index)">Delete</button></th>-->
 			</tr>
 		</table>
 		<p v-else>No matching records</p>
-	<!--</div>-->
 
 </div>
 <script>
@@ -98,14 +98,14 @@
 		data: {
 			state: "false",
 			reportTitle: "My Sample Harvest Report",
-			reportStart: "2018-01-05",
+			reportStart: "2020-05-05",
 			reportEnd: "2020-05-15",
 			reportCrops: [
 				"Kale",
 				"Brocoli",
 				"Peas",
 			],
-			reportCropsDisplay: "Kale",
+			reportCropsDisplay: "KALE",
 			reportAreasDisplay: "All",
 			reportAreas: [
 				"All",
@@ -115,9 +115,6 @@
             createReportResponse: [
 
             ],
-			reportTable: [
-
-			],
 			Farm: "",
 			User: "",
 			Language: "",
@@ -132,34 +129,40 @@
 					// console.log(values)
 				}
 				return cropNames
-			}
+			},
+            reportTable() {
+                let reportTable = []
+                for(let log of this.createReportResponse) {
+                    let tableRow = {
+                        date: dayjs.unix(log.timestamp).format('YYYY-MM-DD'),
+                        area: log.area[0].name,
+                        crop: this.idToCropMap.get(log.data.crop_tid),
+                        yield: log.quantity[0].value,
+                        units: log.quantity[0].unit.name
+                    }
+                    if (tableRow.crop == this.reportCropsDisplay)
+                    reportTable.push(tableRow)
+                }
+                return reportTable
+            },
+
+                
 		},
 		methods: {
 			CreateReport: function() {
+                this.createReportResponse = []
                 let start = dayjs(this.reportStart).unix()
                 let end = dayjs(this.reportEnd).unix()
-                // Assumes that result is an existing array
                 path ='/log.json?type=farm_harvest&timestamp[ge]=' + start + '&timestamp[le]=' + end
                 getAllPages(path, this.createReportResponse)
                 .then(() => {
-                    // All of the requested records have now been added to result.
-                    // Additional processing can happen here if necessary,
-                    // or then may be omitted.
                 })
                 .catch((err) => {
-                    // An error occurred during the requests, process it here.
                     console.log("error probably wrong path")
                     console.log(error)
                 })
-                // Execution continues here immediately after the request is made.
-                // Result will not yet contain records but will be filled as responses are received.
-                // The result will contain all records when then() is invoked.
-
-				if (this.reportTable.length < 0)
-					this.changeState('no')
-				else
-					this.changeState('show')
-				axios.get('http://fd2_farmdata2/farm.json')  // this line sends the request.
+                this.changeState('show')
+				axios.get('http://fd2_farmdata2/farm.json')  
 				.then((response) => {
 					this.Farm=response.data.name
 					this.User=response.data.user.name
@@ -171,8 +174,8 @@
 				})
 
 			},
-			deleteTableRow: function(index) {
-				this.reportTable.splice(index,1)
+		    deleteTableRow: function(index) {
+		 	this.reportTable.splice(index,1)
 			},
 			changeState: function(newState) {
 				this.state = newState
