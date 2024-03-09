@@ -32,9 +32,9 @@
     <h1>{{ header == "" ? "Mock Harvest Report" : header }}</h1>
     <p>Details:</p>
     <ul>
-        <li><strong>Farm:</strong>Sample Farm</li>
-        <li><strong>User:</strong>manager1</li>
-        <li><strong>Language:</strong>English</li>
+        <li><strong>Farm:</strong>{{ farm }}}}</li>
+        <li><strong>User:</strong>{{ user }}</li>
+        <li><strong>Language:</strong>{{ language }}</li>
     </ul>
     <br />
     <ul>
@@ -71,6 +71,9 @@
             header: "My Sample Harvest Report",
             startDate: "2020-05-05",
             endDate: "2020-05-15",
+            farm: "",
+            user: "",
+            language: "",
             crops: [
                 "Broccoli",
                 "Kale",
