@@ -82,8 +82,8 @@
         el: '#harvestReport',
         data: {
             report_header: '',
-            start_date: '05/01/2018',
-            end_date: '05/15/2018',
+            start_date: '05/05/2020',
+            end_date: '05/15/2020',
             crops: ['Broccoli', 'Kale', 'Peas'],
             fields: ['All', 'Chuau-1', 'SQ7'],
             harvestList: [],
@@ -91,6 +91,7 @@
             user: '',
             language: '',
             cropMap: new Map(),
+            allPages: [],
         },
         computed: {
             cropNames() {
@@ -107,6 +108,19 @@
                         this.language = response.data.languages.en.name;
                     })
                     .catch((error) => {
+                        console.log('Error occurred');
+                        console.log(error);
+                    });
+                
+                let start_timestamp = dayjs(this.start_date).unix();
+                let end_timestamp = dayjs(this.end_date).unix();
+
+                getAllLogsQS = `/log.json?type=farm_harvest&timestamp[ge]=${start_timestamp}&timestamp[le]=${end_timestamp}`;
+
+                getAllPages(getAllLogsQS, this.allPages)
+                    .then(() => {
+                    })
+                    .catch((err) => {
                         console.log('Error occurred');
                         console.log(error);
                     });
