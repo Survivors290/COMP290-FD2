@@ -44,7 +44,7 @@
 
     <br>
 
-    <div v-if="harvestList.length > 0">
+    <div v-if="harvestLogs.length > 0">
         <table border="1">
             <tr>
                 <th>Row</th>
@@ -54,7 +54,7 @@
                 <th>Yield</th>
                 <th>Units</th>
             </tr>
-            <tr v-for="(log, index) in harvestList">
+            <tr v-for="(log, index) in harvestReportRows">
                 <td>{{ index+1 }}</td>
                 <td>{{ log.date }}</td>
                 <td>{{ log.area }}</td>
@@ -64,7 +64,7 @@
             </tr>
         </table>
     </div>
-    <p v-if="harvestList.length === 0">No matching records</p>
+    <p v-if="harvestLogs.length === 0">No matching records</p>
 </div>
 
 <script>
@@ -91,11 +91,25 @@
             user: '',
             language: '',
             cropMap: new Map(),
-            allPages: [],
+            harvestLogs: [],
         },
         computed: {
             cropNames() {
                 return Array.from(this.cropMap.values());
+            },
+            harvestReportRows() {
+                let tableRows = [];
+                for(let log of this.harvestLogs) {
+                    let tableRow = {
+                        date: dayjs(log.timestamp * 1000).format('MM/DD/YYYY'),
+                        area: log.area[0].name,
+                        yield: log.quantity[0].value,
+                        units: log.quantity[0].unit.name,
+                        crop: this.cropMap.get(log.data.crop_tid),
+                    }
+                    tableRows.push(tableRow);
+                }
+                return tableRows;
             }
         },
         methods: {
@@ -117,16 +131,13 @@
 
                 getAllLogsQS = `/log.json?type=farm_harvest&timestamp[ge]=${start_timestamp}&timestamp[le]=${end_timestamp}`;
 
-                getAllPages(getAllLogsQS, this.allPages)
+                getAllPages(getAllLogsQS, this.harvestLogs)
                     .then(() => {
                     })
                     .catch((err) => {
                         console.log('Error occurred');
                         console.log(error);
                     });
-
-                // Add harvest log
-                this.harvestList.push({date:'2018-05-01', area:'Orion-3', crop:'Kale', yield:'12', units:'Bunches'});
             }
         },
     });
