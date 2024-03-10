@@ -92,6 +92,7 @@
             language: '',
             cropMap: new Map(),
             harvestLogs: [],
+            crop: '',
         },
         computed: {
             cropNames() {
@@ -100,14 +101,17 @@
             harvestReportRows() {
                 let tableRows = [];
                 for(let log of this.harvestLogs) {
-                    let tableRow = {
-                        date: dayjs(log.timestamp * 1000).format('MM/DD/YYYY'),
-                        area: log.area[0].name,
-                        yield: log.quantity[0].value,
-                        units: log.quantity[0].unit.name,
-                        crop: this.cropMap.get(log.data.crop_tid),
+                    let cropName = this.cropMap.get(log.data.crop_tid);
+                    if (cropName === this.crop) {
+                        let tableRow = {
+                            date: dayjs(log.timestamp * 1000).format('MM/DD/YYYY'),
+                            area: log.area[0].name,
+                            yield: log.quantity[0].value,
+                            units: log.quantity[0].unit.name,
+                            crop: cropName,
+                        }
+                        tableRows.push(tableRow);
                     }
-                    tableRows.push(tableRow);
                 }
                 return tableRows;
             }
