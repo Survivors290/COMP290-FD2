@@ -19,7 +19,7 @@
           <p></p>
           <br>
           <label for=title>Crop:</label>
-          <select id="simple" name="simple" v-model="crop">
+          <select id="cropInDropdown" name="cropInDropdown" v-model="cropInDropdown">
               <option v-for="name in cropNames">{{ name }}</option>
           </select>
           
@@ -43,7 +43,7 @@
               <br>
               <li><strong>Start:</strong> {{ startDate }} </li>
               <li><strong>End:</strong> {{ endDate }} </li>
-              <li><strong>Crop:</strong> {{ crop }}</li>
+              <li><strong>Crop:</strong> {{ cropInDropdown }}</li>
           </ul>
 
           <div v-if="reportVisible">
@@ -61,7 +61,7 @@
                     <th>Yield</th>
                     <th>Units</th>
                 </tr>
-                <tr v-for="(harvest, index) in harvestList">
+                <tr v-for="(harvest, index) in harvestReportRows">
                     <td>{{ index+1 }}</td>
                     <td>{{ harvest.date }}</td>
                     <td>{{ harvest.area }}</td>
@@ -91,7 +91,6 @@
                         console.log("Error Occurred")
                         console.log(error)
                     })
-                    
                 },
                 el: "#heading",
                 data: {
@@ -114,7 +113,8 @@
                     language: "",
                     idToCropMap: new Map(),
                     idToAreaMap: new Map(),
-                    result: [],
+                    results: [],
+                    cropInDropdown: "",
                 },
                 computed: {
                     cropNames(){
@@ -122,7 +122,26 @@
                     },
                     areaNames(){
                         return Array.from(this.idToAreaMap.values());
-                    }
+                    },
+                    harvestReportRows() {
+                        let tableRows = []
+                        for(let result of this.results) {
+                            let tableRow = {
+                                date: dayjs.unix(result.timestamp).format('YYYY-MM-DD'),
+                                area: result.area[0].name,
+                                yield: result.quantity[0].value,
+                                units: result.quantity[0].unit.name,
+                                crop: this.idToCropMap.get(result.data.crop_tid)
+                            }                            
+                            //tableRows.push(tableRow)
+                            if ((this.cropInDropdown === tableRow.crop)){
+                                tableRows.push(tableRow)
+
+                            }
+                        }
+                        return tableRows
+                        
+                    },
                 },
                 methods: {
                     buttonPress: function() {
@@ -134,7 +153,6 @@
                                 this.user=response.data.user.name
                                 this.language=response.data.languages.en.name
                                 this.reportVisible=true
-
                             })
                             .catch((error) => {
                                 // Block B: 
@@ -143,9 +161,8 @@
                             })
                             // Block C: 
 
-                            getAllPages('/log.json?type=farm_harvest', this.result)
-                                .then(() => {
-                                    
+                            getAllPages('/log.json?type=farm_harvest', this.results)
+                                .then(() => {   
                                 let timestampS = dayjs(this.startDate).unix()
                                 console.log(timestampS)
                                 
@@ -159,7 +176,6 @@
                                 console.log("Error Occurred")
                                 console.log(error)
                             })
-                            this.harvestList.push({date:"2018-05-01", area:"Orion-3",crop:"Kale", yield:"12", units:"Bunches"})
 
                         }
                     },
