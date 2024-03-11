@@ -129,17 +129,20 @@ var app = new Vue({
                 let harvestQuantity = log.quantity.find(qty => qty.label == 'Harvest');
                 let yieldValue = harvestQuantity.value;
                 let unit = harvestQuantity.unit.name;
+                let cropName = this.idToCropMap.get(log.data.crop_tid);
 
+                if (cropName === this.reportSelectedCrop){
                 let tableRow = {
                     date: dayjs.unix(log.timestamp).format('DD/MM/YYYY'),
                     area:log.area[0].name,
                     yield: yieldValue,
                     units: unit,
-                    crop: this.idToCropMap.get(log.data.crop_tid),
+                    crop: cropName,
 
                 };
                 tableRows.push(tableRow);
             }
+        }
             return tableRows;
         }
     },
