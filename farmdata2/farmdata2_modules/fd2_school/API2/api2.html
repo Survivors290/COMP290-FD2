@@ -24,7 +24,7 @@
           </select>
           
           <label for=title>Area:</label>
-          <select id="simple" name="simple">
+          <select id="areaInDropdown" name="areaInDropdown" v-model="areaInDropdown">
             <option v-for="name in areaNames">{{ name }}</option>
           </select>
           <p></p>
@@ -48,9 +48,9 @@
 
           <div v-if="reportVisible">
             
-            <table border="1" v-model="harvestList">
+            <table border="1" >
                 <!-- if length is zero -->
-                <tr v-if="harvestList.length == 0">
+                <tr v-if="harvestReportRows.length == 0">
                     <th>There are no matching records.</th>
                 </tr>
                 <tr v-else>
@@ -98,15 +98,7 @@
                     heading: null,
                     startDate: "2020-05-05",
                     endDate: "2020-05-15",
-                    crop: "Kale",
-                    areas: [
-                        "All",
-                        "Chuau-1",
-                        "SQ7",
-                    ],
-                    harvestList: [
-                        
-                    ],
+                    crop: "Kale",         
                     reportVisible: false,
                     farm: "",
                     user: "",
@@ -115,6 +107,7 @@
                     idToAreaMap: new Map(),
                     results: [],
                     cropInDropdown: "",
+                    areaInDropdown: "",
                 },
                 computed: {
                     cropNames(){
@@ -133,10 +126,8 @@
                                 units: result.quantity[0].unit.name,
                                 crop: this.idToCropMap.get(result.data.crop_tid)
                             }                            
-                            //tableRows.push(tableRow)
-                            if ((this.cropInDropdown === tableRow.crop)){
+                            if ((this.areaInDropdown === tableRow.area) && (this.cropInDropdown === tableRow.crop)){
                                 tableRows.push(tableRow)
-
                             }
                         }
                         return tableRows
@@ -164,13 +155,10 @@
                             getAllPages('/log.json?type=farm_harvest', this.results)
                                 .then(() => {   
                                 let timestampS = dayjs(this.startDate).unix()
-                                console.log(timestampS)
                                 
                                 let timestampE = dayjs(this.endDate).unix()
-                                console.log(timestampE)
                                 
                                 var request = "/log.json?type=farm_harvest&timestamp[ge]=" + timestampS + "&timestamp[le]=" + timestampE
-                                console.log(request)
                             })
                             .catch((err) => {
                                 console.log("Error Occurred")
