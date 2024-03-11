@@ -46,7 +46,7 @@
         <li><strong>End: </strong>{{ reportEndDate }}</li>
         <li><strong>Crop: </strong>{{ reportSelectedCrop }}</li> 
     </ul>
-    <div v-if="harvestLogs.length > 0">
+    <div v-if="harvestReportRows.length > 0">
         <table border="1">
             <tr>
                 <th>Row</th>
@@ -56,7 +56,7 @@
                 <th>Yield</th>
                 <th>Units</th>
             </tr>
-            <tr v-for="(log,index) in harvestLogs">
+            <tr v-for="(log,index) in harvestReportRows">
                 <td>{{index+1}}</td>
                 <td>{{log.date}}</td>
                 <td>{{log.area}}</td>
@@ -120,8 +120,27 @@ var app = new Vue({
     },
 
     computed: {
-        cropNames(){
+        cropNames() {
             return Array.from(this.idToCropMap.values());
+        },
+        harvestReportRows() {
+            let tableRows = [];
+            for(let log of this.allHarvestLogs) {
+                let harvestQuantity = log.quantity.find(qty => qty.label == 'Harvest');
+                let yieldValue = harvestQuantity.value;
+                let unit = harvestQuantity.unit.name;
+
+                let tableRow = {
+                    date: dayjs.unix(log.timestamp).format('DD/MM/YYYY'),
+                    area:log.area[0].name,
+                    yield: yieldValue,
+                    units: unit,
+                    crop: this.idToCropMap.get(log.data.crop_tid),
+
+                };
+                tableRows.push(tableRow);
+            }
+            return tableRows;
         }
     },
 
@@ -129,21 +148,17 @@ var app = new Vue({
         // Call getIDToCropMap and set idToCropMap
         getIDToCropMap()
             .then((theMap) => {
-                this.idToCropMap = theMap;
-                console.log("ID to Crop Map created!");
+                this.idToCropMap = theMap;;
                 
             })
             .catch((err) => {
                 console.log("Map not received");
             });
-        console.log("HarvestReport Vue instance created!");
     }
 });
 
 Vue.config.devtools = true;
 
     </script>
-
-    
 
 </body>
