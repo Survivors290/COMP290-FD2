@@ -37,9 +37,9 @@
     <h2>{{header}}</h2>
     <text>Detail:</text>
     <UL>
-        <LI><b>Farm</b>:Sample Farm</LI>
-        <LI><b>User</b>: manager1.</LI>
-        <LI><b>Language</b>:English</LI>
+        <LI><b>Farm</b>:{{ sampleFarm }}</LI>
+        <LI><b>User</b>: {{ user}}</LI>
+        <LI><b>Language</b>:{{language}}</LI>
         <br>
         <LI><b>Start</b>:{{ startDate }}</LI>
         <LI><b>End</b>:{{ endDate }}</LI>
@@ -81,6 +81,9 @@
         data: {
             header: '',
             startDate: '',
+            sampleFarm: '',
+            language: '',
+            user: '',
             endDate: '',
             selectedCrop: '',
             selectedArea: '',
@@ -90,12 +93,19 @@
         },
         methods: {
             generateReport: function() {
+                this.sampleFarm="Sameple farm";
+                this.language="English";
+                this.user="manager1";
                 this.harvestLogs.push({
                     date: "2018-05-01",
                     area: "Orion-3",
                     crop: this.selectedCrop,
                     yield: "12",
-                    units: "Bunches"
+                    units: "Bunches",
+                    sampleFarm: this.sampleFarm,
+                    language: this.language,
+                    user: this.user
+
                 });
             }
         }
