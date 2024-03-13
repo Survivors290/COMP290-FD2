@@ -25,7 +25,7 @@
     <br><br>
     Crop: 
     <select name="crop" id="crop" v-model="selectedCrop">
-        <option v-for="crop in crops" :value="crop">{{ crop }}</option>
+        <option v-for="crop in cropNames" :value="crop">{{ crop }}</option>
     </select>
     Area: 
     <select name="area" id="area" v-model="selectedArea">
@@ -87,10 +87,28 @@
             endDate: '',
             selectedCrop: '',
             selectedArea: '',
-            crops: ["Kale", "Broccoli", "Peas"],
-            areas: ["All", "Chaua-1", "SQ7"],
-            harvestLogs: []
+            areas: [],
+            harvestLogs: [],
+            idToCropMap: new Map()
         },
+        created(){
+            console.log("HarvestReport Vue instance created!");
+            getIDToCropMap()
+            .then((theMap) => {
+            console.log("Crop Map:", theMap);
+            this.idToCropMap = theMap;
+        })
+        .catch((err) => {
+            console.log("Error occurred while fetching crop map", err);
+        });
+},
+
+        computed: {
+            cropNames: function() {
+            console.log(Array.from(this.idToCropMap.values()));
+            return Array.from(this.idToCropMap.values());
+        }
+    },
         methods: {
             generateReport: function() {
             console.log("Sending request to fetch farm data...");
@@ -115,7 +133,6 @@
         });
     })
     .catch((error) => {
-        // Block B: 
         console.log("Error Occurred");
         console.log(error);
     });
