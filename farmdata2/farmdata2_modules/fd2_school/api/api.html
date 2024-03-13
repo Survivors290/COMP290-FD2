@@ -93,21 +93,34 @@
         },
         methods: {
             generateReport: function() {
-                this.sampleFarm="Sameple farm";
-                this.language="English";
-                this.user="manager1";
-                this.harvestLogs.push({
-                    date: "2018-05-01",
-                    area: "Orion-3",
-                    crop: this.selectedCrop,
-                    yield: "12",
-                    units: "Bunches",
-                    sampleFarm: this.sampleFarm,
-                    language: this.language,
-                    user: this.user
+            console.log("Sending request to fetch farm data...");
+            axios.get('/farm.json')  
+            .then((response) => {
+            console.log("Got Response");
+            console.log(response);
 
-                });
-            }
+        this.sampleFarm = response.data.name;
+        this.language = response.data.languages.en.name;
+        this.user = response.data.user.name;
+
+        this.harvestLogs.push({
+            date: "2018-05-01",
+            area: "Orion-3",
+            crop: this.selectedCrop,
+            yield: "12",
+            units: "Bunches",
+            sampleFarm: this.sampleFarm,
+            language: this.language,
+            user: this.user
+        });
+    })
+    .catch((error) => {
+        // Block B: 
+        console.log("Error Occurred");
+        console.log(error);
+    });
+}
+
         }
     });
 Vue.config.devtools = true;
