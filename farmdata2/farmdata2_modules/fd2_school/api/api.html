@@ -17,7 +17,7 @@
     <label>
         Crop:
         <select id="crop" name="crop">
-            <option v-for="crop in crops">{{ crop }}</option>
+            <option v-for="crop in cropNames">{{ crop }}</option>
         </select>
     </label>
     <label>
@@ -68,6 +68,28 @@
 <script>
     var reportTitle = new Vue({
         el: "#report-title",
+        created() {
+            console.log("HarvestReport Vue instance created!")
+            getIDToCropMap()
+                .then((theMap) => {
+                    console.log("Map received")
+                    this.idToCropMap = theMap
+                })
+
+                .catch((err) => {
+                    console.log("Error Occurred")
+                    console.log(error)
+                })
+
+
+        },
+
+        computed: {
+            cropNames() {
+                return Array.from(this.idToCropMap.values());
+            }
+        } ,
+
         data: {
             header: "My Sample Harvest Report",
             startDate: "2020-05-05",
@@ -75,11 +97,8 @@
             farm: "",
             user: "",
             language: "",
-            crops: [
-                "Broccoli",
-                "Kale",
-                "Peas",
-            ],
+            idToCropMap: new Map(),
+
             areas: [
                 "All",
                 "Chuau-1",
