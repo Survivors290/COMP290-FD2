@@ -35,7 +35,7 @@
                         </select>
                     </li>
                 </ul>
-                <botton v-on:click="saveLog">Generate Report</botton>
+                <botton v-on:click="saveLog" @click="changeState('edit')">Generate Report</botton>
 
             </p>
             
@@ -61,7 +61,7 @@
             </p>
         </body>
         
-        <table border="1">
+        <table border="1" v-if="state !== 'defualt'">
             <tr>
                 <th>Row</th>
                 <th>Date</th>
@@ -85,6 +85,7 @@
             el: "#report",
 
             data: {
+                state: 'defualt',
                 header: "My Sample Harvest Report",
                 start: "",
                 end: "",
@@ -107,10 +108,14 @@
                 
             },
             methods:{
-                        saveLog: function(){
-                            this.harvestLog.push({date:'05/01/2018', area:'Orion-3', crop:'Kale', yield:'12', units:'Bunches'});      
-                        }
+                saveLog: function(){
+                    this.harvestLog.push({date:'05/01/2018', area:'Orion-3', crop:'Kale', yield:'12', units:'Bunches'});      
+                },
+
+                changeState: function(newState){
+                    this.state = newState;
                 }
+            }
         });
         Vue.config.devtools = true;
     </script>
