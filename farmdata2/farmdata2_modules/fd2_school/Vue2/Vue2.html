@@ -35,12 +35,13 @@
                         </select>
                     </li>
                 </ul>
-            </p>
-            <input type="button" value="Generate Report"/>
+                <botton v-on:click="harvestLog.push({date:'05/01/2018', area:'Orion-3', crop:'Kale', yield:'12', units:'Bunches'})">Generate Report</botton>
 
-        </body>
+            </p>
+            
+        
         <hr>
-        <body>
+        
             <h1>
                 <h1>{{(header!="") ? header : "Mock Harvest Report"}}</h1>
             </h1>
@@ -52,7 +53,6 @@
                         <li><strong>User:</strong>manager1</li>
                         <li><strong>Language:</strong>English</li> <br>
 
-
                         <li><strong>Start:</strong>{{start}}</li>
                         <li><strong>End:</strong>{{end}}</li>
                         <li><strong>Crop:</strong>{{crop}}</li>
@@ -60,10 +60,22 @@
                 </dd>
             </p>
         </body>
+        
         <table border="1">
-            <tr><td v-for="item in table">{{item.row1}}</td></tr>
-            <tr><td v-for="item in table">{{item.row2}}</td></tr>
-            <tr><td v-for="item in table">{{item.row3}}</td></tr>
+            <tr>
+                <th>Date</th>
+                <th>Area</th>
+                <th>Crop</th>
+                <th>Yield</th>
+                <th>Units</th>
+            </tr>
+            <tr v-for="item in harvestLog">
+                <td>{{item.date}}</td>
+                <td>{{item.area}}</td>
+                <td>{{item.crop}}</td>
+                <td>{{item.yield}}</td>
+                <td>{{item.units}}</td>
+            </tr>
         </table>
     </div>
     <script>
@@ -86,17 +98,15 @@
                     "SQ7",
                 ],
 
-                table:[
-                    {row1: "Date", row2: "05/05/2020", row3: "05/08/2020"},
-                    {row1: "Area", row2: "SQ7", row3: "Chuau-1"},
-                    {row1: "Crop", row2: "Kale", row3: "Kale"},
-                    {row1: "Yield", row2: "10", row3: "10"},
-                    {row1: "Units", row2: "Bunches", row3: "Bunches"},
-                ]
+                harvestLog: [
+
+                ],
 
             }
         })
         Vue.config.devtools = true;
     </script>
+    </body>
     <hr>
+
 </html>
