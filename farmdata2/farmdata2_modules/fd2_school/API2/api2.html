@@ -151,14 +151,18 @@
                                 console.log(error)
                             })
                             // Block C: 
-
-                            getAllPages('/log.json?type=farm_harvest', this.results)
-                                .then(() => {   
-                                let timestampS = dayjs(this.startDate).unix()
+                            let timestampS = dayjs(this.startDate).unix()
                                 
+                                console.log(timestampS);
+
                                 let timestampE = dayjs(this.endDate).unix()
                                 
                                 var request = "/log.json?type=farm_harvest&timestamp[ge]=" + timestampS + "&timestamp[le]=" + timestampE
+                                
+                            getAllPages(request, this.results)
+                                .then(() => {   
+                                
+
                             })
                             .catch((err) => {
                                 console.log("Error Occurred")
