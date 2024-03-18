@@ -76,9 +76,17 @@
             },
             methods: {
                 addReportLog: function() {
-                    this.reportFarm = "Sample Farm";
-                    this.reportUser = "manager1";
-                    this.reportLanguage = "English";
+                    axios.get('/farm.json')
+
+                    .then((response) => { 
+                        this.reportFarm = response.data.name;
+                        this.reportUser = response.data.user.name;
+                        this.reportLanguage = response.data.languages.en.name;
+                    }) 
+                    .catch((error) => { 
+                        console.log("Error Occurred")
+                        console.log(error)
+                    }) 
                     this.reportTable.push({date:"2018-05-01", area:"Orion-3", crop: "Kale", yield: 12, units: "Bunches"});
                 }
             }
