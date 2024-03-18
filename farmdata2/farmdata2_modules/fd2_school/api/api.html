@@ -6,7 +6,7 @@
     <br>
     <label for="crop">Crop:</label>
     <select id="crop" name="crop">
-        <option v-for="crop in reportCropList">{{ crop }}</option>
+        <option v-for="crop in cropNames">{{ crop }}</option>
     </select>
     <br>
     <label for="area">Area:</label>
@@ -70,9 +70,15 @@
                 reportStart: "05/01/2018",
                 reportEnd: "05/15/2018",
                 reportCrop: "Kale",
-                reportCropList: ["Broccoli", "Kale", "Peas"],
+                //reportCropList: ["Broccoli", "Kale", "Peas"],
                 reportAreaList: ["All", "Chuau-1", "SQ7"],
                 reportTable: [],
+                idToCropMap: new Map (),
+            },
+            computed: {
+                cropNames () {
+                    return Array.from(this.idToCropMap.values());
+                }
             },
             methods: {
                 addReportLog: function() {
@@ -82,6 +88,7 @@
                         this.reportFarm = response.data.name;
                         this.reportUser = response.data.user.name;
                         this.reportLanguage = response.data.languages.en.name;
+                        console.log(response)
                     }) 
                     .catch((error) => { 
                         console.log("Error Occurred")
@@ -89,7 +96,17 @@
                     }) 
                     this.reportTable.push({date:"2018-05-01", area:"Orion-3", crop: "Kale", yield: 12, units: "Bunches"});
                 }
-            }
+            },
+            created() { 
+                console.log("HarvestReport Vue instance created!") 
+                getIDToCropMap()
+                    .then((theMap) => {
+                        this.idToCropMap = theMap;
+                    })
+                    .catch((err) => {
+                        console.log("Error Occurred")
+                    })
+            }, 
         });
         Vue.config.devtools = true;
     </script>
