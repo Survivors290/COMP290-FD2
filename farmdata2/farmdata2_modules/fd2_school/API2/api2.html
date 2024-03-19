@@ -16,6 +16,7 @@
             <input type="text" v-model="header">
         </div>
         <script src="https://unpkg.com/vue@2"></script>
+        <script> src="https://unpkg.com/dayjs"</script>
         <script>
             var reportTitle = new Vue({
                 el: '#reportTitle',
@@ -41,6 +42,23 @@
                 el: '#reportStartDate',
                 data: {
                     header: '2020-05-05'
+                },
+                methods: {
+                    generateReport: function() {
+                        axios.get('/farm.json')
+                        .then(function(response) {
+                            
+                        }.bind(this))
+                        .catch(function(error) {
+                            console.log("Error Occured");
+                            console.log(error);
+                        })
+                        .finally(() => {
+                            if (newHarvestReport != '') {
+                                
+                            }
+                        })
+                    }
                 }
             });
         </script>
@@ -54,6 +72,12 @@
                 el: '#reportEndDate',
                 data: {
                     header: '2020-05-15'
+                },
+                methods: {
+                    generateReport: function() {
+                        let timestamp = dayjs(header).unix()
+                        console.log(timestamp)
+                    }
                 }
             });
         </script>
