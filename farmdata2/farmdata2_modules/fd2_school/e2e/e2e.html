@@ -26,16 +26,17 @@
 
     <br><br>
 
-    <input type="button" value="Generate Report" @click="addHarvestLog" />
+    <input type="button" value="Generate Report" @click="addHarvestLog" data-cy="generate-report-button" />
 
     <hr>
     
-    <h1>{{ report_header === '' ? 'Mock Harvest Report' : report_header }}</h1>
+    <!-- <h1>{{ report_header === '' ? 'Mock Harvest Report' : report_header }}</h1> -->
+    <h1 v-if="showHarvestReportHeader" data-cy="harvest-report-header">{{ report_header }}</h1>
     <p>Details:</p>
     <ul>
-        <li><strong>Farm: </strong>{{ farm }}</li>
-        <li><strong>User: </strong>{{ user }}</li>
-        <li><strong>Language: </strong>{{ language }}</li>
+        <li data-cy="farm-name"><strong>Farm: </strong>{{ farm }}</li>
+        <li data-cy="user-name"><strong>User: </strong>{{ user }}</li>
+        <li><strong>Language: </strong><span data-cy="language">{{ language }}</span></li>
         <br>
         <li><strong>Start: </strong><span>{{ start_date }}</span></li>
         <li><strong>End: </strong><span>{{ end_date }}</span></li>
@@ -93,6 +94,7 @@
             cropMap: new Map(),
             harvestLogs: [],
             crop: '',
+            showHarvestReportHeader: false,
         },
         computed: {
             cropNames() {
@@ -118,6 +120,8 @@
         },
         methods: {
             addHarvestLog: function() {
+                this.showHarvestReportHeader = true;
+
                 // Change Farm, User, and Language properties within report via API request
                 axios.get('/farm.json')
                     .then((response) => {
