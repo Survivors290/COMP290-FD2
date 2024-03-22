@@ -56,11 +56,11 @@
                 </tr>
                 <tr v-for="(log, index) in harvestReportRows">
                         <td>{{ index+1 }}</td>
-                        <td>{{log.date}}</td>
-                        <td>{{log.area}}</td>
-                        <td>{{log.crop}}</td>
-                        <td>{{log.yield}}</td>
-                        <td>{{log.units}}</td>
+                        <td>{{ log.date }}</td>
+                        <td>{{ log.area }}</td>
+                        <td>{{ log.crop }}</td>
+                        <td>{{ log.yield }}</td>
+                        <td>{{ log.units }}</td>
                 </tr>
             </table>
         </div>
@@ -94,13 +94,11 @@
                     this.language = response.data.user.language;
                     let startTimestamp = dayjs(this.reportStartDate).unix();
                     let endTimestamp = dayjs(this.reportEndDate).unix();
-                    let newArr = [];
 
-                    let string = "/log.json?type=farm_harvest&timestamp[ge]="+startTimestamp+"&timestamp[le]="+endTimestamp;
-                    console.log(string);
-                    getAllPages(string, newArr)
+                    let string = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
+                    getAllPages(string, this.logs)
                     .then(() => {
-                        this.pages = newArr;
+                        console.log(this.logs);
                     })
                     .catch((err) => {
                         console.log("Error fetching result");
@@ -110,7 +108,6 @@
                     console.log("Error occurred getting /farm.json");
                     console.log(error);
                 })
-                this.logs.push({row: this.logs.length+1,date:"2018-05-01",area:"Chuau-1",crop:"Kale",yield:"10",units:"Bunches"});
             }
         },
         computed: {
