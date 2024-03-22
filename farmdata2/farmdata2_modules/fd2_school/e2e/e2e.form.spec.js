@@ -13,6 +13,12 @@ describe("Test the harvest report report generation", () => {
             .should("not.exist")
     })
 
+    it("Check if harvest report header exists", () => {
+        cy.get("[data-cy=generate-report-button]").click()
+        cy.get("[data-cy=harvest-report-header]")
+            .should("be.visible")
+    })
+
     it("Check name of farm", () => {
         cy.get("[data-cy=generate-report-button]").click()
         cy.get("[data-cy=farm-name]")
