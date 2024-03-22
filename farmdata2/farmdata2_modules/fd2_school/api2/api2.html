@@ -44,7 +44,7 @@
         <li><strong>Crop:</strong>{{ reportCrop }}</li>
         </ul>
         
-        <div v-if='logs.length!=0'>
+        <div v-if="logs.length!=0">
             <table border="1">
                 <tr>
                         <th>Row</th>
@@ -54,8 +54,8 @@
                         <th>Yield</th>
                         <th>Units</th>
                 </tr>
-                <tr v-for="log in logs">
-                        <td>{{log.row}}</td>
+                <tr v-for="(log, index) in harvestReportRows">
+                        <td>{{ index+1 }}</td>
                         <td>{{log.date}}</td>
                         <td>{{log.area}}</td>
                         <td>{{log.crop}}</td>
@@ -94,8 +94,6 @@
                     this.language = response.data.user.language;
                     let startTimestamp = dayjs(this.reportStartDate).unix();
                     let endTimestamp = dayjs(this.reportEndDate).unix();
-                    console.log(startTimestamp);
-                    console.log(endTimestamp);
                     let newArr = [];
 
                     let string = "/log.json?type=farm_harvest&timestamp[ge]="+startTimestamp+"&timestamp[le]="+endTimestamp;
@@ -118,7 +116,21 @@
         computed: {
             getCropNames() {
                 return Array.from(this.idToCropMap.values());
-            }
+            },
+            harvestReportRows() {
+                let tableRows = [];
+                for(let log of this.logs) {
+                    let tableRow = {
+                        date: dayjs(log.timestamp).format('MM/DD/YYYY'),
+                        area: log.area[0].name,
+                        crop: this.idToCropMap.get(log.data.crop_tid),
+                        yield: log.quantity[0].value,
+                        units: log.quantity[0].unit.name,
+                    }
+                    tableRows.push(tableRow);
+                }
+                return tableRows;
+            },
         },
         created(){
             getIDToCropMap()
