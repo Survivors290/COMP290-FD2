@@ -12,7 +12,7 @@
 	<input data-cy="end-day" type="date" min="reportStart" max="2022-01-01" v-model="reportEnd">
 	<br>
 	<label><strong>Crop:</strong></label>
-	<select v-model="reportCropsDisplay">
+	<select data-cy="select-crop" v-model="reportCropsDisplay">
 		<option v-for="crops in cropNames">{{ crops }}</option>
 	</select>
 	<br>
@@ -100,11 +100,6 @@
 			reportTitle: "My Sample Harvest Report",
 			reportStart: "2020-05-05",
 			reportEnd: "2020-05-15",
-			reportCrops: [
-				"Kale",
-				"Brocoli",
-				"Peas",
-			],
 			reportCropsDisplay: "KALE",
 			reportAreasDisplay: "All",
 			reportAreas: [
