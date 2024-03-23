@@ -10,9 +10,9 @@
         <br></br>
 
         <label for="Start Date">Start:</label>
-        <input type="date" v-model="reportEndDate" id="start date" min="01/01/2014" :max="reportStartDate"/>
+        <input type="date" v-model="reportStartDate" v-bind:max="reportEndDate" data-cy="start-date"/>
         <label for="End Date">End:</label>
-        <input type="date" v-model="reportStartDate" id="end date" :min="reportStartDate" max="05/15/2020"/>
+        <input type="date" v-model="reportEndDate" v-bind:min="reportStartDate" data-cy="end-date"/>
         <br>
         <br>
         <label for="Crop">Crop:</label>
@@ -39,8 +39,8 @@
         <li><strong>User: </strong>{{ user }}</li>
         <li><strong>Language: </strong>{{ language }}</li>
         <br>
-        <li><strong>Start:</strong>{{ reportStartDate}}</li>
-        <li><strong>End:</strong>{{ reportEndDate }}</li>
+        <li><strong>Start: </strong>{{ reportStartDate }}</li>
+        <li><strong>End: </strong>{{ reportEndDate }}</li>
         <li><strong>Crop:</strong>{{ reportCrop }}</li>
         </ul>
         
@@ -74,8 +74,8 @@
         el: "#reportdetails",
         data: {
             header: "My Sample Harvest Report",
-            reportStartDate: "05/05/2020",
-            reportEndDate: "05/15/2020",
+            reportStartDate: "2020-05-05",
+            reportEndDate: "2020-05-15",
             reportCrop: "Kale",
             areas: ["All", "Chuau-1", "SQ7"],
             logs: [],
