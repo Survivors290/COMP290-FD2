@@ -16,7 +16,7 @@
     <br />
     <label>
         Crop:
-        <select id="crop" name="crop">
+        <select id="crop" name="crop" v-model="crop">
             <option v-for="crop in cropNames">{{ crop }}</option>
         </select>
     </label>
@@ -91,14 +91,18 @@
             harvestReportRows() {
                 let tableRows = []
                 for (let log of this.logs) {
-                    let tableRow = {
-                        date: dayjs(log.timestamp).format('MM/DD/YYYY'),
-                        area: log.area[0].name,
-                        crop: this.idToCropMap.get(log.data.crop_tid),
-                        yield: log.quantity[0].value,
-                        units: log.quantity[0].unit.name,
+                    let cropName = this.idToCropMap.get(log.data.crop_tid)
+                    if (cropName === this.crop) {
+                        let tableRow = {
+                            date: dayjs.unix(log.timestamp).format('MM/DD/YYYY'),
+                            area: log.area[0].name,
+                            crop: cropName,
+                            yield: log.quantity[0].value,
+                            units: log.quantity[0].unit.name,
                     }
-                    tableRows.push(tableRow)
+                    tableRows.push(tableRow);
+                    }
+
                 }
                 return tableRows
             }
@@ -119,6 +123,7 @@
                 "SQ7",
             ],
             logs: [],
+            crop: "",
         },
 
         methods: {
