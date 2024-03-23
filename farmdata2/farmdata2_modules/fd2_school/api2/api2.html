@@ -98,6 +98,7 @@
             user: "",
             language: "",
             idToCropMap: new Map(),
+            pages: [],
 
             areas: [
                 "All",
@@ -122,8 +123,26 @@
                         console.log("Error Occurred")
                         console.log(error);
                     })
-                this.logs.push({ date: "2018-05-01", area: "Orion-3", crop: "Kale", yield: "12", units: "Bunches" });
+                let startTimeStamp = dayjs(this.startDate).unix()
 
+                console.log(startTimeStamp)
+
+                let endTimeStamp = dayjs(this.endDate).unix()
+
+                console.log(endTimeStamp)
+                
+                let stringRequest = "/log.json?type=farm_harvest&timestamp[ge]="+startTimeStamp+"&timestamp[le]="+endTimeStamp
+                console.log(stringRequest)
+
+                getAllPages(stringRequest, this.pages)
+                .then(() => {
+                })
+                .catch((error) => {
+                        console.log("Error occurred related to getAllPages function")
+                        console.log(error);
+                    })
+
+                this.logs.push({ date: "2018-05-01", area: "Orion-3", crop: "Kale", yield: "12", units: "Bunches" });
             }
         }
 
