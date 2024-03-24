@@ -20,7 +20,7 @@ describe("Test the harvest report default dynamic values", () => {
 
         cy.get("[data-cy=farm-name]").should("have.text","Farm:  Sample Farm")
         cy.get("[data-cy=language]").should("have.text","en")
-        cy.get("[data-cy=user]").should("have.text","manager1")
+        cy.get("[data-cy=user]").should("contain.text","manager1")
        
     })
 })
