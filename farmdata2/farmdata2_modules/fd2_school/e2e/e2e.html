@@ -28,14 +28,13 @@
     </select>
 
     <br></br>
-    <button class="btn btn-primary" @click="generateReport">Generate Report</button>
+    <button data-cy="generate-report" class="btn btn-primary" @click="generateReport">Generate Report</button>
 
 
 
     <hr></hr>
-    <div>
-    <h1>{{reportTitle ? reportTitle : "Mock Harvest Report"}}</h1>
-    </div>
+    <div v-if="reportGenerated === 'true'">
+    <h1 data-cy="report-title">{{reportTitle ? reportTitle : "Mock Harvest Report"}}</h1>
     <p>Details:</p>
     <ul>
         <li><strong>Farm: </strong> {{ farm }}</li>
@@ -68,6 +67,8 @@
     </div>
     <p v-else>No matching records found</p>
     </div>
+    </div>
+
     <script>
 var app = new Vue({
     el: "#app",
@@ -83,7 +84,8 @@ var app = new Vue({
         user: "",
         language: "",
         idToCropMap: new Map(),
-        allHarvestLogs: []
+        allHarvestLogs: [],
+        reportGenerated: "false"
     },
     methods: {
         generateReport: function() {
@@ -95,6 +97,7 @@ var app = new Vue({
                     this.farm = response.data.name;
                     this.user = response.data.user.name;
                     this.language = response.data.user.language;
+                    this.reportGenerated = "true";
                     let startTimestamp = dayjs(this.reportStartDate).unix();
                     let endTimestamp = dayjs(this.reportEndDate).unix();
                     let requestString = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
