@@ -27,9 +27,9 @@
 			<h1 data-cy="report-header" v-cloak>{{reportTitle ? reportTitle: "Mock Harvest Report"}}</h1>
 			<p>Details:</p>
 			<ul>
-				<li><strong>Farm:</strong> {{Farm}}</li>
-				<li><strong>User:</strong> {{User}}</li>
-				<li><strong>Language:</strong> {{Language}}</li>
+				<li data-cy="report-farm"><strong>Farm:</strong> {{Farm}}</li>
+				<li data-cy="report-user"><strong>User:</strong> {{User}}</li>
+				<li><strong>Language:</strong> <span data-cy="report-language">{{Language}}</span></li>
 			</ul>
 			<br>
 			<ul>
