@@ -61,9 +61,59 @@ function fd2_school_menu() {
   );
 
   // Add items blocks for new sub-tabs here.
+  $items['farm/fd2-school/html'] = array(
+    'title' => 'HTML',                         // Put FD2 School on the tab
+    'page callback' => 'fd2_school_view',            // The function that will provide the content
+    'page arguments' => array('HTML'),               // The html file with the default content for the tab
+    'access arguments' => array('view fd2 school'),  // permissions required to view the tab
+    'type' => MENU_LOCAL_TASK,                        // Put it on the menu
+    'weight' => 110,                                  // larger weights appear further right.
+  );
+
+  // Add items blocks for new sub-tabs here.
+  $items['farm/fd2-school/Vue1'] = array(
+    'title' => 'Vue 1',                         // Put FD2 School on the tab
+    'page callback' => 'fd2_school_view',            // The function that will provide the content
+    'page arguments' => array('Vue1'),               // The html file with the default content for the tab
+    'access arguments' => array('view fd2 school'),  // permissions required to view the tab
+    'type' => MENU_LOCAL_TASK,                        // Put it on the menu
+    'weight' => 115,                                  // larger weights appear further right.
+  );
+
+    // Add items blocks for new sub-tabs here.
+  $items['farm/fd2-school/Vue2'] = array(
+    'title' => 'Vue 2',                         // Put FD2 School on the tab
+    'page callback' => 'fd2_school_view',            // The function that will provide the content
+    'page arguments' => array('Vue2'),               // The html file with the default content for the tab
+    'access arguments' => array('view fd2 school'),  // permissions required to view the tab
+    'type' => MENU_LOCAL_TASK,                        // Put it on the menu
+    'weight' => 120,                                  // larger weights appear further right.
+  );
+
+    // Add items blocks for new sub-tabs here.
+  $items['farm/fd2-school/API'] = array(
+    'title' => 'API 1',                         // Put FD2 School on the tab
+    'page callback' => 'fd2_school_view',            // The function that will provide the content
+    'page arguments' => array('API'),               // The html file with the default content for the tab
+    'access arguments' => array('view fd2 school'),  // permissions required to view the tab
+    'type' => MENU_LOCAL_TASK,                        // Put it on the menu
+    'weight' => 125,                                  // larger weights appear further right.
+  );
+
+      // Add items blocks for new sub-tabs here.
+  $items['farm/fd2-school/API2'] = array(
+    'title' => 'API 2',                         // Put FD2 School on the tab
+    'page callback' => 'fd2_school_view',            // The function that will provide the content
+    'page arguments' => array('API2'),               // The html file with the default content for the tab
+    'access arguments' => array('view fd2 school'),  // permissions required to view the tab
+    'type' => MENU_LOCAL_TASK,                        // Put it on the menu
+    'weight' => 130,                                  // larger weights appear further right.
+  );
 
   return $items;
 };
+
+
 
 // This function Loads the content for the sub-tab from the html file specified in the arguemnt.
 // It must be renamed in each module.
