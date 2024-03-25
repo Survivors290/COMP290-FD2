@@ -16,5 +16,11 @@ it('Check the crops in the crop dropdown', ()=> {
   cy.get("[data-cy=crop-dropdown]").children().eq(110).should("have.text", "ZUCCHINI")
   cy.get("[data-cy=crop-dropdown]").children().should("have.length", "111")
 })
+it('Check the areas in the area dropdown', ()=> {
+  cy.get("[data-cy=area-dropdown]").children().eq(0).should("have.text", "A")
+  cy.get("[data-cy=area-dropdown]").children().eq(4).should("have.text", "ALF-3")
+  cy.get("[data-cy=area-dropdown]").children().eq(69).should("have.text", "Z")
+  cy.get("[data-cy=area-dropdown]").children().should("have.length", "70")
+})
 
 })
