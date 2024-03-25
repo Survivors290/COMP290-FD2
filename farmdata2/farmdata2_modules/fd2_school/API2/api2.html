@@ -102,9 +102,17 @@
                 created() {
                     console.log("HarvestReport Vue instance created!")
                     getIDToCropMap()
-                    .then((theMap) => {
-                        this.idToCropMap = theMap;
+                    .then((theCropMap) => {
+                        this.idToCropMap = theCropMap;
                         console.log("idToCropMap variable created");
+                    })
+                    .catch((error) => {
+                        console.log("Map not received / Not created correctly");
+                    });
+                    getIDToAreaMap()
+                    .then((theAreaMap) => {
+                        this.idToAreaMap = theAreaMap;
+                        console.log("idToAreaMap variable created");
                     })
                     .catch((error) => {
                         console.log("Map not received / Not created correctly");
