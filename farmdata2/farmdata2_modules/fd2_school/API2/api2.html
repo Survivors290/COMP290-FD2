@@ -25,24 +25,25 @@
             <label for="reportStartDate">Start:</label>
             <input type="date" v-bind:min="reportStartDate" id="reportEndDate" name="reportEndDate" value="2020-05-15" v-model="reportEndDate"/>
 
-            <label for="cropDropDown">Crop:</label>
-            <select v-model="reportSelectedCrop" id="cropDropDown" v-model="crop">
+            <label for="reportCrops">Crop:</label>
+            <select v-model="reportSelectedCrop" id="cropCrops" v-model="crop">
                 <option v-for="crop in cropNames">{{ crop }}</option>
             </select>
 
-            <label for="areaDropDown">Area:</label>
-            <select v-model="reportSelectedArea" id="areaDropDown">
+            <label for="reportAreas">Area:</label>
+            <select v-model="reportSelectedArea" id="reportAreas">
                 <option v-for="area in areaNames">{{ area }}</option>
             </select>
 
-            <input type="button" value="Generate Report" @click="addHarvestLog"/>
+            <input type="button" value="Generate Report" @click="generateReport"/>
 
             <h1>{{ header.toLocaleUpperCase() ? header : "Mock Harvest Report"}}</h1>
 
             <ul>
                 <li><strong>Start: </strong>{{ reportStartDate }}</li>
                 <li><strong>End: </strong>{{ reportEndDate }}</li>
-                <li><strong>Crop: </strong>{{ reportCrops }}</li>
+                <li><strong>Crop: </strong>{{ reportSelectedCrop }}</li>
+                <li><strong>Area: </strong>{{ reportSelectedArea }}</li>
                 <li><strong>Farm: </strong>{{ farm }}</li>
                 <li><strong>User: </strong>{{ user }}</li>
                 <li><strong>Language: </strong>{{ language }}</li>
@@ -75,6 +76,7 @@
             var harvestReport = new Vue({
                 el: '#harvestReport',
                 data: {
+                    header: 'Mock Harvest Report',
                     reportTitle: '',
                     reportStartDate: '',
                     reportEndDate: '',
@@ -87,6 +89,7 @@
                     user: '',
                     language: '',
                     idToCropMap: new Map(),
+                    idToAreaMap: new Map(),
                 },
                 computed: {
                     cropNames: function() {
