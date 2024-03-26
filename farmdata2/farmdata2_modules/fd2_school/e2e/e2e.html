@@ -27,10 +27,10 @@
                 </select>
             </p>
             <br />
-            <input type="button" value="Generate Report" @click="generateReport('show')">
+            <input type="button" data-cy="generate-report-button" value="Generate Report" @click="generateReport('show')">
             <hr />
             <div v-if="state === 'show'">
-                <h1>{{ header == '' ? 'Mock Harvest Report':header }}</h1>
+                <h1 data-cy="report-header">{{ header == '' ? 'Mock Harvest Report':header }}</h1>
                 <p>Details:</p>
                 <ul>
                     <li><strong>Farm</strong>:{{ farm }}</li>
