@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+  <title>Harvest Report</title>
+</head>
+<body>
+
 <h1>Harvest Report</h1>
 <p>This page is a <i>mockup</i> of a simplified harvest report</p>
 
@@ -15,13 +22,13 @@
 
   <label for="crop">Crop:</label>
   <select v-model="reportSelectedCrop" id="crop" name="crop">
-    <option v-for="crops in cropList" :value="crops">{{ crops }}</option>
-</select>
+    <option v-for="crop in cropList" :value="crop">{{ crop }}</option>
+  </select>
 
   <label for="field">Area:</label>
   <select v-model="reportSelectedArea" id="area" name="area">
-    <option v-for="areas in areaList" value="areas">{{ areas }}</option>
-</select>
+    <option v-for="area in areaList" :value="area">{{ area }}</option>
+  </select>
 
   <button>Generate Report</button>
 </div>
@@ -41,7 +48,7 @@
 <ul>
   <li><b>Start</b>: {{ reportStartDate }}</li>
   <li><b>End</b>: {{ reportEndDate }}</li>
-  <li><b>Crop</b>: {{ reportCrop }}</li>
+  <li><b>Crop</b>: {{ reportSelectedCrop }}</li>
 </ul>
 
 <table border="1">
@@ -71,7 +78,7 @@
 <script src="https://unpkg.com/vue@2"></script>
 <script>
   var harvest = new Vue({
-    el: '#harvest',
+    el: '#app',
     data: {
       reportTitle: 'My Sample Harvest Report',
       reportStartDate: '2020-05-01',
@@ -82,5 +89,7 @@
       areaList: ["ALL", "SQ7", "Chuau-1"]
     }
   });
-  Vue.config.devtools = true;
 </script>
+
+</body>
+</html>
