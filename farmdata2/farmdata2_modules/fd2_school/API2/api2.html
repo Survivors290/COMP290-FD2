@@ -49,7 +49,7 @@
                 <li><strong>Language: </strong>{{ language }}</li>
             </ul>
 
-            <div v-if="reportTable.length > 0">
+            <div v-if="harvestReportRows.length > 0">
                 <table border="1">
                     <tr>
                         <th>Row</th>
@@ -59,7 +59,7 @@
                         <th>Yield</th>
                         <th>Units</th>
                     </tr>
-                    <tr v-for="tableCol in reportTable">
+                    <tr v-for="tableCol in harvestReportRows">
                         <td>{{ index+1 }}</td>
                         <td>{{ tableCol.date }}</td>
                         <td>{{ tableCol.area }}</td>
@@ -69,7 +69,7 @@
                     </tr>
                 </table>
             </div>
-            <p v-if="reportTable.length === 0">There is currently no harvest report logs available.</p>
+            <p v-if="harvestReportRows.length === 0">There is currently no harvest report logs available.</p>
         </div>
 
         <script>
@@ -84,7 +84,8 @@
                     reportSelectedArea: 'ALL',
                     reportCrops: [],
                     reportAreas: [],
-                    reportTable: [],
+                    reportTable: [],        
+                    harvestLogs: [],        // used to store the harvest log reports  
                     farm: '',
                     user: '',
                     language: '',
@@ -97,6 +98,20 @@
                     },
                     areaNames: function() {
                         return Array.from(this.idToAreaMap.values());
+                    },
+                    harvestReportRows() {
+                        let tableRows = []
+                        for (let log of this.harvestLogs) {
+                            let tableRow = {
+                                date: log.timestamp,
+                                area: log.area[0].name,
+                                crop: this.idToCropMap.get(log.data.crop_tid),
+                                yield: log.quantity[0].value,
+                                units: log.quantity[0].unit.name
+                            }
+                            tableRows.push(tableRow)
+                        }
+                        return tableRows
                     }
                 },
                 created() {
@@ -107,7 +122,7 @@
                         console.log("idToCropMap variable created");
                     })
                     .catch((error) => {
-                        console.log("Map not received / Not created correctly");
+                        console.log("CropMap not received / Not created correctly");
                     });
                     getIDToAreaMap()
                     .then((theAreaMap) => {
@@ -115,7 +130,7 @@
                         console.log("idToAreaMap variable created");
                     })
                     .catch((error) => {
-                        console.log("Map not received / Not created correctly");
+                        console.log("AreaMap not received / Not created correctly");
                     });
                 },
                 methods: {
@@ -126,24 +141,21 @@
                             this.farmName = response.data.name;
                             this.currentUser = response.data.user.name;
                             this.language = response.data.languages.en.name;
-                            let startTimestamp = dayjs(this.reportStartDate).unix();
-                            let endTimestamp = dayjs(this.reportEndDate).unix();
-                            let requestString = '/log.json?type=farm_harvest&timestamp[ge]=$[startTimestamp]&timestamp[le]=$[endTimestamp]';
-                            console.log(requestString);
-                            console.log(startTimestamp);
-                            console.log(endTimestamp);
-                            let results = [];
-                            getAllPages(requestEndPoint, results)
-                            .then((res) => {
-                                // res is the results array.
-                            })
-                            .catch((error) => {
-                                console.log("Error requesting logs");
-                                console.log(err);
-                            })
                         })
                         .catch((error) => {
-                            console.log("Error Occurred");
+                                console.log("Error requesting logs");
+                                console.log(err);
+                        })
+                        let startTimestamp = dayjs(this.reportStartDate).unix();
+                        let endTimestamp = dayjs(this.reportEndDate).unix();
+                        let requestEndPoint = '/log.json?type=farm_harvest&timestamp[ge]=$[' + startTimestamp + ']&timestamp[le]=$[' + endTimestamp + ']';
+                        console.log(startTimestamp);
+                        console.log(endTimestamp);
+                        
+                        getAllPages(requestEndPoint, this.harvestLogs)
+                        .catch((err) => {
+                            console.log('An error occurred');
+                            console.log(err);
                         })
                     }
                 }
