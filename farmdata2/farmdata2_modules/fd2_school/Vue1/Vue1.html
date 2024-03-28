@@ -2,37 +2,36 @@
 <p>This page is a <i>mockup</i> of a simplified harvest report</p>
 
 <div id="app" v-cloak>
-  <label for="title">Title:</label>
-  <input type="text" id="title" name="title" v-model="reportTitle">
+  <label for="reportTitle">Title:</label>
+  <input type="text" id="reportTitle" name="reportTitle" v-model="reportTitle">
 
   <label for="start_date">Start Date:</label>
-  <input type="date" id="start_date" name="start_date" min="2014-01-01" max="2022-01-01" v-model="startDate">
+  <input type="date" id="start_date" name="start_date" min="2014-01-01" max="2022-01-01" v-model="reportStartDate">
 
   <label for="end_date">End Date:</label>
-  <input type="date" id="end_date" name="end_date" min="2020-05-05" max="2022-01-01" v-model="endDate">
+  <input type="date" id="end_date" name="end_date" min="2020-05-05" max="2022-01-01" v-model="reportEndDate">
 
   <br>
 
   <label for="crop">Crop:</label>
-  <select id="crop" name="crop" v-model="crop">
-    <option value="broccoli">Broccoli</option>
-    <option value="kale">Kale</option>
-    <option value="peas">Peas</option>
-  </select>
+  <select v-model="reportSelectedCrop" id="crop" name="crop">
+    <option v-for="crops in cropList" :value="crops">{{ crops }}</option>
+</select>
 
   <label for="field">Area:</label>
-  <select id="field" name="field">
-    <option value="all" selected>All</option>
-    <option value="chuau-1">Chuau-1</option>
-    <option value="sq7">SQ7</option>
-  </select>
+  <select v-model="reportSelectedArea" id="area" name="area">
+    <option v-for="areas in areaList" value="areas">{{ areas }}</option>
+</select>
 
   <button>Generate Report</button>
 </div>
 
 <hr>
+<div>
+<h1>{{reportTitle}}</h1>
+<h1>{{reportTitle ? reportTitle : "Mock Harvest Report"}}</h1>
 
-<h1>The Sample Harvest Report</h1>
+</div>
 <p>Details:</p>
 <ul>
   <li><b>Farm</b>: Sample Farm</li>
@@ -40,9 +39,9 @@
   <li><b>Language</b>: English</li>
 </ul>
 <ul>
-  <li><b>Start</b>: {{ startDate }}</li>
-  <li><b>End</b>: {{ endDate }}</li>
-  <li><b>Crop</b>: {{ crop }}</li>
+  <li><b>Start</b>: {{ reportStartDate }}</li>
+  <li><b>End</b>: {{ reportEndDate }}</li>
+  <li><b>Crop</b>: {{ reportCrop }}</li>
 </ul>
 
 <table border="1">
@@ -75,9 +74,13 @@
     el: '#harvest',
     data: {
       reportTitle: 'My Sample Harvest Report',
-      startDate: '2020-05-01',
-      endDate: '2020-05-15',
-      crop: 'Kale'
+      reportStartDate: '2020-05-01',
+      reportEndDate: '2020-05-15',
+      reportSelectedCrop: "Kale",
+      cropList: ["Broccoli", "Kale", "Peas"],
+      reportSelectedArea: "ALL",
+      areaList: ["ALL", "SQ7", "Chuau-1"]
     }
   });
+  Vue.config.devtools = true;
 </script>
