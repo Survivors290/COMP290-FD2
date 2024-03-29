@@ -13,10 +13,10 @@
             <input type="text" id="title" name="title" v-model="reportTitle"/>
 
             <label for="reportStartDate">Start:</label>
-            <input type="date" v-bind:max="reportEndDate" id="reportStartDate" name="reportStartDate" value="2020-05-05" v-model="reportStartDate"/>
+            <input data-cy="start-date" type="date" v-bind:max="reportEndDate" id="reportStartDate" name="reportStartDate" value="2020-05-05" v-model="reportStartDate"/>
 
-            <label for="reportStartDate">Start:</label>
-            <input type="date" v-bind:min="reportStartDate" id="reportEndDate" name="reportEndDate" value="2020-05-15" v-model="reportEndDate"/>
+            <label for="reportEndDate">End:</label>
+            <input data-cy="end-date" type="date" v-bind:min="reportStartDate" id="reportEndDate" name="reportEndDate" value="2020-05-15" v-model="reportEndDate"/>
 
             <label for="reportCrops">Crop:</label>
             <select v-model="reportSelectedCrop" id="cropCrops" v-model="crop">
@@ -71,8 +71,8 @@
                 data: {
                     header: 'Mock Harvest Report',
                     reportTitle: '',
-                    reportStartDate: '',
-                    reportEndDate: '',
+                    reportStartDate: '2020-05-05',
+                    reportEndDate: '2020-05-15',
                     reportSelectedCrop: 'Kale',
                     reportSelectedArea: 'ALL',
                     reportCrops: [],
