@@ -4,7 +4,7 @@ describe('Test the harvest report dynamic features', () => {
         cy.visit('/farm/fd2-school/fd2')
     })
     it('Check generate button', ()=> {
-        //cy.get("[data-cy=report-header]").should("not.exist")
+        cy.get("[data-cy=report-header]").should("not.exist")
         cy.get("[data-cy=generate-report-button]").click()
         cy.get("[data-cy=report-header]").should("be.visible")
 

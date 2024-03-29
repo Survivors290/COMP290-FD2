@@ -18,13 +18,14 @@
           <input data-cy="end-date" type="date" id="end" name="end-date" v-model="endDate" min="2020-05-05" max="2022-01-01" :min="startDate"/>
           <p></p>
           <br>
-          <label for=title>Crop:</label>
+          <!-- <label for=title>Crop:</label> -->
           <dropdown-with-all data-cy="crop-dropdown" id="cropInDropdown" name="cropInDropdown" v-model="cropInDropdown"
                 includes-all 
                 :selected-val='cropInDropdown'
                 :dropdown-list='cropNames'
                 @selection-changed="cropChange">
-              <option v-for="name in cropNames">{{ name }}</option>
+                Crop: 
+              <!-- <option v-for="name in cropNames">{{ name }}</option> -->
           </dropdown-with-all>
           
           <label for=title>Area:</label>
@@ -36,22 +37,21 @@
           <button data-cy="generate-report-button" class="btn btn-primary" @click="buttonPress()">Generate Report</button>
 
           <hr>
-
-          <h1 data-cy="report-header"> {{ heading ? heading : 'Mock Harvest Report' }} </h1>  
-
-          <p>Details:</p>
-          <ul>
-              <li data-cy="farm-name"><strong>Farm: </strong>{{ farm }}</li>
-              <li data-cy="user-name"><strong>User: </strong>{{ user }}</li>
-              <li><strong>Language: </strong><span data-cy="language">{{ language }}</span></li>
-              <br>
-              <li><strong>Start:</strong> {{ startDate }} </li>
-              <li><strong>End:</strong> {{ endDate }} </li>
-              <li><strong>Crop:</strong> {{ cropInDropdown }}</li>
-          </ul>
-
           <div v-if="reportVisible">
-            
+
+            <h1 data-cy="report-header"> {{ heading == "" ? 'Mock Harvest Report' : heading}} </h1>    
+
+            <p>Details:</p>
+            <ul>
+                <li data-cy="farm-name"><strong>Farm: </strong>{{ farm }}</li>
+                <li data-cy="user-name"><strong>User: </strong>{{ user }}</li>
+                <li><strong>Language: </strong><span data-cy="language">{{ language }}</span></li>
+                <br>
+                <li><strong>Start:</strong> {{ startDate }} </li>
+                <li><strong>End:</strong> {{ endDate }} </li>
+                <li><strong>Crop:</strong> {{ cropInDropdown }}</li>
+            </ul>
+
             <table border="1" >
                 <!-- if length is zero -->
                 <tr v-if="harvestReportRows.length == 0">
@@ -99,7 +99,7 @@
                 el: "#heading",
                 data: {
                     state: "default",
-                    heading: null,
+                    heading: "My Sample Report",
                     startDate: "2020-05-05",
                     endDate: "2020-05-15",
                     crop: "Kale",         
@@ -140,7 +140,6 @@
                 },
                 methods: {
                     buttonPress: function() {
-                        if(!this.reportVisible){
                             axios.get('/farm.json')  // this line sends the request.
                             .then((response) => {
                                 // Block A:
@@ -172,8 +171,10 @@
                                 console.log("Error Occurred")
                                 console.log(error)
                             })
-
-                        }
+                            
+                            if(!this.reportVisible){
+                                this.reportVisible=true
+                            }
                     },
                     cropChange(newCrop) {
                         this.cropInDropdown = newCrop

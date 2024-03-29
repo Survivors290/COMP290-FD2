@@ -117,7 +117,7 @@ function fd2_school_menu() {
         'weight' => 115,
       );
 
-      $items['farm/fd2-school/fd2_school'] = array(
+      $items['farm/fd2-school/fd2'] = array(
         'title' => 'FD2',
         'type' => MENU_LOCAL_TASK,
         'page callback' => 'fd2_school_view',
