@@ -19,7 +19,7 @@
             <input data-cy="end-date" type="date" v-bind:min="reportStartDate" id="reportEndDate" name="reportEndDate" value="2020-05-15" v-model="reportEndDate"/>
 
             <label for="reportCrops">Crop:</label>
-            <select v-model="reportSelectedCrop" id="cropCrops" v-model="crop">
+            <select data-cy="cropDropdown" v-model="reportSelectedCrop" id="cropCrops" v-model="crop">
                 <option v-for="crop in cropNames">{{ crop }}</option>
             </select>
 
