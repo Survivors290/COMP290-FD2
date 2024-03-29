@@ -89,6 +89,11 @@ function fd2_school_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -100,
   );
+  $items['farm/fd2-school/e2e'] = array(
+    'title' => 'api2',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -100,
+  );
   return $items;
 };
 
