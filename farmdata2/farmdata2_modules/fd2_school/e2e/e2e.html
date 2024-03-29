@@ -10,11 +10,11 @@
         <div>
             <label for="start">Start: </label>
             <input type="date" id="start" name="start-date" v-bind:min="reportStartDate"
-            v-bind:max="reportEndDate" v-model="reportStartDate"/>
+            v-bind:max="reportEndDate" v-model="reportStartDate" data-cy="start-date"/>
 
             <label for="end">End: </label>
             <input type="date" id="end" name="end-date" v-bind:min="reportStartDate"
-            v-bind:max="reportEndDate" v-model="reportEndDate"/>
+            v-bind:max="reportEndDate" v-model="reportEndDate" data-cy="end-date"/>
         </div>
         <br>
         <div>
@@ -30,7 +30,7 @@
         </div>
         <br>
     </form>
-    <button @click="logHarvest(); changeReportState('show'); setFarmUserLan(); makeRequest()">Generate Report</button>
+    <button @click=" makeRequest(); logHarvest(); changeReportState('show'); setFarmUserLan()">Generate Report</button>
     
 
     <hr>
@@ -73,7 +73,6 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
 <script>
     const report = new Vue({
@@ -84,8 +83,8 @@
             language: '',
             reportState: 'default',
             reportTitle: "",
-            reportStartDate: "",
-            reportEndDate: "",
+            reportStartDate: "2020-05-05",
+            reportEndDate: "2020-05-15",
             reportCrop: "",
             crops: [
                 "Broccoli",
@@ -125,7 +124,6 @@
                 .catch((err) => {
                     console.log(err)
                 })
-
                 for(let log of this.harvestLogs) {
                     let tableRow = {
                         date: dayjs.unix(log.timestamp).format('DD/MM/YYYY'),
@@ -134,8 +132,9 @@
                         units: log.quantity[0].unit.name,
                         crop: this.idToCropMap.get(log.data.crop_tid),
                     }
+
                     if (tableRow.crop.toUpperCase() === this.reportCrop) {
-                        table.push(tableRow)
+                        tableRows.push(tableRow)
                     }
                 }
                 return tableRows
@@ -171,7 +170,19 @@
                     console.log(error)
                 })
             },
-            
+            makeRequest: function() {
+                let startDate = dayjs(this.reportStartDate).unix()
+                let endDate = dayjs(this.reportEndDate).unix()
+                let request = `/log.json?type=farm_harvest&timestamp[ge]=${startDate}&timestamp[le]=${endDate}`
+                getAllPages(request, this.harvestLogs)
+                .then(() => {
+                    console.log('working')
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            }
+         },
         created() {
             getIDToCropMap()
             .then((theMap) => {
@@ -189,22 +200,7 @@
                 console.log("Error occurs")
                 console.log(error)
             })
-        },
-        makeRequest: function() {
-                let startDate = dayjs(this.reportStartDate).unix()
-                let endDate = dayjs(this.reportEndDate).unix()
-                let request = `/log.json?type=farm_harvest&timestamp[ge]=${startDate}&timestamp[le]=${endDate}`
-                getAllPages(request, this.harvestLogs)
-                .then(() => {
-                    console.log('working')
-                })
-                .catch((err) => {
-                    console.log(error)
-                })
-            }
         }
-    })
-
+    }) 
     Vue.config.devtools = true
 </script>
-
