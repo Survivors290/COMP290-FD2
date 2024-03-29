@@ -14,5 +14,15 @@ describe("Test the harvest report table", () => {
         cy.get('[data-cy=table-headers]').children()
             .should("have.length","5")
     })
+
+    it("Checks crops are the same as selected crop", () => {
+        cy.get('[data-cy=crop-dropdown]>[data-cy=dropdown-input]').select("ARUGULA")
+        cy.get('[data-cy=generate-report-button]').click()
+        
+        cy.get("[data-cy=td-r2c2]").should("have.text","ARUGULA     ")
+        
+        cy.get('[data-cy=table-body]').children()
+            .should("have.length","4")
+    })
     
 })
