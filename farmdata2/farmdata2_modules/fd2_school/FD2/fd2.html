@@ -19,9 +19,13 @@
           <p></p>
           <br>
           <label for=title>Crop:</label>
-          <select data-cy="crop-dropdown"id="cropInDropdown" name="cropInDropdown" v-model="cropInDropdown">
+          <dropdown-with-all data-cy="crop-dropdown" id="cropInDropdown" name="cropInDropdown" v-model="cropInDropdown"
+                includes-all 
+                :selected-val='cropInDropdown'
+                :dropdown-list='cropNames'
+                @selection-changed="cropChange">
               <option v-for="name in cropNames">{{ name }}</option>
-          </select>
+          </dropdown-with-all>
           
           <label for=title>Area:</label>
           <select data-cy="area-dropdown" id="areaInDropdown" name="areaInDropdown" v-model="areaInDropdown">
@@ -106,7 +110,7 @@
                     idToCropMap: new Map(),
                     idToAreaMap: new Map(),
                     results: [],
-                    cropInDropdown: "",
+                    cropInDropdown: "All",
                     areaInDropdown: "",
                 },
                 computed: {
@@ -171,6 +175,12 @@
 
                         }
                     },
+                    cropChange(newCrop) {
+                        this.cropInDropdown = newCrop
+                    },
+                },
+                components: {
+                    'dropdown-with-all': DropdownWithAllComponent,
                 },
             });
             Vue.config.devtools = true;
