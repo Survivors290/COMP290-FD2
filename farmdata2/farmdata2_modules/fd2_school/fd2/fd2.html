@@ -14,10 +14,18 @@
             <input type="date" name="end" v-bind:min="startDate" max="2022-01-01" v-model ='endDate' data-cy = "end-date"/>
         <br>
         <br>
-        <label for="crop">Crop:</label>
-        <select id="cropPlant" name="cropPlant" v-model="cropPlant" data-cy = "crop-dropdown">
+        <!-- <label for="crop">Crop:</label> -->
+        <dropdown-with-all data-cy="crop-dropdown"
+            includes-all 
+            :selected-val='cropPlant'
+            :dropdown-list='cropNames'
+            @selection-changed="cropChange"
+            >
+            Pick a crop:
+    </dropdown-with-all>
+        <!-- <select id="cropPlant" name="cropPlant" v-model="cropPlant" data-cy = "crop-dropdown">
             <option v-for="crop in cropNames" >{{ crop }} </option>
-          </select>
+          </select> -->
         <label for="field">Area:</label>
         <select id="field" name="field">
             <option v-for="area in areas">{{ area }} </option>
@@ -68,9 +76,14 @@
     <script> 
             var heading = new Vue({
                 el: '#heading',
+                components:{
+                    // Register the components used and define the tag name to be used.
+                    'dropdown-with-all': DropdownWithAllComponent,
+
+                },
                 data: {
                     header: 'My Sample Harvest Report',
-                    cropPlant: '',
+                    cropPlant: 'All',
                     farm: '',
                     user: '',
                     language: '',
@@ -111,8 +124,10 @@
                                 crop: this.idToCropMap.get(log.data.crop_tid),
                                 
                             }
-                            
-                            if (String(this.cropPlant) === String(tableRow.crop)){
+                            if (this.cropPlant === "All"){
+                                tableRows.push(tableRow)
+                            }
+                            else if (String(this.cropPlant) === String(tableRow.crop)){
                                 tableRows.push(tableRow)
                             }
                                 
@@ -123,6 +138,9 @@
 
                 },
                 methods: {
+                    cropChange(newCrop) {
+                        this.cropPlant = newCrop
+                    },
                     saveItem: function() {
                         
                       
