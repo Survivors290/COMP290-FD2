@@ -61,7 +61,39 @@ function fd2_school_menu() {
   );
 
   // Add items blocks for new sub-tabs here.
+  $items['farm/fd2-school/HTML'] = array(
+    'title' => 'HTML',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -100,
+  );
 
+  $items['farm/fd2-school/Vue1'] = array(
+    'title' => 'Vue1',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -100,
+  );
+
+  $items['farm/fd2-school/Vue2'] = array(
+    'title' => 'Vue2',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -100,
+  );
+
+   $items['farm/fd2-school/api'] = array(
+    'title' => 'api',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -100,
+  );
+  $items['farm/fd2-school/api2'] = array(
+    'title' => 'api2',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -100,
+  );
+  $items['farm/fd2-school/e2e'] = array(
+    'title' => 'api2',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -100,
+  );
   return $items;
 };
 
