@@ -11,11 +11,13 @@
 	<label><strong>End:</strong></label>
 	<input data-cy="end-day" type="date" min="reportStart" max="2022-01-01" v-model="reportEnd">
 	<br>
-	<label><strong>Crop:</strong></label>
-	<select data-cy="select-crop" v-model="reportCropsDisplay">
-		<option v-for="crops in cropNames">{{ crops }}</option>
-	</select>
-	<br>
+	<label><strong>Crop:</strong>
+    <dropdown-with-all data-cy="select-crop" 
+    includes-all
+    :selected-val='reportCropsDisplay'
+    :dropdown-list='cropNames'
+    @selection-changed="cropChange"></label>
+    <br>
 	<label><strong>Area:</strong></label>
 	<select v-model="reportAreasDisplay">
 		<option v-for="area in reportAreas">{{ area }}</option>
@@ -75,6 +77,9 @@
 <script>
 	var reportInputs = new Vue({
 		el: "#report",
+        components: {
+            'dropdown-with-all': DropdownWithAllComponent
+        },
 		created() {
 		getIDToCropMap()
 		.then((theMap) => {
@@ -100,7 +105,7 @@
 			reportTitle: "My Sample Harvest Report",
 			reportStart: "2020-05-05",
 			reportEnd: "2020-05-15",
-			reportCropsDisplay: "KALE",
+			reportCropsDisplay: "All",
 			reportAreasDisplay: "All",
 			reportAreas: [
 				"All",
@@ -135,13 +140,11 @@
                         yield: log.quantity[0].value,
                         units: log.quantity[0].unit.name
                     }
-                    if (tableRow.crop == this.reportCropsDisplay)
+                    if (tableRow.crop == this.reportCropsDisplay || this.reportCropsDisplay == "All")
                     reportTable.push(tableRow)
                 }
                 return reportTable
-            },
-
-                
+            },             
 		},
 		methods: {
 			CreateReport: function() {
@@ -174,7 +177,10 @@
 			},
 			changeState: function(newState) {
 				this.state = newState
-			}
+			},
+            cropChange(newCrop) {
+            this.reportCropsDisplay = newCrop
+        },
 		}
 	});
 	Vue.config.devtools = true;
