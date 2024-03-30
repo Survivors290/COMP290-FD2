@@ -148,7 +148,7 @@ var app = new Vue({
                 let unit = harvestQuantity.unit.name;
                 let cropName = this.idToCropMap.get(log.data.crop_tid);
 
-                if (this.reportSelectedCrop === cropName || this.reportSelectedCrop === "All"){
+                if (this.reportSelectedCrop === cropName || this.reportSelectedCrop === cropName){
                 let tableRow = {
                     date: dayjs.unix(log.timestamp).format('DD/MM/YYYY'),
                     area:log.area[0].name,
