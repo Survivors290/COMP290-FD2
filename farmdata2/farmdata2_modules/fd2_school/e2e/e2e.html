@@ -28,9 +28,9 @@
                 <option v-for="area in areaNames">{{ area }}</option>
             </select>
 
-            <input type="button" value="Generate Report" @click="generateReport"/>
+            <input data-cy="generateButton" type="button" value="Generate Report" @click="generateReport"/>
 
-            <h1>{{ header.toLocaleUpperCase() ? header : "Mock Harvest Report"}}</h1>
+            <h1 data-cy="reportHeader">{{ header.toLocaleUpperCase() ? header : "Mock Harvest Report"}}</h1>
 
             <ul>
                 <li><strong>Start: </strong>{{ reportStartDate }}</li>
