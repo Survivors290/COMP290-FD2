@@ -37,9 +37,9 @@
                 <li><strong>End: </strong>{{ reportEndDate }}</li>
                 <li><strong>Crop: </strong>{{ reportSelectedCrop }}</li>
                 <li><strong>Area: </strong>{{ reportSelectedArea }}</li>
-                <li><strong>Farm: </strong>{{ farm }}</li>
-                <li><strong>User: </strong>{{ user }}</li>
-                <li><strong>Language: </strong>{{ language }}</li>
+                <li data-cy="farmName"><strong>Farm: </strong>{{ farm }}</li>
+                <li data-cy="userName"><strong>User: </strong>{{ user }}</li>
+                <li><strong>Language: <span data-cy="language"></strong>{{ language }}</span></li>
             </ul>
 
             <div v-if="reportTable.length > 0">
@@ -78,9 +78,9 @@
                     reportCrops: [],
                     reportAreas: [],
                     reportTable: [],
-                    farm: '',
-                    user: '',
-                    language: '',
+                    farm: 'sampleFarm',
+                    user: 'sampleUser',
+                    language: 'sampleLanguage',
                     idToCropMap: new Map(),
                     idToAreaMap: new Map(),
                 },

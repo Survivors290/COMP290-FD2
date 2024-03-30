@@ -11,4 +11,12 @@ describe("Test the harvest report generation", () => {
         cy.get("[data-cy=reportHeader]")
         .should("be.visible")
     })
+    it("Check if farm and user name is correct", () => {
+        cy.get("[data-cy=farmName]")
+        .should("have.text", "Farm: sampleFarm")
+        cy.get("[data-cy=userName]")
+        .should("contain.text", "sampleUser")
+        cy.get("[data-cy=language]")
+        .should("have.text", "sampleLanguage")
+    })
 })
