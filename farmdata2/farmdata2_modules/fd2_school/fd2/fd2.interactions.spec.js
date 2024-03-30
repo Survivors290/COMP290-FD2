@@ -1,4 +1,4 @@
-describe("hi", () => {
+describe("test outputs when report is generated", () => {
     beforeEach(() => {
         cy.login("manager1","farmdata2")
         cy.visit("/farm/fd2-school/e2e")
@@ -17,5 +17,4 @@ describe("hi", () => {
         cy.get("[data-cy=report-language]").should("have.text", "English")
 
     })
-
 })
