@@ -16,10 +16,16 @@
     <input data-cy="end-date" type="date" id="end" name="end" :min="reportStartDate" :max="2022-01-01" v-model="reportEndDate"/>
 
     <br></br>
-    <label for="crop">Crop:</label>
-    <select data-cy="crop-list" v-model="reportSelectedCrop" id="crop" name="crop">
-        <option v-for="crops in cropNames" :value="crops">{{ crops }}</option>
-    </select>
+
+
+    <dropdown-with-all data-cy="crop-list"
+        includes-all
+        :selected-val="reportSelectedCrop"
+        :dropdown-list="cropNames"
+        @selection-changed="cropChange"
+        >
+    Crop: 
+    </dropdown-with-all>
    
 
     <label for="area">Area:</label>
@@ -72,12 +78,15 @@
     <script>
 var app = new Vue({
     el: "#app",
+    components: {
+        'dropdown-with-all': DropdownWithAllComponent,
+    },
     data: {
         reportTitle: "My Sample Harvest Report",
         reportStartDate: "2020-05-05",
         reportEndDate: "2020-05-15",
-        reportSelectedCrop: "Kale",
-        reportSelectedArea: "ALL",
+        reportSelectedCrop: "All",
+        reportSelectedArea: "",
         areaList: ["ALL", "SQ7", "Chuau-1"],
         harvestLogs: [],
         farm: "",
@@ -88,6 +97,11 @@ var app = new Vue({
         reportGenerated: "false"
     },
     methods: {
+
+        cropChange(newCrop) {
+            this.reportSelectedCrop = newCrop
+        },
+
         generateReport: function() {
 
             // Axios request
