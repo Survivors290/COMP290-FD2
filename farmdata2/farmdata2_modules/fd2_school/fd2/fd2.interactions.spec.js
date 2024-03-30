@@ -1,7 +1,7 @@
 describe("test outputs when report is generated", () => {
     beforeEach(() => {
         cy.login("manager1","farmdata2")
-        cy.visit("/farm/fd2-school/e2e")
+        cy.visit("/farm/fd2-school/fd2")
     })
 
     it("Click the generate report button, check visibility", () => {
@@ -15,6 +15,5 @@ describe("test outputs when report is generated", () => {
         cy.get("[data-cy=report-farm]").should("has.text", "Farm: Sample Farm")
         cy.get("[data-cy=report-user]").should("contain.text", "manager1")
         cy.get("[data-cy=report-language]").should("have.text", "English")
-
     })
 })
