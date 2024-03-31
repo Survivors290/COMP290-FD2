@@ -111,7 +111,7 @@
                 let tableRows = [];
                 for(let log of this.harvestLogs) {
                     let cropName = this.cropMap.get(log.data.crop_tid);
-                    if (cropName === this.crop) {
+                    if (cropName === this.crop || this.crop === 'All') {
                         let tableRow = {
                             date: dayjs(log.timestamp * 1000).format('MM/DD/YYYY'),
                             area: log.area[0].name,
