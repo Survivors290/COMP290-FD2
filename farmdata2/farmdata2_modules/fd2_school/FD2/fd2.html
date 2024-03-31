@@ -166,9 +166,12 @@
                                     log.quantity[0].unit.name,
                                 ], 
                             }
-                            if ((this.areaInDropdown === tableRow.area) && (this.cropInDropdown === tableRow.crop)){
+                            if ((this.cropInDropdown === tableRow.data[2])){
                                 tableRows.push(tableRow)
                             } 
+                            // if ((this.areaInDropdown === tableRow.data[1])){
+                            //     tableRows.push(tableRow)
+                            // } 
                             if(this.cropInDropdown === "All"){
                                 tableRows.push(tableRow)
                             }
