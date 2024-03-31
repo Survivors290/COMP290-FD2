@@ -145,7 +145,11 @@
 		                    }
                             if(this.idToCropMap.get(log.data.crop_tid) == this.newCrop){
                                 tableRows.push(tableRow)
-                            }		                    
+                            }
+                            if(this.newCrop == 'All'){
+                                tableRows.push(tableRow)
+                            }
+                            		                    
 	                    }
 	                    return tableRows
                     }
