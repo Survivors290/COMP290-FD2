@@ -1,0 +1,28 @@
+describe("test report table", () => {
+    beforeEach(() => {
+        cy.login("manager1","farmdata2")
+        cy.visit("/farm/fd2-school/fd2")
+    })
+    it("click generate report button, and check headers", () => {
+        cy.get("[data-cy=generate-button]").click()
+        cy.get("[data-cy=report-table]")
+        cy.get("[data-cy=h0]").should("has.text", "ID")
+        cy.get("[data-cy=h1]").should("has.text", "Date")
+        cy.get("[data-cy=h2]").should("has.text", "Area")
+        cy.get("[data-cy=h3]").should("has.text", "Crop")
+        cy.get("[data-cy=h4]").should("has.text", "Yield")
+        cy.get("[data-cy=h5]").should("has.text", "Units")
+        cy.get("[data-cy=table-headers]").children().should("have.length","7")
+    })
+    it("Check table values when changing crop selection", () => {
+        cy.get("[data-cy=generate-button]").click()
+        cy.get("[data-cy=r0]").should("have.text", ' 2863     2020-05-05     M     ASPARAGUS     20     POUND      ')
+        cy.get("[data-cy=r3]").should("have.text", ' 2866     2020-05-06     GHANA-4     GREENS-MES MIX     2     POUND      ')
+        cy.get("[data-cy=r39]").should("have.text", ' 2902     2020-05-15     M     ASPARAGUS     3.5     POUND      ')
+        cy.get("[data-cy=table-body]").children().should("have.length","40")
+        cy.get("[data-cy=select-crop] > [data-cy=dropdown-input]").select("KALE")
+        cy.get("[data-cy=generate-button]").click()
+        cy.get("[data-cy=table-body]").children().should("contain.text","KALE")
+        cy.get("[data-cy=table-body]").children().should("have.length","2")
+    })
+})
