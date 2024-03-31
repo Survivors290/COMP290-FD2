@@ -1,0 +1,161 @@
+<div id="harvestReport" v-cloak>
+    <h1 data-cy="page-header">Harvest Report</h1>
+    <p>This page is a <i>mockup</i> of a simplified harvest report.</p>
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" v-model="report_header" />
+    
+    <br><br>
+
+    <label for="startDate">Start:</label>
+    <input type="date" v-bind:max="end_date" id="startDate" name="startDate" v-model.lazy="start_date" data-cy="start-date" />
+    <label for="endDate">End:</label>
+    <input type="date" v-bind:min="start_date" id="endDate" name="endDate" v-model="end_date" data-cy="end-date" />
+    
+    <br><br>
+
+    <dropdown-with-all data-cy="crop-selection" 
+            includes-all
+            :selected-val='crop'
+            :dropdown-list='cropNames'
+            @selection-changed="cropChange">
+        Crop: 
+    </dropdown-with-all>
+
+    <label for="field">Field:</label>
+    <select id="field" name="field">
+        <option v-for="field in fields">{{ field }}</option>
+    </select>
+
+    <br><br>
+
+    <input type="button" value="Generate Report" @click="addHarvestLog" data-cy="generate-report-button" />
+
+    <hr>
+    
+    <!-- <h1>{{ report_header === '' ? 'Mock Harvest Report' : report_header }}</h1> -->
+    <h1 v-if="showHarvestReportHeader" data-cy="harvest-report-header">{{ report_header }}</h1>
+    <p>Details:</p>
+    <ul>
+        <li data-cy="farm-name"><strong>Farm: </strong>{{ farm }}</li>
+        <li data-cy="user-name"><strong>User: </strong>{{ user }}</li>
+        <li><strong>Language: </strong><span data-cy="language">{{ language }}</span></li>
+        <br>
+        <li><strong>Start: </strong><span>{{ start_date }}</span></li>
+        <li><strong>End: </strong><span>{{ end_date }}</span></li>
+        <li><strong>Crop: </strong> {{ crop }}</li>
+    </ul>
+
+    <br>
+
+    <div v-if="harvestLogs.length > 0">
+        <custom-table data-cy="report-table"
+            :columns="columns"
+            :rows="harvestReportRows">
+        </custom-table>
+    </div>
+    <p v-if="harvestReportRows.length === 0">No matching records</p>
+</div>
+
+<script>
+    var harvestReport = new Vue({
+        created() {
+            getIDToCropMap()
+                .then((theMap) => {
+                    this.cropMap = theMap;
+                })
+                .catch((err) => {
+                    console.log('Error occurred');
+                    console.log(err);
+                });
+        },
+        components: {
+            // Register the components used and define the tag name to be used.
+            'dropdown-with-all': DropdownWithAllComponent,
+            'custom-table': CustomTableComponent,
+        },
+        el: '#harvestReport',
+        data: {
+            report_header: 'Mock Harvest Report',
+            start_date: '2020-05-05',
+            end_date: '2020-05-15',
+            crops: ['Broccoli', 'Kale', 'Peas'],
+            fields: ['All', 'Chuau-1', 'SQ7'],
+            harvestList: [],
+            farm: '',
+            user: '',
+            language: '',
+            cropMap: new Map(),
+            harvestLogs: [],
+            crop: 'All',
+            showHarvestReportHeader: false,
+            columns: [
+                {"header": 'Row', "visible": true, "inputType": {'type': 'no input'}},
+                {"header": 'Date', "visible": true, "inputType": {'type': 'text'}},
+                {"header": 'Area', "visible": true, "inputType": {'type': 'text'}},
+                {"header": 'Crop', "visible": true, "inputType": {'type': 'text'}},
+                {"header": 'Yield', "visible": true, "inputType": {'type': 'text'}},
+                {"header": 'Units', "visible": true, "inputType": {'type': 'text'}},
+            ]
+        },
+        computed: {
+            cropNames() {
+                return Array.from(this.cropMap.values());
+            },
+            harvestReportRows() {
+                let tableRows = [];
+                for(let log of this.harvestLogs) {
+                    let cropName = this.cropMap.get(log.data.crop_tid);
+                    if (cropName === this.crop || this.crop === 'All') {
+                        tableRows.push({
+                            id: tableRows.length+1,
+                            data: [
+                                tableRows.length+1,
+                                dayjs(log.timestamp * 1000).format('MM/DD/YYYY'),
+                                log.area[0].name,
+                                cropName,
+                                log.quantity[0].value,
+                                log.quantity[0].unit.name,
+                            ]
+                        });
+                    }
+                }
+                return tableRows;
+            },
+        },
+        methods: {
+            addHarvestLog: function() {
+                this.showHarvestReportHeader = true;
+
+                // Change Farm, User, and Language properties within report via API request
+                axios.get('/farm.json')
+                    .then((response) => {
+                        this.farm = response.data.name;
+                        this.user = response.data.user.name;
+                        this.language = response.data.languages.en.name;
+                    })
+                    .catch((error) => {
+                        console.log('Error occurred');
+                        console.log(error);
+                    });
+                
+                let start_timestamp = dayjs(this.start_date).unix();
+                let end_timestamp = dayjs(this.end_date).unix();
+
+                getAllLogsQS = `/log.json?type=farm_harvest&timestamp[ge]=${start_timestamp}&timestamp[le]=${end_timestamp}`;
+
+                getAllPages(getAllLogsQS, this.harvestLogs)
+                    .then(() => {
+                    })
+                    .catch((err) => {
+                        console.log('Error occurred');
+                        console.log(error);
+                    });
+            },
+            cropChange(newCrop) {
+                this.crop = newCrop
+            },
+        },
+    });
+    Vue.config.devtools = true;
+</script>
