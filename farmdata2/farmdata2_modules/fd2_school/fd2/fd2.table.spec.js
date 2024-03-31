@@ -3,9 +3,6 @@ describe("Test the harvest report default values", () => {
       cy.login("manager1", "farmdata2")
       cy.visit("/farm/fd2-school/fd2")
     })
-    it("Click table", () => {
-        cy.get("[data-cy=generate-report-button]").click()
-    })
     it("Check table headers", () => {
         cy.get("[data-cy=generate-report-button]").click()
         cy.get("[data-cy=h0]")
@@ -20,5 +17,10 @@ describe("Test the harvest report default values", () => {
         .should("have.text","Yield")
         cy.get("[data-cy=h5]")
         .should("have.text","Units")
+    })
+    it("Check number of columns", () => {
+        cy.get("[data-cy=generate-report-button]").click()
+        cy.get("[data-cy=table-headers]").children()
+        .should("have.length", "6")
     })
   })
