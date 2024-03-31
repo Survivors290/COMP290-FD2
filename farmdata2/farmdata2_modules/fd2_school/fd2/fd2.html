@@ -15,12 +15,10 @@
         <input type="date" v-model="reportEndDate" v-bind:min="reportStartDate" data-cy="end-date"/>
         <br>
         <br>
-        <label for="Crop">Crop:</label>
-        
-        <select data-cy="crop-dropdown">
-                <option v-for="crop in getCropNames">{{crop}}</option>
-        </select>
-
+        <dropdown-with-all v-model="reportCrop" data-cy="crop-dropdown"
+            includes-all :selected-val="reportCrop" :dropdown-list="getCropNames" @selection-changed="changeCrop">Crop:</dropdown-with-all>
+        <br>
+        <br>
         <label for="Field">Area:</label>
         <select id="Field" name ="Field">
                 <option v-for="area in areas">{{area}}</option>
@@ -79,7 +77,7 @@
             headerVisible: "false",
             reportStartDate: "2020-05-05",
             reportEndDate: "2020-05-15",
-            reportCrop: "Kale",
+            reportCrop: "All",
             areas: ["All", "Chuau-1", "SQ7"],
             logs: [],
             farm: "",
@@ -87,6 +85,9 @@
             language: "",
             idToCropMap: new Map(),
             pages: [],
+        },
+        components: {
+            'dropdown-with-all': DropdownWithAllComponent,
         },
         methods: {
             generateReport: function(){
@@ -112,6 +113,9 @@
                     console.log("Error occurred getting /farm.json");
                     console.log(error);
                 })
+            },
+            changeCrop(newCrop){
+                this.reportCrop = newCrop;
             }
         },
         computed: {
@@ -128,7 +132,10 @@
                         yield: log.quantity[0].value,
                         units: log.quantity[0].unit.name,
                     }
-                    tableRows.push(tableRow);
+                    if(tableRow.crop == this.reportCrop || this.reportCrop == "All")
+                    {
+                        tableRows.push(tableRow);
+                    }
                 }
                 return tableRows;
             },
