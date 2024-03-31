@@ -18,9 +18,12 @@
             <br />
             <p>
                 <label for="crop">Crop:</label>
-                <select id="crop" data-cy="crop-dropdown" name="crop" v-model="newCrop">
-                    <option v-for="crop in cropNamesArr"> {{ crop }}</option>
-                </select>
+                <dropdown-with-all data-cy="crop-dropdown"
+                includes-all
+                :selected-val='newCrop'
+                :dropdown-list='cropNamesArr'
+                @selection-changed='cropChange'>
+                </dropdown-with-all>
                 <label for="area">Area:</label>
                 <select id="area" name="area" v-model="newArea">
                     <option v-for="area in areas">{{ area }}</option>
@@ -76,6 +79,11 @@
             from the console to see the change in real time*/
             var harvestReport = new Vue({
                 el: '#harvest-report',
+                components: {
+                    // Register the components used and define the tag name to be used.
+                    'dropdown-with-all': DropdownWithAllComponent,
+                },
+
                 created() {
 	                getIDToCropMap()
                         .then((theMap) => {
@@ -93,7 +101,7 @@
                     state: 'default',
                     startDate: '2020-05-05',
                     endDate: '2020-05-15',
-                    newCrop: 'Kale',
+                    newCrop: 'All',
                     areas:[
                         'All',
                         'Chuau-1',
@@ -144,6 +152,9 @@
 
                 },
                 methods: {
+                    cropChange(crop2) {
+                        this.newCrop = crop2
+                    },
                     generateReport: function(newState){
                         this.state = newState;
                         axios.get('/farm.json')  // this line sends the request.
