@@ -14,10 +14,13 @@
     
     <br><br>
 
-    <label for="crop">Crop:</label>
-    <select id="crop" name="crop" v-model="crop" data-cy="crop-selection">
-        <option v-for="crop in cropNames">{{ crop }}</option>
-    </select>
+    <dropdown-with-all data-cy="crop-selection" 
+            includes-all
+            :selected-val='crop'
+            :dropdown-list='cropNames'
+            @selection-changed="cropChange">
+        Crop: 
+    </dropdown-with-all>
 
     <label for="field">Field:</label>
     <select id="field" name="field">
@@ -80,6 +83,10 @@
                     console.log(err);
                 });
         },
+        components: {
+            // Register the components used and define the tag name to be used.
+            'dropdown-with-all': DropdownWithAllComponent,
+        },
         el: '#harvestReport',
         data: {
             report_header: 'Mock Harvest Report',
@@ -93,7 +100,7 @@
             language: '',
             cropMap: new Map(),
             harvestLogs: [],
-            crop: '',
+            crop: 'All',
             showHarvestReportHeader: false,
         },
         computed: {
@@ -146,7 +153,10 @@
                         console.log('Error occurred');
                         console.log(error);
                     });
-            }
+            },
+            cropChange(newCrop) {
+                this.crop = newCrop
+            },
         },
     });
     Vue.config.devtools = true;
