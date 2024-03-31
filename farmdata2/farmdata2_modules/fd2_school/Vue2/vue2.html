@@ -34,7 +34,8 @@
     <option v-for="area in areaList" :value="area">{{ area }}</option>
   </select>
 
-  <button @click="harvestLogs.push({date: '2018-05-01', area: 'Orion-3', crop: 'Kale', yield: '12', units: 'Bunches'})">Generate Report</button>
+  <button @click="addHarvestLog">Generate Report</button>
+
 </div>
 
 <hr>
@@ -85,7 +86,21 @@
       areaList: ["ALL", "SQ7", "Chuau-1"],
       harvestlogs: [],
                            
+    },
+    methods: {
+  addHarvestLog: function() {
+    if (this.reportTitle.trim() !== '') {
+      this.harvestLogs.push({
+        date: '2018-05-01',
+        area: 'Orion-3',
+        crop: 'Kale',
+        yield: '12',
+        units: 'Bunches'
+      });
+      this.reportTitle = '';
     }
+  }
+}
   });
   Vue.config.devtools = true; 
 </script>
