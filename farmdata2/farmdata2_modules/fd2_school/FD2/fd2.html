@@ -28,10 +28,15 @@
               <!-- <option v-for="name in cropNames">{{ name }}</option> -->
           </dropdown-with-all>
           
-          <label for=title>Area:</label>
-          <select data-cy="area-dropdown" id="areaInDropdown" name="areaInDropdown" v-model="areaInDropdown">
-            <option v-for="name in areaNames">{{ name }}</option>
-          </select>
+          <!-- <label for=title>Area:</label> -->
+          <dropdown-with-all data-cy="area-dropdown" id="areaInDropdown" name="areaInDropdown" v-model="areaInDropdown"
+                includes-all 
+                :selected-val='areaInDropdown'
+                :dropdown-list='areaNames'
+                @selection-changed="areaChange">
+                Area: 
+            <!-- <option v-for="name in areaNames">{{ name }}</option> -->
+          </dropdown-with-all>
           <p></p>
           <br>
           <button data-cy="generate-report-button" class="btn btn-primary" @click="buttonPress()">Generate Report</button>
@@ -52,9 +57,11 @@
                 <li><strong>Crop:</strong> {{ cropInDropdown }}</li>
             </ul>
 
-            <table border="1" >
+            <custom-table 
+                :columns="columns"
+                :rows="harvestReportRowsForCustomTable">
                 <!-- if length is zero -->
-                <tr v-if="harvestReportRows.length == 0">
+                <!-- <tr v-if="harvestReportRows.length == 0">
                     <th>There are no matching records.</th>
                 </tr>
                 <tr v-else>
@@ -72,8 +79,8 @@
                     <td>{{ harvest.crop }}</td>
                     <td>{{ harvest.yield }}</td>
                     <td>{{ harvest.units }}</td>
-                </tr>
-            </table>
+                </tr> -->
+            </custom-table>
         </div>
           </div>
           <script>
@@ -102,7 +109,7 @@
                     heading: "My Sample Report",
                     startDate: "2020-05-05",
                     endDate: "2020-05-15",
-                    crop: "Kale",         
+                    //crop: "Kale",         
                     reportVisible: false,
                     farm: "",
                     user: "",
@@ -111,7 +118,14 @@
                     idToAreaMap: new Map(),
                     results: [],
                     cropInDropdown: "All",
-                    areaInDropdown: "",
+                    areaInDropdown: "All",
+                    columns: [
+                        {"header": 'Row', "visible": true, "inputType": {'type': 'no input'}},
+                        {"header": 'Date', "visible": true, "inputType": {'type': 'no input'}},
+                        {"header": 'Area', "visible": true, "inputType": {'type': 'no input'}},
+                        {"header": 'Crop', "visible": true, "inputType": {'type': 'no input'}},
+                        {"header": 'Yield', "visible": true, "inputType": {'type': 'no input'}},
+                        {"header": 'Units', "visible": true, "inputType": {'type': 'no input'}},],
                 },
                 computed: {
                     cropNames(){
@@ -120,22 +134,47 @@
                     areaNames(){
                         return Array.from(this.idToAreaMap.values());
                     },
-                    harvestReportRows() {
+                    // harvestReportRows() {
+                    //     let tableRows = []
+                    //     for(let result of this.results) {
+                    //         let tableRow = {
+                    //             date: dayjs.unix(result.timestamp).format('YYYY-MM-DD'),
+                    //             area: result.area[0].name,
+                    //             yield: result.quantity[0].value,
+                    //             units: result.quantity[0].unit.name,
+                    //             crop: this.idToCropMap.get(result.data.crop_tid)
+                    //         }                            
+                    //         if ((this.areaInDropdown === tableRow.area) && (this.cropInDropdown === tableRow.crop)){
+                    //             tableRows.push(tableRow)
+                    //         } 
+                    //         if(this.cropInDropdown === "All"){
+                    //             tableRows.push(tableRow)
+                    //         }
+                    //     }
+                    //     return tableRows
+                        
+                    // },
+                    harvestReportRowsForCustomTable(){
                         let tableRows = []
-                        for(let result of this.results) {
+                        for(let log of this.results){
                             let tableRow = {
-                                date: dayjs.unix(result.timestamp).format('YYYY-MM-DD'),
-                                area: result.area[0].name,
-                                yield: result.quantity[0].value,
-                                units: result.quantity[0].unit.name,
-                                crop: this.idToCropMap.get(result.data.crop_tid)
-                            }                            
+                                id: log.id,
+                                data: [
+                                    dayjs.unix(log.timestamp).format('YYYY-MM-DD'),
+                                    log.area[0].name,
+                                    this.idToCropMap.get(log.data.crop_tid),
+                                    log.quantity[0].value,
+                                    log.quantity[0].unit.name,
+                                ], 
+                            }
                             if ((this.areaInDropdown === tableRow.area) && (this.cropInDropdown === tableRow.crop)){
+                                tableRows.push(tableRow)
+                            } 
+                            if(this.cropInDropdown === "All"){
                                 tableRows.push(tableRow)
                             }
                         }
                         return tableRows
-                        
                     },
                 },
                 methods: {
@@ -156,8 +195,6 @@
                             // Block C: 
                             let timestampS = dayjs(this.startDate).unix()
                                 
-                                console.log(timestampS);
-
                                 let timestampE = dayjs(this.endDate).unix()
                                 
                                 var request = "/log.json?type=farm_harvest&timestamp[ge]=" + timestampS + "&timestamp[le]=" + timestampE
@@ -179,9 +216,14 @@
                     cropChange(newCrop) {
                         this.cropInDropdown = newCrop
                     },
+                    areaChange(newArea) {
+                        this.areaInDropdown = newArea
+                    },
                 },
                 components: {
                     'dropdown-with-all': DropdownWithAllComponent,
+                    'custom-table': CustomTableComponent,
+
                 },
             });
             Vue.config.devtools = true;
