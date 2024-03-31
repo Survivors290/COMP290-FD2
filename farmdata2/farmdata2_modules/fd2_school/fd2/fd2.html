@@ -51,8 +51,7 @@
     <div v-if="harvestLogs.length > 0">
         <custom-table data-cy="table"
             :columns="columns"
-            :rows="harvestReportRows"
-            >
+            :rows="harvestReportRows">
         </custom-table>
     </div>
     <p v-if="harvestReportRows.length === 0">No matching records</p>
