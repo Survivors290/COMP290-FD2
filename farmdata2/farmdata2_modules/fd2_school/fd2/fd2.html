@@ -43,26 +43,12 @@
             <li><strong>Crop:</strong>{{ reportCrop }}</li>
             </ul>
             
-            <div v-if="logs.length!=0">
-                <table border="1">
-                    <tr>
-                            <th>Row</th>
-                            <th>Date</th>
-                            <th>Area</th>
-                            <th>Crop</th>
-                            <th>Yield</th>
-                            <th>Units</th>
-                    </tr>
-                    <tr v-for="(log, index) in harvestReportRows">
-                            <td>{{ index+1 }}</td>
-                            <td>{{ log.date }}</td>
-                            <td>{{ log.area }}</td>
-                            <td>{{ log.crop }}</td>
-                            <td>{{ log.yield }}</td>
-                            <td>{{ log.units }}</td>
-                    </tr>
-                </table>
-            </div>
+            <custom-table
+                data-cy="table"
+                :columns="columns"
+                :rows="harvestReportRows"
+                >
+            </custom-table>
             <div v-else>
                 <p>No matching records.</p>
             </div>
@@ -85,9 +71,18 @@
             language: "",
             idToCropMap: new Map(),
             pages: [],
+            columns: [
+                {"header": 'Row', "visible": true, "inputType": {'type': 'no input'}},
+                {"header": 'Date', "visible": true, "inputType": {'type': 'text'}},
+                {"header": 'Area', "visible": true, "inputType": {'type': 'text'}},
+                {"header": 'Crop', "visible": true, "inputType": {'type': 'text'}},
+                {"header": 'Yield', "visible": true, "inputType": {'type': 'text'}},
+                {"header": 'Units', "visible": true, "inputType": {'type': 'text'}},
+            ],
         },
         components: {
             'dropdown-with-all': DropdownWithAllComponent,
+            'custom-table': CustomTableComponent,
         },
         methods: {
             generateReport: function(){
@@ -125,15 +120,21 @@
             harvestReportRows() {
                 let tableRows = [];
                 for(let log of this.logs) {
-                    let tableRow = {
-                        date: dayjs(log.timestamp).format('MM/DD/YYYY'),
-                        area: log.area[0].name,
-                        crop: this.idToCropMap.get(log.data.crop_tid),
-                        yield: log.quantity[0].value,
-                        units: log.quantity[0].unit.name,
-                    }
-                    if(tableRow.crop == this.reportCrop || this.reportCrop == "All")
+                    let name = this.idToCropMap.get(log.data.crop_tid);
+                    if(name == this.reportCrop || this.reportCrop == "All")
                     {
+                        let tableRow = 
+                        {
+                            id: tableRows.length+1,
+                            
+                            data: [
+                                tableRows.length+1,
+                                dayjs(log.timestamp * 1000).format('MM/DD/YYYY'),
+                                log.area[0].name,
+                                this.idToCropMap.get(log.data.crop_tid),
+                                log.quantity[0].value,
+                                log.quantity[0].unit.name,
+                        ]};
                         tableRows.push(tableRow);
                     }
                 }
