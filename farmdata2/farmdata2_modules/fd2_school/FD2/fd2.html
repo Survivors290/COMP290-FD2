@@ -19,9 +19,14 @@
             <input data-cy="end-date" type="date" v-bind:min="reportStartDate" id="reportEndDate" name="reportEndDate" value="2020-05-15" v-model="reportEndDate"/>
 
             <label for="reportCrops">Crop:</label>
-            <select data-cy="cropDropdown" v-model="reportSelectedCrop" id="cropCrops" v-model="crop">
-                <option v-for="crop in cropNames">{{ crop }}</option>
-            </select>
+            <dropdown-with-all data-cy="cropDropdown" 
+                includes-all 
+                :selected-val='reportSelectedCrop'
+                :dropdown-list='cropNames'
+                @selection-changed="cropChange"
+                >
+            Pick a Crop:
+            </dropdown-with-all>
 
             <label for="reportAreas">Area:</label>
             <select v-model="reportSelectedArea" id="reportAreas">
@@ -73,7 +78,7 @@
                     reportTitle: '',
                     reportStartDate: '2020-05-05',
                     reportEndDate: '2020-05-15',
-                    reportSelectedCrop: 'Kale',
+                    reportSelectedCrop: 'All',
                     reportSelectedArea: 'ALL',
                     reportCrops: [],
                     reportAreas: [],
@@ -90,7 +95,7 @@
                     },
                     areaNames: function() {
                         return Array.from(this.idToAreaMap.values());
-                    }
+                    },
                 },
                 created() {
                     console.log("HarvestReport Vue instance created!")
@@ -138,8 +143,20 @@
                         .catch((error) => {
                             console.log("Error Occurred");
                         })
-                    }
-                }
+                    },
+                    cropChange(newCrop) {
+                        this.reportSelectedCrop = newCrop;
+                    },
+                },
+                components: {
+                // Register the components used and define the tag name to be used.
+                    'dropdown-with-all': DropdownWithAllComponent,
+                    // 'date-selection': DateSelectionComponent,
+                    // 'date-range-selection': DateRangeSelectionComponent,
+                    // 'custom-table': CustomTableComponent,
+                    // 'regex-input': RegexInputComponent,
+                    // 'error-banner': ErrorBannerComponent,
+                },
             });
             Vue.config.devtools = true;
         </script>
