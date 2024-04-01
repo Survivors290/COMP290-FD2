@@ -18,4 +18,16 @@ describe("Check the contents of the harvest report table", () => {
         cy.get("[data-cy=generate-report-button]").click()
         cy.get("[data-cy=table-headers]").children().should("have.length", 8)
     })
+
+    it("Checks that the table is created correctly with the selected crop", () => {
+        cy.get("[data-cy=start-date]").should("have.value","2020-05-05")
+        cy.get("[data-cy=end-date]").should("have.value","2020-05-15")
+        cy.get("[data-cy=generate-report-button]").click()
+        cy.get("[data-cy=crop-dropdown] > [data-cy=dropdown-input]").select("ARUGULA")
+        cy.get("[data-cy=table-body]").children().should("have.length", 4)
+        cy.get("[data-cy=td-r0c3]").should("have.text", "ARUGULA     ")
+        cy.get("[data-cy=td-r1c3]").should("have.text", "ARUGULA     ")
+        cy.get("[data-cy=td-r2c3]").should("have.text", "ARUGULA     ")
+        cy.get("[data-cy=td-r3c3]").should("have.text", "ARUGULA     ")
+    })
 })
