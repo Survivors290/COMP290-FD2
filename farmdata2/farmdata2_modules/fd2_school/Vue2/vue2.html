@@ -34,7 +34,8 @@
     <option v-for="area in areaList" :value="area">{{ area }}</option>
   </select>
 
-  <button @click="addHarvestLog">Generate Report</button>
+  <button @click="addHarvestLog" :disabled="reportTitle.trim() === ''">Generate Report</button>
+
 
 </div>
 
@@ -97,6 +98,14 @@
       areaList: ["ALL", "SQ7", "Chuau-1"],
       harvestlogs: [],
                            
+    },
+    settingMaxMin: {
+      minStartDate: function() {
+        return this.reportEndDate;
+      },
+      maxEndDate: function() {
+        return this.reportStartDate;
+      }
     },
     methods: {
   addHarvestLog: function() {
