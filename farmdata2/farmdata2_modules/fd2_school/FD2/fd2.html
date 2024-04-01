@@ -48,24 +48,11 @@
             </ul>
 
             <div v-if="reportTable.length > 0">
-                <table border="1">
-                    <tr>
-                        <th>Row</th>
-                        <th>Date</th>
-                        <th>Area</th>
-                        <th>Crop</th>
-                        <th>Yield</th>
-                        <th>Units</th>
-                    </tr>
-                    <tr v-for="tableCol, index in harvestReportRows">
-                        <td>{{ index+1 }}</td>
-                        <td>{{ tableCol.date }}</td>
-                        <td>{{ tableCol.area }}</td>
-                        <td>{{ tableCol.crop }}</td>
-                        <td>{{ tableCol.yield }}</td>
-                        <td>{{ tableCol.units }}</td>
-                    </tr>
-                </table>
+                <custom-table data-cy="test-table"
+                    :columns="columns"
+                    :rows="tableRows" 
+                    >
+                </custom-table>
             </div>
             <p v-if="reportTable.length === 0">There is currently no harvest report logs available.</p>
         </div>
@@ -89,6 +76,14 @@
                     idToCropMap: new Map(),
                     idToAreaMap: new Map(),
                     tableRows: [],
+                    columns: [
+                        {"header": 'Row', "visible": true, "inputType": {'type': 'no input'}},
+                        {"header": 'Date', "visible": true, "inputType": {'type': 'date'}},
+                        {"header": 'Area', "visible": true, "inputType": {'type': 'text'}},
+                        {"header": 'Crop', "visible": true, "inputType": {'type': 'text'}},
+                        {"header": 'Yield', "visible": true, "inputType": {'type': 'text'}},
+                        {"header": 'Units', "visible": true, "inputType": {'type': 'text'}},
+                    ],
                 },
                 computed: {
                     cropNames: function() {
@@ -102,6 +97,7 @@
                             let cropName = this.reportCrops.get(log.data.crop_tid);
                             if (this.reportSelectedCrop === cropName || cropName === "All") {
                                 let tableRow = {
+                                    id: log.data.crop_tid,
                                     date: dayjs.unix(log.timestamp).format("DD/MM/YYYY"),
                                     area:log.area[0].name,
                                     yield: log.quantity[0].value,
@@ -113,6 +109,9 @@
                         }
                         return tableRows; 
                     },
+                    customTableArray() {
+
+                    }
                 },
                 created() {
                     console.log("HarvestReport Vue instance created!")
@@ -170,7 +169,7 @@
                     'dropdown-with-all': DropdownWithAllComponent,
                     // 'date-selection': DateSelectionComponent,
                     // 'date-range-selection': DateRangeSelectionComponent,
-                    // 'custom-table': CustomTableComponent,
+                    'custom-table': CustomTableComponent,
                     // 'regex-input': RegexInputComponent,
                     // 'error-banner': ErrorBannerComponent,
                 },
