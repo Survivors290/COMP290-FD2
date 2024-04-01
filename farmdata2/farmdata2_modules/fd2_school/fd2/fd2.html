@@ -47,26 +47,12 @@
                     <li><strong>Crop</strong>:{{ newCrop }}</li>
                 </ul>
                 <div v-if="reports.length > 0">
-                    <table border="1">
-                
-                        <tr>
-                            <th>Date</th>
-                            <th>Area</th>
-                            <th>Crop</th>
-                            <th>Yield</th>
-                            <th>Units</th>
-                            <th>Delete</th>
-                        </tr>
-                
-                        <tr v-for="(r, index) in harvestReportRows" :key="r.date">
-                            <td>{{ r.date }}</td>
-                            <td>{{ r.area }}</td>
-                            <td>{{ r.crop }}</td>
-                            <td>{{ r.yield }}</td>
-                            <td>{{ r.units }}</td>
-                            <td><button type='button' @click='deleteReport(index)'>Delete</button></td>
-                        </tr>
-                    </table>
+                    <custom-table data-cy="custom-table"
+                        can-edit
+                        can-delete
+                        :columns="columns"
+                        :rows="arrayTableRows">
+                    </custom-table>
                     <p>Total Yield: {{ totalYield }}</p>
                 </div>
                 <p v-if="reports.length === 0">No matching records.</p>
@@ -82,6 +68,7 @@
                 components: {
                     // Register the components used and define the tag name to be used.
                     'dropdown-with-all': DropdownWithAllComponent,
+                    'custom-table': CustomTableComponent,
                 },
 
                 created() {
@@ -102,6 +89,14 @@
                     startDate: '2020-05-05',
                     endDate: '2020-05-15',
                     newCrop: 'All',
+                    columns: [
+                        {"header": 'ID', "visible": true, "inputType": {'type': 'no input'}},
+                        {"header": 'Date', "visible": true, "inputType": {'type': 'no input'}},
+                        {"header": 'Area', "visible": true, "inputType": {'type': 'no input'}},
+                        {"header": 'Crop', "visible": true, "inputType": {'type': 'no input'}},
+                        {"header": 'Yield', "visible": true, "inputType": {'type': 'no input'}},
+                        {"header": 'Units', "visible": true, "inputType": {'type': 'no input'}},
+                    ], 
                     areas:[
                         'All',
                         'Chuau-1',
@@ -120,6 +115,19 @@
 
                 },
                 computed:{
+                    arrayTableRows(){
+                        let rows = []
+                        let i = 0
+                        for(i; i < this.harvestReportRows.length; i++){
+                            let rowDat = {id: i, data:[this.getAllPagesRes[i].id, this.harvestReportRows[i].date, 
+                            this.harvestReportRows[i].area, this.harvestReportRows[i].crop,
+                            this.harvestReportRows[i].yield, this.harvestReportRows[i].units]}
+                            rows.push(rowDat)
+                        }
+                        console.log(rows)
+                        return rows
+                        
+                    },
                     totalYield(){
                         totYield = 0;
                         for(let i = 0; i < this.reports.length; i++){
