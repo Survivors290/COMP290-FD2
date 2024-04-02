@@ -19,6 +19,8 @@ describe("Test the harvest report default values", () => {
 })
 
   it("Check the number of cols", () => {
-    
+    cy.get("[data-cy=generate-btn]").click()
+    cy.get("[data-cy=table-headers]").children()
+    .should("have.length", 5)
   })
 })
