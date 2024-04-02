@@ -1,0 +1,156 @@
+<h1 data-cy="page-header">Harvest Report</h1>
+<p>This page is a <dfn>mockup</dfn> of a simplified harvest report.</p>
+<hr>
+<h1>My Sample Harvest Report</h1>
+
+<div id="reportdetails">
+        <label>Title:</label>
+        <input type="text" id="reportdetails" v-model="header">
+
+        <br></br>
+
+        <label for="Start Date">Start:</label>
+        <input type="date" v-model="reportStartDate" v-bind:max="reportEndDate" data-cy="start-date"/>
+        <label for="End Date">End:</label>
+        <input type="date" v-model="reportEndDate" v-bind:min="reportStartDate" data-cy="end-date"/>
+        <br>
+        <br>
+        <dropdown-with-all v-model="reportCrop" data-cy="crop-dropdown"
+            includes-all :selected-val="reportCrop" :dropdown-list="getCropNames" @selection-changed="changeCrop">Crop:</dropdown-with-all>
+        <br>
+        <br>
+        <label for="Field">Area:</label>
+        <select id="Field" name ="Field">
+                <option v-for="area in areas">{{area}}</option>
+        </select>
+        <br>
+        <br>
+        <input data-cy="generate-report-button" type="button" value="Generate Report" v-on:click=generateReport>
+        <br>
+        <hr></hr>
+        <div v-if="headerVisible === 'true'">
+
+            <h1 data-cy="report-header"> {{ header ? header : "Mock Harvest Report" }} </h1>
+
+            <p>Details:</p>
+            <ul>
+            <li data-cy="farm-name"><strong>Farm: </strong>{{ farm }}</li>
+            <li data-cy="user"><strong>User: </strong>{{ user }}</li>
+            <li><strong>Language: </strong><span data-cy="language">{{ language }}</span></li>
+            <br>
+            <li><strong>Start: </strong>{{ reportStartDate }}</li>
+            <li><strong>End: </strong>{{ reportEndDate }}</li>
+            <li><strong>Crop:</strong>{{ reportCrop }}</li>
+            </ul>
+            
+            <custom-table
+                data-cy="table"
+                :columns="columns"
+                :rows="harvestReportRows"
+                >
+            </custom-table>
+            <div v-else>
+                <p>No matching records.</p>
+            </div>
+    </div>
+</div>
+
+<script>
+    var vObj = new Vue({
+        el: "#reportdetails",
+        data: {
+            header: "My Sample Harvest Report",
+            headerVisible: "false",
+            reportStartDate: "2020-05-05",
+            reportEndDate: "2020-05-15",
+            reportCrop: "All",
+            areas: ["All", "Chuau-1", "SQ7"],
+            logs: [],
+            farm: "",
+            user: "",
+            language: "",
+            idToCropMap: new Map(),
+            pages: [],
+            columns: [
+                {"header": 'Row', "visible": true, "inputType": {'type': 'no input'}},
+                {"header": 'Date', "visible": true, "inputType": {'type': 'text'}},
+                {"header": 'Area', "visible": true, "inputType": {'type': 'text'}},
+                {"header": 'Crop', "visible": true, "inputType": {'type': 'text'}},
+                {"header": 'Yield', "visible": true, "inputType": {'type': 'text'}},
+                {"header": 'Units', "visible": true, "inputType": {'type': 'text'}},
+            ],
+        },
+        components: {
+            'dropdown-with-all': DropdownWithAllComponent,
+            'custom-table': CustomTableComponent,
+        },
+        methods: {
+            generateReport: function(){
+                axios.get('/farm.json')
+                .then((response) => {
+                    this.headerVisible = "true";
+                    this.farm = response.data.name;
+                    this.user = response.data.user.name;
+                    this.language = response.data.user.language;
+                    let startTimestamp = dayjs(this.reportStartDate).unix();
+                    let endTimestamp = dayjs(this.reportEndDate).unix();
+
+                    let string = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
+                    getAllPages(string, this.logs)
+                    .then(() => {
+                        console.log(this.logs);
+                    })
+                    .catch((err) => {
+                        console.log("Error fetching result");
+                    })
+                })
+                .catch((error) => {
+                    console.log("Error occurred getting /farm.json");
+                    console.log(error);
+                })
+            },
+            changeCrop(newCrop){
+                this.reportCrop = newCrop;
+            }
+        },
+        computed: {
+            getCropNames() {
+                return Array.from(this.idToCropMap.values());
+            },
+            harvestReportRows() {
+                let tableRows = [];
+                for(let log of this.logs) {
+                    let name = this.idToCropMap.get(log.data.crop_tid);
+                    if(name == this.reportCrop || this.reportCrop == "All")
+                    {
+                        let tableRow = 
+                        {
+                            id: tableRows.length+1,
+                            
+                            data: [
+                                tableRows.length+1,
+                                dayjs(log.timestamp * 1000).format('MM/DD/YYYY'),
+                                log.area[0].name,
+                                this.idToCropMap.get(log.data.crop_tid),
+                                log.quantity[0].value,
+                                log.quantity[0].unit.name,
+                        ]};
+                        tableRows.push(tableRow);
+                    }
+                }
+                return tableRows;
+            },
+        },
+        created(){
+            getIDToCropMap()
+            .then((theMap) => {
+                this.idToCropMap = theMap;
+            })
+            .catch((err) => {
+                console.log("Map not received");
+            })
+            console.log("HarvestReport vue instance created!")
+        },
+    });
+    Vue.config.devtools = true;
+</script>
