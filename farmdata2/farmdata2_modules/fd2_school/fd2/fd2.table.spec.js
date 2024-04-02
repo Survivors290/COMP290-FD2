@@ -4,7 +4,7 @@ describe("Test the harvest report default values", () => {
     cy.visit("/farm/fd2-school/fd2")
   })
 
-  ("Test table report headers", () => {
+  it("Test table report headers", () => {
     cy.get("[data-cy=generate-btn]").click()
     cy.get("[data-cy=h0]")
     .should("have.text", "Date")
@@ -17,4 +17,8 @@ describe("Test the harvest report default values", () => {
     cy.get("[data-cy=h4]")
     .should("have.text", "Units")
 })
+
+  it("Check the number of cols", () => {
+    
+  })
 })
