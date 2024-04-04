@@ -113,9 +113,15 @@
     methods: {
   addHarvestLog: function() {
     if (this.reportTitle.trim() !== '') {
-      this.farm = 'Sample Farm';
-      this.user = 'manager1';
-      this.language = 'English';
+      axios.get('/farm.json').then((response) => {
+        this.farm = response.data.name;
+        this.user = response.data.user.name;
+        this.language = response.data.language;
+      })
+      .catch((error) => {
+        console.log("Error Occurred");
+        console.log(error);
+      });
       this.harvestLogs.push({
         row: this.logs.length+1,
         date: '2018-05-01',
