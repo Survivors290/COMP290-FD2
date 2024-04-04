@@ -113,6 +113,9 @@
     methods: {
   addHarvestLog: function() {
     if (this.reportTitle.trim() !== '') {
+      this.farm = 'Sample Farm';
+      this.user = 'manager1';
+      this.language = 'English';
       this.harvestLogs.push({
         row: this.logs.length+1,
         date: '2018-05-01',
