@@ -4,19 +4,19 @@ describe("Testing default inputs for Labor chart", () => {
         cy.visit("/farm/fd2-field-kit/seedingInput")
     })
     
-    it("Checks header is Labor", () => {
+    it("Checks header is Labor", () => { //megan
         
     })
 
-    it("checks fields are empty", () => {
+    it("checks fields are empty", () => { //ryan
         
     })
 
-    it("Checks dropdown values are default", () => {
+    it("Checks dropdown values are default", () => { //chloe
         
     })
 
-    it("Checks default time unit", () => {
+    it("Checks default time unit", () => { //megan
         
     })
 } )
