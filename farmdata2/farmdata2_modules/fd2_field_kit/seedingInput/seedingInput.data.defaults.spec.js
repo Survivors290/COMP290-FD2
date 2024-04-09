@@ -26,7 +26,12 @@ describe('Tests the default contents of the Data section of the Seeding Input Fo
     })
 
     //Maximo
-    it('', () => {
-
+    it('Tests the crop dropdown so that it does not have a selected value and the correct crop list', () => {
+        cy.get("[data-cy=crop-selection] > [data-cy=dropdown-input]").should("have.text", "")
+        cy.get("[data-cy=crop-selection] > [data-cy=dropdown-input] > [data-cy=option0]").should("have.text", "ARUGULA")
+        cy.get("[data-cy=crop-selection] > [data-cy=dropdown-input] > [data-cy=option8]").should("have.text", "BROCCOLI")
+        cy.get("[data-cy=crop-selection] > [data-cy=dropdown-input] > [data-cy=option32]").should("have.text", "GARLIC-SCAPES")
+        cy.get("[data-cy=crop-selection] > [data-cy=dropdown-input] > [data-cy=option110]").should("have.text", "ZUCCHINI")
+        cy.get("[data-cy=crop-selection] > [data-cy=dropdown-input]").children().should("have.length", 111)
     })
 })
