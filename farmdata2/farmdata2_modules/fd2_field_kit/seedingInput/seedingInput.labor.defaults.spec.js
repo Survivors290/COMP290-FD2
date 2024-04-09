@@ -5,7 +5,7 @@ describe("Testing default inputs for Labor chart", () => {
     })
     
     it("Checks header is Labor", () => { //megan
-        
+        cy.get("[data-cy=labor-header]").should("have.text", "Labor")
     })
 
     it("checks fields are empty", () => { //ryan
