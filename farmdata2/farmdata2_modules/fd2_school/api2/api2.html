@@ -58,13 +58,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(log, index) in harvestLogs">
+                <tr v-for="(row, index) in harvestReportRows" :key="index"> 
                     <td>{{ index + 1 }}</td> 
-                    <td>{{ log.date }}</td>
-                    <td>{{ log.area }}</td>
-                    <td>{{ log.crop }}</td>
-                    <td>{{ log.yield }}</td>
-                    <td>{{ log.units }}</td>
+                    <td>{{ row.date }}</td>
+                    <td>{{ row.area }}</td>
+                    <td>{{ row.crop }}</td>
+                    <td>{{ row.yield }}</td>
+                    <td>{{ row.units }}</td>
                 </tr>
             </tbody>
         </table>
@@ -95,62 +95,57 @@
             console.log("HarvestReport Vue instance created!");
             getIDToCropMap()
             .then((theMap) => {
-            console.log("Crop Map:", theMap);
-            this.idToCropMap = theMap;
-        })
-        .catch((err) => {
-            console.log("Error occurred while fetching crop map", err);
-        });
-},
-
+                console.log("Crop Map:", theMap);
+                this.idToCropMap = theMap;
+            })
+            .catch((err) => {
+                console.log("Error occurred while fetching crop map", err);
+            });
+        },
         computed: {
             cropNames: function() {
-            console.log(Array.from(this.idToCropMap.values()));
-            return Array.from(this.idToCropMap.values());
-        }
-    },
+                console.log(Array.from(this.idToCropMap.values()));
+                return Array.from(this.idToCropMap.values());
+            },
+            harvestReportRows: function() {
+                let tableRows = [];
+                for (let log of this.allHarvestLogs) {
+                    let tableRow = {
+                        date: log.timestamp,
+                        area: log.area[0].name,
+                        crop: this.idToCropMap.get(log.data.crop_tid),
+                        yield: log.quantity.find(item => item.label === 'Harvest').value,
+                        units: log.quantity.find(item => item.label === 'Harvest').unit.name
+                    };
+                    tableRows.push(tableRow);
+                }
+                return tableRows;
+            }
+        },
         methods: {
-    generateReport: function() {
-    axios.get('/farm.json')
-    .then((response) => {
-        this.farm = response.data.name;
-        this.user = response.data.user.name;
-        this.language = response.data.user.language;
-        if (response.data.harvestLogs) {
-            this.harvestLogs = response.data.harvestLogs;
-        } else {
-            this.harvestLogs = [];
-        }
-        let startTimestamp = dayjs(this.startDate).unix();
-        let endTimestamp = dayjs(this.endDate).unix();
-        console.log("Start Timestamp:", startTimestamp);
-        console.log("End Timestamp:", endTimestamp);
+            generateReport: function() {
+                let startTimestamp = dayjs(this.startDate).unix();
+                let endTimestamp = dayjs(this.endDate).unix();
+                console.log("Start Timestamp:", startTimestamp);
+                console.log("End Timestamp:", endTimestamp);
 
-        let requestString = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
-        console.log("Request:", requestString);
+                let requestString = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
+                console.log("Request:", requestString);
 
-        this.allHarvestLogs = [];
+                this.allHarvestLogs = [];
 
-        getAllPages(requestString)
-        .then((logs) => {
-            this.allHarvestLogs = logs;
-        })
-        .catch((error) => {
-            console.log("Error Occurred");
-            console.log(error);
-        });
-    })
-    .catch((error) => {
-        console.log("Error Occurred");
-        console.log(error);
-    });
-}
-
-
-
+                getAllPages(requestString)
+                .then((logs) => {
+                    this.allHarvestLogs = logs;
+                })
+                .catch((error) => {
+                    console.log("Error Occurred");
+                    console.log(error);
+                });
+            }
         }
     });
-Vue.config.devtools = true;
+    Vue.config.devtools = true;
 </script>
 </body>
 </html>
