@@ -110,17 +110,20 @@
             harvestReportRows: function() {
                 let tableRows = [];
                 for (let log of this.allHarvestLogs) {
-                    let tableRow = {
-                        date: log.timestamp,
-                        area: log.area[0].name,
-                        crop: this.idToCropMap.get(log.data.crop_tid),
-                        yield: log.quantity.find(item => item.label === 'Harvest').value,
-                        units: log.quantity.find(item => item.label === 'Harvest').unit.name
-                    };
-                    tableRows.push(tableRow);
-                }
-                return tableRows;
-            }
+                let tableRow = {
+            date: dayjs.unix(log.timestamp).format('YYYY-MM-DD'),
+            area: log.area[0].name,
+            crop: this.idToCropMap.get(log.data.crop_tid),
+            yield: log.quantity.find(item => item.label === 'Harvest').value,
+            units: log.quantity.find(item => item.label === 'Harvest').unit.name
+        };
+        if (this.selectedCrop === '' || tableRow.crop === this.selectedCrop) {
+            tableRows.push(tableRow);
+        }
+    }
+    return tableRows;
+}
+
         },
         methods: {
             generateReport: function() {
@@ -143,6 +146,7 @@
                     console.log(error);
                 });
             }
+            
         }
     });
     Vue.config.devtools = true;
