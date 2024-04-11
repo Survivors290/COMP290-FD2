@@ -11,6 +11,7 @@ describe("Testing default inputs for Labor chart", () => {
     it("checks fields are empty", () => { //ryan
         cy.get("[data-cy=minute-input]").should("has.text", "")
         cy.get("[data-cy=hour-input]").should("has.text", "")
+        cy.get("[data-cy='num-worker-input']").should("has.text", "")
     })
 
     it("Checks dropdown values are default", () => { //chloe
