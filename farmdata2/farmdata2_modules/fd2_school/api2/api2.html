@@ -110,26 +110,34 @@
         }
     },
         methods: {
-            generateReport: function() {
-            console.log("Sending request to fetch farm data...");
-            axios.get('/farm.json')  
-            .then((response) => {
-            console.log("Got Response");
-            console.log(response);
-
-        this.sampleFarm = response.data.name;
-        this.language = response.data.languages.en.name;
+    generateReport: function() {
+    axios.get('/farm.json')
+    .then((response) => {
+        this.farm = response.data.name;
         this.user = response.data.user.name;
+        this.language = response.data.user.language;
+        if (response.data.harvestLogs) {
+            this.harvestLogs = response.data.harvestLogs;
+        } else {
+            this.harvestLogs = [];
+        }
+        let startTimestamp = dayjs(this.startDate).unix();
+        let endTimestamp = dayjs(this.endDate).unix();
+        console.log("Start Timestamp:", startTimestamp);
+        console.log("End Timestamp:", endTimestamp);
 
-        this.harvestLogs.push({
-            date: "2018-05-01",
-            area: "Orion-3",
-            crop: this.selectedCrop,
-            yield: "12",
-            units: "Bunches",
-            sampleFarm: this.sampleFarm,
-            language: this.language,
-            user: this.user
+        let requestString = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
+        console.log("Request:", requestString);
+
+        this.allHarvestLogs = [];
+
+        getAllPages(requestString)
+        .then((logs) => {
+            this.allHarvestLogs = logs;
+        })
+        .catch((error) => {
+            console.log("Error Occurred");
+            console.log(error);
         });
     })
     .catch((error) => {
@@ -137,6 +145,8 @@
         console.log(error);
     });
 }
+
+
 
         }
     });
