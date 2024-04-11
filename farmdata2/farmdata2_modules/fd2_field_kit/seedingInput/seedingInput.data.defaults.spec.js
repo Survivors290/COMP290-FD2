@@ -1,3 +1,5 @@
+const dayjs = require('dayjs')
+
 describe('Tests the default contents of the Data section of the Seeding Input Form', () => {
     beforeEach(() => {
         cy.login('manager1', 'farmdata2')
@@ -16,8 +18,9 @@ describe('Tests the default contents of the Data section of the Seeding Input Fo
     })
     
     //Gabe
-    it('', () => {
-
+    it('Check data header and date value', () => {
+        cy.get('[data-cy=data-header]').should('have.text', 'Data')
+        cy.get('[data-cy=date-select]').should('have.value', dayjs().format('YYYY-MM-DD'))
     })
 
     //Spencer
