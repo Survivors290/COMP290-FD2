@@ -16,7 +16,8 @@ describe("Test Transplanting Report Defaults", () => {
 
     
     it('Check button has the label "Generate Report" and is enabled', () => {
-        cy.get("[data-cy=generate-rpt-btn]").should("be.visible")
+        cy.get("[data-cy=generate-rpt-btn]").should("exist")
+        cy.get("[data-cy=generate-rpt-btn]").should("not.be.disabled")
         cy.get("[data-cy=generate-rpt-btn]").should("have.text", "Generate Report")
     })
 
