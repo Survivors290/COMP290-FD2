@@ -24,9 +24,13 @@ describe('Tests the default contents of the Data section of the Seeding Input Fo
     })
 
     //Spencer
-    it('', () => {
-
-    })
+   it('Checking if date input element has the default value of the current date, and the crop drop down is enabled', () => {
+       cy.get("[data-cy=crop-selection]")
+       .should("be.visible")
+       let today = dayjs().format('DD/MM/YYYY')
+       cy.get('[data-cy=date-select]')
+       .should('be.visible')
+   })
 
     //Maximo
     it('Tests the crop dropdown so that it does not have a selected value and the correct crop list', () => {
