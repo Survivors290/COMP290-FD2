@@ -1,3 +1,9 @@
+/** 
+ * This file tests the default contents of the 
+ * "Seeding Type" (Tray/Direct) section of the Seeding
+ * Input Form in the FieldKit.
+ */
+
 describe("Test Seeding Input Default Type", () => {
     beforeEach(() => {
         cy.login("manager1","farmdata2");
@@ -11,7 +17,7 @@ describe("Test Seeding Input Default Type", () => {
     it("1) Tray seeding is enabled", () => {
         cy.get("[data-cy='tray-seedings']").should('be.enabled')
     })
-    /** Check elements for "Direct" os enabled. 
+    /** Check elements for "Direct" is enabled. 
      * binding with submitInProgress Value
     */
     it("2) Direct seeding is enabled", () => {
