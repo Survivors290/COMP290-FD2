@@ -128,15 +128,17 @@
       harvestReportRows() {
         let tableRows = [];
         for (let log of this.allHarvestLogs) {
-        let tableRow = {
-            date: dayjs.unix(log.timestamp).format('YYYY-MM-DD'),
-            area: log.movement.area[0],
-            crop: this.idToCropMap.get(log.data.crop_tid),
-            yield: harvestQuantity ? harvestQuantity.value : null,
-            units: harvestQuantity ? harvestQuantity.unit.name : null,
-        };
-        tableRows.push(tableRow);
+            if (log.crop === this.reportSelectedCrop) {
+                let tableRow = {
+                    date: dayjs.unix(log.timestamp).format('YYYY-MM-DD'),
+                    area: log.movement.area[0],
+                    crop: this.idToCropMap.get(log.data.crop_tid),
+                    yield: harvestQuantity ? harvestQuantity.value : null,
+                    units: harvestQuantity ? harvestQuantity.unit.name : null,
+                };
+                tableRows.push(tableRow);
         }
+    }
         return tableRows;
     }
         },
@@ -168,6 +170,7 @@
         console.log("Error Occurred");
         console.log(error);
       });
+      
       this.reportTitle = '';
     }
   }
