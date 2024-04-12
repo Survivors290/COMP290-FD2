@@ -19,9 +19,10 @@ describe("Testing default inputs for Labor chart", () => {
         cy.get("[data-cy=crop-selection]").children().eq(0).should("have.text", "Crop:*") 
         // time unit dropdown
         cy.get("[data-cy=time-unit] > [data-cy=dropdown-input]").children().eq(0).should("have.text", "minutes")
-    })
+        cy.get("[data-cy=time-unit] > [data-cy=dropdown-input]").children().eq(1).should("have.text", "hours")
+    })  
 
     it("Checks default time unit", () => { //megan
-        
+        cy.get('[data-cy=time-unit] ').find(':selected').contains('minutes')
     })
 } )
