@@ -110,6 +110,7 @@
       user: '',
       language: '',
       idToCropMap: new Map(),
+      allHarvestLogs: [],
                            
     },
     settingMaxMin: {
@@ -128,6 +129,22 @@
     methods: {
   addHarvestLog: function() {
     if (this.reportTitle.trim() !== '') {
+        let startTimestamp = dayjs(this.reportStartDate).unix();
+        let endTimestamp = dayjs(this.reportEndDate).unix();
+        let rstring = `/log.json?type=farm_harvest&timestamp[ge]=${startTimestamp}&timestamp[le]=${endTimestamp}`;
+
+        console.log("Start Timestamp:", startTimestamp);
+        console.log("End Timestamp:", endTimestamp);
+        console.log("Request:", rstring);
+
+        getAllPages(rstring, this.allHarvestLogs)
+        .then(() => {
+          console.log("harvest logs retrieved:", this.allHarvestLogs);
+        })
+        .catch((err) => {
+          console.error("Error occurred", err);
+        });
+
       axios.get('/farm.json').then((response) => {
         this.farm = response.data.name;
         this.user = response.data.user.name;
