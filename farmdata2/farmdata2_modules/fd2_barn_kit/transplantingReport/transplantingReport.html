@@ -1,9 +1,9 @@
 <body>
     <div id="transplantingReport" v-cloak>
-        <h1 class="text-center">Transplanting Report</h1>
+        <h1 class="text-center" data-cy="test-page-header">Transplanting Report</h1>
         <error-banner data-cy="alert-err-handler" :visible="errBannerVisibility"></error-banner>
         <fieldset :disabled="rowBeingEdited" class="panel panel-default center-block" style="width: 50%;">
-            <legend class="panel-heading" style="background-color: #d62a17; color: white;">Set Dates</legend>
+            <legend class="panel-heading" style="background-color: #d62a17; color: white;" data-cy="test-set-date">Set Dates</legend>
             <div style="display: flex;width: 100%; padding: 7px">
                 <date-range-selection data-cy="date-range-selection" class="center-block" @start-date-changed='startDateChange' @end-date-changed='endDateChange' 
                 @click='hide'
@@ -13,7 +13,7 @@
             </div>
         </fieldset>
 
-        <div v-if='reportVisible'>
+        <div v-if='reportVisible' data-cy="test-not-visible">
 
             <div v-if="transplantingLogs.length != 0">
                 <fieldset :disabled="rowBeingEdited" data-cy="filters-panel" class="center-block panel panel-default" style="width: 75%;">
