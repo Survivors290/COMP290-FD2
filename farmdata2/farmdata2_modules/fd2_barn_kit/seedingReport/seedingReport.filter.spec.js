@@ -1,7 +1,7 @@
 describe("Testing Seeding Type Filter", () => {
     beforeEach(() => {
         cy.login("manager1", "farmdata2")
-        cy.visit("/farm/fd2-field-kit/seedingInput")
+        cy.visit("farm/fd2-barn-kit/seedingReport")
     })
     
     it("Check when 'All' is selected table only shows direct seedings and tray seedings", () => { //chloe
@@ -9,7 +9,7 @@ describe("Testing Seeding Type Filter", () => {
     })
 
     it("Check when 'Direct' is selected table only shows direct seedings", () => { //ryan
-        
+
     })
 
     it("Check when 'Tray' is selected table only shows tray seedings", () => { //ryan
