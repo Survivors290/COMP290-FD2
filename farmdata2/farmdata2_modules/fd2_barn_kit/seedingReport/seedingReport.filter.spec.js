@@ -18,8 +18,24 @@ describe("Testing Seeding Type Filter", () => {
     })
 
     it("Checks that only the seeding types available in date range are shown in dropdown", () => { //Megan
-        cy.get("[data-cy=start-date-select]").type("2020-05-05")
-        cy.get("[data-cy=end-date-select]").type("2020-05-15")
+        cy.get("[data-cy=start-date-select]").type("2020-05-05") //this date range has both tray and direct seedings
+        cy.get("[data-cy=end-date-select]").type("2020-05-06")
         cy.get('[data-cy=generate-rpt-btn]').click()
+        cy.get('[data-cy=seeding-type-dropdown]>[data-cy=dropdown-input]>[data-cy=option0]', {timeout: 40000}).should('have.text', "All")
+        cy.get('[data-cy=seeding-type-dropdown]>[data-cy=dropdown-input]>[data-cy=option1]', {timeout: 40000}).should('have.text', "Direct Seedings")
+        cy.get('[data-cy=seeding-type-dropdown]>[data-cy=dropdown-input]>[data-cy=option2]', {timeout: 40000}).should('have.text', "Tray Seedings")
+
+
+
+        cy.get("[data-cy=end-date-select]").type("2020-05-05") //this date range has direct seedings
+        cy.get('[data-cy=generate-rpt-btn]').click()
+        cy.get('[data-cy=seeding-type-dropdown]>[data-cy=dropdown-input]>[data-cy=option1]', {timeout: 40000}).should('have.text', "Direct Seedings")
+
+        cy.get("[data-cy=end-date-select]").type("2020-05-06")
+        cy.get("[data-cy=start-date-select]").type("2020-05-06") //this date range has tray seedings
+        
+        cy.get('[data-cy=generate-rpt-btn]').click()
+        cy.get('[data-cy=seeding-type-dropdown]>[data-cy=dropdown-input]>[data-cy=option1]', {timeout: 40000}).should('have.text', "Tray Seedings")
+       
     })
 } )
