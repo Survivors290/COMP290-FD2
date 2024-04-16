@@ -35,7 +35,14 @@ describe('Test the contents of the BarnKit Seeding Report after generation', () 
     })
 
     //Maximo
-    it('', () => {
-
+    it('Test that the area filter only contains areas where crops were planted in the selected date range', () => {
+        cy.get('[data-cy=start-date-select]').type('2020-01-01')
+        cy.get('[data-cy=end-date-select]').type('2020-03-01')
+        cy.get('[data-cy=generate-rpt-btn]').click()
+        cy.get('[data-cy=area-dropdown] > [data-cy=dropdown-input] > [data-cy=option0]').should("have.text", "All")
+        cy.get('[data-cy=area-dropdown] > [data-cy=dropdown-input] > [data-cy=option1]').should("have.text", "CHUAU-4")
+        cy.get('[data-cy=area-dropdown] > [data-cy=dropdown-input] > [data-cy=option2]').should("have.text", "M")
+        cy.get('[data-cy=area-dropdown] > [data-cy=dropdown-input] > [data-cy=option3]').should("have.text", "ORION")
+        cy.get('[data-cy=area-dropdown] > [data-cy=dropdown-input] > [data-cy=option4]').should("have.text", "SEEDING BENCH")
     })
 })
