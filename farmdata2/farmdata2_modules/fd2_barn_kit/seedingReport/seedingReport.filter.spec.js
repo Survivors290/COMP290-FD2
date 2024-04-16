@@ -7,6 +7,7 @@ describe('Test the contents of the BarnKit Seeding Report after generation', () 
         // and then restore before each test (here). 
         cy.restoreLocalStorage() 
         cy.visit('/farm/fd2-barn-kit/seedingReport')
+        cy.waitForPage()
     })
 
     afterEach(() => {
@@ -16,8 +17,16 @@ describe('Test the contents of the BarnKit Seeding Report after generation', () 
     })
     
     //Gabe
-    it('', () => {
-
+    it("Check that when 'All' is selected in the Area field, the table will contain seeding logs for multiple different areas", () => {
+        cy.get('[data-cy=start-date-select]')
+            .type('2020-01-01')
+        cy.get('[data-cy=end-date-select]')
+            .type('2020-03-01')
+        cy.get('[data-cy=generate-rpt-btn]')
+            .click()
+        cy.get('[data-cy=td-r0c2] > [data-cy=r0-Area]').should('have.text', 'M')
+        cy.get('[data-cy=td-r1c2] > [data-cy=r1-Area]').should('have.text', 'CHUAU-4')
+        cy.get('[data-cy=td-r2c2] > [data-cy=r2-Area]').should('have.text', 'SEEDING BENCH')
     })
 
     //Spencer
