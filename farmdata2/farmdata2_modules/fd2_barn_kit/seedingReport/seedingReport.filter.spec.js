@@ -30,8 +30,19 @@ describe('Test the contents of the BarnKit Seeding Report after generation', () 
     })
 
     //Spencer
-    it('', () => {
+    it('Check that appropriate areas appear when the area filter is selected onto a specific area', () => {
+        cy.get('[data-cy=start-date-select]')
+            .type('2020-01-01')
+        cy.get('[data-cy=end-date-select]')
+            .type('2020-03-01')
+        cy.get('[data-cy=generate-rpt-btn]')
+            .click()
+        cy.get('[data-cy=area-dropdown] > [data-cy=dropdown-input]')
+            .select('SEEDING BENCH')
 
+        cy.get('[data-cy=td-r0c2] > [data-cy=r0-Area]').should('have.text', 'SEEDING BENCH')
+        cy.get('[data-cy=td-r1c2] > [data-cy=r1-Area]').should('have.text', 'SEEDING BENCH')
+        cy.get('[data-cy=td-r2c2] > [data-cy=r2-Area]').should('have.text', 'SEEDING BENCH')
     })
 
     //Maximo
