@@ -9,11 +9,28 @@ describe("Testing Seeding Type Filter", () => {
     })
 
     it("Check when 'Direct' is selected table only shows direct seedings", () => { //ryan
+        cy.get("[data-cy=start-date-select]").type("2020-05-05")
+        cy.get("[data-cy=end-date-select]").type("2020-05-06")
+        cy.get("[data-cy=generate-rpt-btn]").click()
+        cy.get("[data-cy=seeding-type-dropdown] > [data-cy=dropdown-input]").select("Direct Seedings")
 
+        cy.get("[data-cy=table-body]").children().should("have.length","11")
+        cy.get("[data-cy=td-r0c3]").should("have.text", "Direct     ")
+        cy.get("[data-cy=td-r5c3]").should("have.text", "Direct     ")
+        cy.get("[data-cy=td-r10c3]").should("have.text", "Direct     ")
     })
 
     it("Check when 'Tray' is selected table only shows tray seedings", () => { //ryan
-        
+        cy.get("[data-cy=start-date-select]").type("2020-05-05")
+        cy.get("[data-cy=end-date-select]").type("2020-05-06")
+        cy.get("[data-cy=generate-rpt-btn]").click()
+        cy.get("[data-cy=seeding-type-dropdown] > [data-cy=dropdown-input]").select("Tray Seedings")
+
+        cy.get("[data-cy=table-body]").children().should("have.length","31")
+        cy.get("[data-cy=td-r0c3]").should("have.text", "Tray     ")
+        cy.get("[data-cy=td-r7c3]").should("have.text", "Tray     ")
+        cy.get("[data-cy=td-r22c3]").should("have.text", "Tray     ")
+        cy.get("[data-cy=td-r30c3]").should("have.text", "Tray     ")
     })
 
     it("Checks that only seeding types are available in date range are shown in dropdown", () => { //Megan
