@@ -5,32 +5,77 @@ describe("Test Seeding Report Dates", () => {
         cy.login("manager1", "farmdata2")
         cy.visit("/farm/fd2-barn-kit/seedingReport")
         cy.waitForPage()
-        cy.get("[data-cy=start-date-select]").type("2020-04-06")
-        cy.get("[data-cy=end-date-select]").type("2024-02-20")
     })
 
     it('Check first date appearing in the table is in the range for the report"', () => {
+        cy.get("[data-cy=start-date-select]").type("2020-04-06")
+        cy.get("[data-cy=end-date-select]").type("2024-02-20")
         cy.get("[data-cy=generate-rpt-btn]").click()
+        let currentTimestamp = null
+        const startTimestamp = dayjs('2020-04-06').unix()
+        const endTimestamp = dayjs('2024-02-20"').unix()
+
+        cy.get('[data-cy=report-table] tr:first-child td:nth-child(2)')
+            .invoke('text')
+            .then(dateText => {
+                currentTimestamp = dayjs(dateText).unix()
+                expect(currentTimestamp).to.be.within(startTimestamp, endTimestamp)
+            })
     })
-    // it('Check page contains a section labeled "Set Dates"', () => {
-    //     cy.get("[data-cy=test-set-date]").should("exist")
-    // })
+    
+    
+    it('Check last date appearing in the table is in the range for the report', () => {
+        cy.get("[data-cy=start-date-select]").type("2020-04-06")
+        cy.get("[data-cy=end-date-select]").type("2024-02-20")
+        cy.get("[data-cy=generate-rpt-btn]").click()
+        let currentTimestamp = null
+        const startTimestamp = dayjs('2020-04-06').unix()
+        const endTimestamp = dayjs('2024-02-20"').unix()
 
+        cy.get('[data-cy=report-table] tr:last-child td:nth-child(2)')
+            .invoke('text')
+            .then(dateText => {
+                currentTimestamp = dayjs(dateText).unix()
+                expect(currentTimestamp).to.be.within(startTimestamp, endTimestamp)
+            })
+    })
 
-    // it('Check button has the label "Generate Report" and is enabled', () => {
-    //     cy.get("[data-cy=generate-rpt-btn]").should("be.visible")
-    //     cy.get("[data-cy=generate-rpt-btn]").should("have.text", "Generate Report")
-    // })
+    it('Check rows in the table appear in sorted order.', () => {
+        cy.get("[data-cy=start-date-select]").type("2020-04-06")
+        cy.get("[data-cy=end-date-select]").type("2024-02-20")
+        cy.get("[data-cy=generate-rpt-btn]").click()
+        const n = cy.get('[data-cy=report-table]').find('tr').its('length')
+        let curr = null
+        let prev = null
 
-    // it('Check default start date is the first day of the current year', () => {
-    //     cy.get("[data-cy=date-range-selection]").should("exist").type(dayjs().startOf('year').format("YYYY-MM-DD"))
-    // });    
+        for (let r = 0; r < n - 1; r ++) {
+            cy.get('[data-cy=r' + r + 'c0')
+            .invoke('text')
+            .then(dateText => {
+                prev = dayjs(dateText).unix()
+            })
+            
+            cy.get('[data-cy=r' + (r + 1)+ 'c0')
+            .invoke('text')
+            .then(dateText => {
+                curr = dayjs(dateText).unix()
+            })
+        }
 
-    // it('Check default end date is the current date', () => {
-    //     cy.get("[data-cy=date-range-selection]").should("exist").type(dayjs().format("YYYY-MM-DD"))
-    // })
+        expect(prev <= curr)
+    })
 
-    // it('Check the remainder of the report is not visible or does not exist', () => {
-    //     cy.get("[data-cy=test-not-visible]").should("not.exist")
-    // })
+    it('Check “No Logs” message is displayed if there are no seeding logs in the date range', () => {
+        cy.get('[data-cy=start-date-select]').type('2024-01-01')
+        cy.get('[data-cy=end-date-select]').type('2024-04-19')
+        cy.get('[data-cy=generate-rpt-btn]').click()
+        cy.get('[data-cy=no-logs-message]').should('be.visible')
+    })
+
+    it('Check table is not visible if there are no seeding logs in the date range', () => {
+        cy.get('[data-cy=start-date-select]').type('2024-01-01')
+        cy.get('[data-cy=end-date-select]').type('2024-04-19')
+        cy.get('[data-cy=generate-rpt-btn]').click()
+        cy.get('[data-cy=report-table]').should('not.exist')
+    })
 })
