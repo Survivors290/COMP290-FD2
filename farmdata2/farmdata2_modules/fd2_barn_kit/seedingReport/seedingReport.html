@@ -1,5 +1,5 @@
 <body>
-    <div id="seedingReport" v-cloak>
+    <div id="seedingReport" v-cloak data-cy="seeding-report">
         <h1 class="text-center">Seeding Report</h1>
         <error-banner data-cy="alert-err-handler" :visible="errBannerVisibility"></error-banner>
         <fieldset :disabled="rowBeingEdited" class="panel panel-default center-block" style="width: 50%;">
@@ -16,8 +16,8 @@
         <div v-if='reportVisible'>
 
             <div v-if="seedingLogs.length != 0">
-                <fieldset :disabled="rowBeingEdited" data-cy="filters-panel" class="center-block panel panel-default" style="width: 75%;">
-                    <legend class="panel-heading" style="background-color: #d62a17; color: white;">Filters</legend>
+                <fieldset :disabled="rowBeingEdited"  class="center-block panel panel-default" style="width: 75%;">
+                    <legend class="panel-heading" style="background-color: #d62a17; color: white;" data-cy="filters-panel">Filters</legend>
                     <div :style=" !isMobile ? 'display: flex;width: 100%; padding: 7px' : 'display: grid; width: 100%'">
                         <dropdown-with-all data-cy="seeding-type-dropdown" class="center-block" :dropdown-list='seedingTypeList' includes-all selected-val='All' @selection-changed='seedingChange'>Seeding Type:</dropdown-with-all>
                     
@@ -28,7 +28,12 @@
                 </fieldset>
 
                 <custom-table data-cy="report-table" :columns="tableColumns" :rows='tableRows' csv-name="seedingReport_" @row-deleted="deleteRowLog" @row-edited='updateRow' @edit-clicked='disableFilters' @edit-canceled='enableFilters' :can-edit='!isMobile' :can-delete='!isMobile'></custom-table>
-
+                <template v-slot:default="{ row }">
+                    <tr data-cy="report-table-row"> 
+                        <td data-cy="crop-column">{{ row.crop }}</td> 
+    
+                    </tr>
+                </template>
                 <br>
             </div>
 
